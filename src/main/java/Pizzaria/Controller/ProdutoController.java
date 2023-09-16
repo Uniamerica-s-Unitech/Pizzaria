@@ -31,7 +31,7 @@ public class ProdutoController {
     public ResponseEntity<?> cadastrar(@RequestBody Produto produto){
         try{
             this.service.cadastrar(produto);
-            return ResponseEntity.ok("Produto cadastrado com sucesso");
+            return ResponseEntity.ok("ProdutoDTO cadastrado com sucesso");
         } catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError().body("Error: "+ e.getCause().getCause().getMessage());
         } catch (RuntimeException e){
@@ -46,7 +46,7 @@ public class ProdutoController {
         try {
             Produto produtoAtualizado = service.editar(id, produto);
             if (produtoAtualizado != null){
-                return ResponseEntity.ok("Produto atualizado com sucesso");
+                return ResponseEntity.ok("ProdutoDTO atualizado com sucesso");
             }else{
                 return ResponseEntity.notFound().build();
             }
@@ -59,7 +59,7 @@ public class ProdutoController {
     public ResponseEntity<?> deletar(@PathVariable("id") Long id){
         try{
             service.deletar(id);
-            return ResponseEntity.ok("Produto deletado com sucesso");
+            return ResponseEntity.ok("ProdutoDTO deletado com sucesso");
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
         }

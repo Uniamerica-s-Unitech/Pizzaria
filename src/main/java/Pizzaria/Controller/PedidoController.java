@@ -31,7 +31,7 @@ public class PedidoController {
     public ResponseEntity<?> cadastrar(@RequestBody Pedido pedido){
         try{
             this.service.cadastrar(pedido);
-            return ResponseEntity.ok("Pedido cadastrado com sucesso");
+            return ResponseEntity.ok("PedidoDTO cadastrado com sucesso");
         } catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError().body("Error: "+ e.getCause().getCause().getMessage());
         } catch (RuntimeException e){
@@ -46,7 +46,7 @@ public class PedidoController {
         try {
             Pedido pedidoAtualizado = service.editar(id, pedido);
             if (pedidoAtualizado != null){
-                return ResponseEntity.ok("Pedido atualizado com sucesso");
+                return ResponseEntity.ok("PedidoDTO atualizado com sucesso");
             }else{
                 return ResponseEntity.notFound().build();
             }
@@ -59,7 +59,7 @@ public class PedidoController {
     public ResponseEntity<?> deletar(@PathVariable("id") Long id){
         try{
             service.deletar(id);
-            return ResponseEntity.ok("Pedido deletado com sucesso");
+            return ResponseEntity.ok("PedidoDTO deletado com sucesso");
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
         }

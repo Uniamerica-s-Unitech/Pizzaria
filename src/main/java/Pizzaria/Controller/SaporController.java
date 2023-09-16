@@ -32,7 +32,7 @@ public class SaporController {
     public ResponseEntity<?> cadastrar(@RequestBody Sapor sapor){
         try{
             this.service.cadastrar(sapor);
-            return ResponseEntity.ok("Sapor cadastrado com sucesso");
+            return ResponseEntity.ok("SaporDTO cadastrado com sucesso");
         } catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError().body("Error: "+ e.getCause().getCause().getMessage());
         } catch (RuntimeException e){
@@ -47,7 +47,7 @@ public class SaporController {
         try {
             Sapor saporAtualizado = service.editar(id, sapor);
             if (saporAtualizado != null){
-                return ResponseEntity.ok("Sapor atualizado com sucesso");
+                return ResponseEntity.ok("SaporDTO atualizado com sucesso");
             }else{
                 return ResponseEntity.notFound().build();
             }
@@ -60,7 +60,7 @@ public class SaporController {
     public ResponseEntity<?> deletar(@PathVariable("id") Long id){
         try{
             service.deletar(id);
-            return ResponseEntity.ok("Sapor deletado com sucesso");
+            return ResponseEntity.ok("SaporDTO deletado com sucesso");
         }catch (Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
         }
