@@ -7,21 +7,20 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+@Getter @Setter
 @Entity
 @Table(name = "endereco", schema = "public")
 public class Endereco {
     @Id
-    @Setter
-    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Getter @Setter
+
     private String rua;
-    @Getter @Setter
+
     private Integer numero;
-    @Getter @Setter
+
     private String referencia;
-    @Getter @Setter
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer"})
     @JoinColumn(name = "cliente_id", nullable = false)

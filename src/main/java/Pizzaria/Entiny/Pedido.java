@@ -6,17 +6,17 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter @Setter
 @Entity
 @Table(name = "pedido",schema = "public")
 public class Pedido {
     @Id
-    @Getter@Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Getter @Setter
+
     private LocalDateTime dataHora;
-    @Getter @Setter
+
     private String observacao;
-    @Getter @Setter
-    private Integer status;
+
+    private Boolean status;
 }
