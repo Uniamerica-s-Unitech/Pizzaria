@@ -7,6 +7,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "sabor",schema = "public")
 @Getter @Setter
-public class Sapor extends AbstractEntiny{
+public class Sabor extends AbstractEntiny{
     private String nome;
 }

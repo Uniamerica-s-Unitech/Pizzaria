@@ -1,8 +1,8 @@
 package Pizzaria.Controller;
 
 
-import Pizzaria.Entiny.Sapor;
-import Pizzaria.Service.SaporService;
+import Pizzaria.Entiny.Sabor;
+import Pizzaria.Service.SaborService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -14,13 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sapor")
-public class SaporController {
+public class SaborController {
 
     @Autowired
-    private SaporService service;
+    private SaborService service;
 
     @GetMapping
-    public ResponseEntity<List<Sapor>> findAll(){
+    public ResponseEntity<List<Sabor>> findAll(){
         try{
             return ResponseEntity.ok(service.findAll());
         }catch (Exception e){
@@ -29,9 +29,9 @@ public class SaporController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody Sapor sapor){
+    public ResponseEntity<?> cadastrar(@RequestBody Sabor sabor){
         try{
-            this.service.cadastrar(sapor);
+            this.service.cadastrar(sabor);
             return ResponseEntity.ok("SaporDTO cadastrado com sucesso");
         } catch (DataIntegrityViolationException e){
             return ResponseEntity.internalServerError().body("Error: "+ e.getCause().getCause().getMessage());
@@ -43,10 +43,10 @@ public class SaporController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id,@RequestBody Sapor sapor){
+    public ResponseEntity<?> editar(@PathVariable Long id,@RequestBody Sabor sabor){
         try {
-            Sapor saporAtualizado = service.editar(id, sapor);
-            if (saporAtualizado != null){
+            Sabor saborAtualizado = service.editar(id, sabor);
+            if (saborAtualizado != null){
                 return ResponseEntity.ok("SaporDTO atualizado com sucesso");
             }else{
                 return ResponseEntity.notFound().build();

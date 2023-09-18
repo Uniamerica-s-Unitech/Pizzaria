@@ -4,6 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class SaporDTO extends AbstractEntinyDTO{
+public class SaborDTO extends AbstractEntinyDTO{
     private String nome;
 }

@@ -1,33 +1,33 @@
 package Pizzaria.Service;
 
-import Pizzaria.Entiny.Sapor;
-import Pizzaria.Repositorye.SaporRepository;
+import Pizzaria.Entiny.Sabor;
+import Pizzaria.Repositorye.SaborRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class SaporService {
+public class SaborService {
 
     @Autowired
-    private SaporRepository repository;
+    private SaborRepository repository;
 
-    public List<Sapor> findAll(){
+    public List<Sabor> findAll(){
         return repository.findAll();
     }
 
-    public void cadastrar(Sapor sapor){
-        this.repository.save(sapor);
+    public void cadastrar(Sabor sabor){
+        this.repository.save(sabor);
     }
 
-    public Sapor editar(Long id, Sapor sapor){
+   /* public Sabor editar(Long id, Sabor sabor){
         if (repository.existsById(id)){
-            sapor.setId(id);
-            return repository.save(sapor);
+            sabor.setId(id);
+            return repository.save(sabor);
         }
         return null;
-    }
+    }*/
 
     public void deletar(Long id){
         repository.deleteById(id);
