@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class SaporDTO {
-    private Long id;
-
+public class SaporDTO extends AbstractEntinyDTO{
     private String nome;
 }

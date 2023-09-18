@@ -4,10 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "clientepedido",schema = "public")
-public class ClientePedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class ClientePedido extends AbstractEntiny{
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

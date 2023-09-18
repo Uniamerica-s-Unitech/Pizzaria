@@ -6,11 +6,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "sabor",schema = "public")
-public class Sapor {
-    @Id
-    @Getter@Setter
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Getter @Setter
+@Getter @Setter
+public class Sapor extends AbstractEntiny{
     private String nome;
 }

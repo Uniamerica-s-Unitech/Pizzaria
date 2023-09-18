@@ -10,11 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter @Setter
 @Entity
 @Table(name = "endereco", schema = "public")
-public class Endereco {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Endereco extends AbstractEntiny{
     private String rua;
 
     private Integer numero;

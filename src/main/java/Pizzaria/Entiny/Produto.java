@@ -6,13 +6,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "produto",schema = "public")
-public class Produto {
-    @Id
-    @Getter@Setter
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Getter @Setter
+@Getter @Setter
+public class Produto extends AbstractEntiny{
     private String nome;
-    @Getter @Setter
+
     private String tamanho;
 }

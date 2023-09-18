@@ -5,9 +5,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 @Getter@Setter
-public class PedidoDTO {
-    private Long id;
-
+public class PedidoDTO extends AbstractEntinyDTO{
     private LocalDateTime dataHora;
 
     private String observacao;

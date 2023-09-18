@@ -9,11 +9,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @Entity
 @Table(name = "pedido",schema = "public")
-public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class Pedido extends AbstractEntiny{
     private LocalDateTime dataHora;
 
     private String observacao;
