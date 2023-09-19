@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter @Setter
 @Entity
@@ -20,6 +21,6 @@ public class Pedido extends AbstractEntiny {
 
     private Integer status;
 
-    /*@ManyToMany(mappedBy = "pedidos")
-    Set<Cliente> clientes;*/
+    @ManyToMany(mappedBy = "pedidos")
+    Set<Cliente> clientes;
 }
