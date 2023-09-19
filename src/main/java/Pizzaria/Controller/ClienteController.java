@@ -1,6 +1,7 @@
 package Pizzaria.Controller;
 
 import Pizzaria.DTO.ClienteDTO;
+import Pizzaria.Entiny.Cliente;
 import Pizzaria.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,20 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable Long id){
-        clienteService.deletar(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> dezAtivar(@PathVariable Long id){
+        try {
+            Cliente cliente = clienteService.findById(id);
+            if (cliente != null) {
+                clienteService.dezAtivar(id, cliente);
+                return ResponseEntity.ok().body("Cliente desativado com sucesso!");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
+        }
     }
+
 }

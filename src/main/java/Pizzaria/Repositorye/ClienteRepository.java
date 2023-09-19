@@ -1,9 +1,16 @@
 package Pizzaria.Repositorye;
 
 import Pizzaria.Entiny.Cliente;
+import Pizzaria.Entiny.Pedido;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-@Repository
+import java.util.List;
+
 public interface ClienteRepository extends JpaRepository<Cliente,Long> {
+    @Query("FROM Cliente WHERE ativo = true")
+    List<Cliente> findByAtivo();
+    @Query("FROM Pedido WHERE clienteId = :cliente AND ativo = true")
+    List<Pedido> findClienteAtivoPedido(@Param("cliente") Cliente cliente);
 }

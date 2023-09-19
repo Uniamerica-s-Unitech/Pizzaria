@@ -1,5 +1,6 @@
 package Pizzaria.DTO;
 
+import Pizzaria.Entiny.Cliente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +12,5 @@ public class EnderecoDTO extends AbstractEntinyDTO{
 
     private String referencia;
 
-    private ClienteDTO cliente_DTO_id;
+    private Cliente clienteId;
 }

@@ -2,6 +2,7 @@ package Pizzaria.Service;
 
 import Pizzaria.DTO.ClienteDTO;
 import Pizzaria.Entiny.Cliente;
+import Pizzaria.Entiny.Pedido;
 import Pizzaria.Repositorye.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    public Cliente findById(Long id) {
+        return clienteRepository.findById(id).orElse(null);
+    }
+
     public List<ClienteDTO> listar(){
-        List<Cliente> clientes = clienteRepository.findAll();
+        List<Cliente> clientes = clienteRepository.findByAtivo();
         return clientes.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
@@ -43,11 +48,18 @@ public class ClienteService {
         return null;
     }
 
-    public void deletar(Long id) {
-        if (clienteRepository.existsById(id)) {
-            clienteRepository.deleteById(id);
+    public void dezAtivar(Long id,Cliente cliente) {
+        Cliente clienteBanco = clienteRepository.findById(id).orElse(null);
+        if (clienteBanco != null){
+            List<Pedido> clienteAtivo = clienteRepository.findClienteAtivoPedido(clienteBanco);
+            if (clienteAtivo.isEmpty()) {
+                cliente.setAtivo(false);
+                clienteRepository.save(cliente);
+            } else {
+                throw new IllegalArgumentException("Cliente possui pedidos ativos e não pode ser desativado.");
+            }
         }else {
-            throw new IllegalArgumentException("Cliente não encontrado");
+            throw new IllegalArgumentException("Cliente não encontrado com o ID: " + id);
         }
     }
 

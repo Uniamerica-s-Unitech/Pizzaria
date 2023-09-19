@@ -1,13 +1,11 @@
 package Pizzaria.Controller;
 
+import Pizzaria.DTO.EnderecoDTO;
 import Pizzaria.Entiny.Endereco;
 import Pizzaria.Service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,52 +14,37 @@ import java.util.List;
 public class EnderecoController {
 
     @Autowired
-    private EnderecoService service;
+    private EnderecoService enderecoService;
 
-    @GetMapping
-    public ResponseEntity<List<Endereco>> findAll(){
-        try{
-            return ResponseEntity.ok(service.findAll());
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    @GetMapping("/lista")
+    public List<EnderecoDTO> listar(){
+        return enderecoService.listar();
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody Endereco endereco){
-        try{
-            this.service.cadastrar(endereco);
-            return ResponseEntity.ok("Endereço cadastrado com sucesso");
-        } catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error: "+ e.getCause().getCause().getMessage());
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    public EnderecoDTO cadastrar(@RequestBody EnderecoDTO enderecoDTO){
+        return enderecoService.cadastrar(enderecoDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id,@RequestBody Endereco endereco){
-        try {
-            Endereco enderecoAtualizado = service.editar(id, endereco);
-            if (enderecoAtualizado != null){
-                return ResponseEntity.ok("Endereço atualizado com sucesso");
-            }else{
-                return ResponseEntity.notFound().build();
-            }
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    public EnderecoDTO editar(@PathVariable Long id,@RequestBody EnderecoDTO enderecoDTO){
+        return enderecoService.editar(id, enderecoDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable("id") Long id){
-        try{
-            service.deletar(id);
-            return ResponseEntity.ok("Endereço deletado com sucesso");
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+    public ResponseEntity<?> dezAtivar(@PathVariable Long id){
+        try {
+            Endereco endereco = enderecoService.findById(id);
+            if (endereco != null) {
+                enderecoService.dezAtivar(id, endereco);
+                return ResponseEntity.ok().body("Endereço desativado com sucesso!");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
         }
     }
 }

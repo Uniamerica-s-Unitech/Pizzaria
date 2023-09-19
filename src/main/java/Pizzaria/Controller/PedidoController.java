@@ -1,13 +1,11 @@
 package Pizzaria.Controller;
 
+import Pizzaria.DTO.PedidoDTO;
 import Pizzaria.Entiny.Pedido;
 import Pizzaria.Service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -16,52 +14,37 @@ import java.util.List;
 public class PedidoController {
 
     @Autowired
-    private PedidoService service;
+    private PedidoService pedidoService;
 
-    @GetMapping
-    public ResponseEntity<List<Pedido>> findAll(){
-        try{
-            return ResponseEntity.ok(service.findAll());
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    @GetMapping("/lista")
+    public List<PedidoDTO> listar(){
+        return pedidoService.listar();
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrar(@RequestBody Pedido pedido){
-        try{
-            this.service.cadastrar(pedido);
-            return ResponseEntity.ok("PedidoDTO cadastrado com sucesso");
-        } catch (DataIntegrityViolationException e){
-            return ResponseEntity.internalServerError().body("Error: "+ e.getCause().getCause().getMessage());
-        } catch (RuntimeException e){
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        } catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    public PedidoDTO cadastrar(@RequestBody PedidoDTO pedidoDTO){
+        return pedidoService.cadastrar(pedidoDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable Long id,@RequestBody Pedido pedido){
-        try {
-            Pedido pedidoAtualizado = service.editar(id, pedido);
-            if (pedidoAtualizado != null){
-                return ResponseEntity.ok("PedidoDTO atualizado com sucesso");
-            }else{
-                return ResponseEntity.notFound().build();
-            }
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
+    public PedidoDTO editar(@PathVariable Long id,@RequestBody PedidoDTO pedidoDTO){
+        return pedidoService.editar(id, pedidoDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletar(@PathVariable("id") Long id){
-        try{
-            service.deletar(id);
-            return ResponseEntity.ok("PedidoDTO deletado com sucesso");
-        }catch (Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,e.getMessage());
+    public ResponseEntity<?> dezAtivar(@PathVariable Long id){
+        try {
+            Pedido pedido = pedidoService.findById(id);
+            if (pedido != null) {
+                pedidoService.dezAtivar(id, pedido);
+                return ResponseEntity.ok().body("Pedido desativado com sucesso!");
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
         }
     }
 }

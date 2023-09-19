@@ -9,10 +9,17 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @Entity
 @Table(name = "pedido",schema = "public")
-public class Pedido extends AbstractEntiny{
+public class Pedido extends AbstractEntiny {
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente clienteId;
+
     private LocalDateTime dataHora;
 
     private String observacao;
 
-    private Boolean status;
+    private Integer status;
+
+    /*@ManyToMany(mappedBy = "pedidos")
+    Set<Cliente> clientes;*/
 }

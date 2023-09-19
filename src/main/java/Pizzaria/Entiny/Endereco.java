@@ -1,11 +1,8 @@
 package Pizzaria.Entiny;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Getter @Setter
 @Entity
@@ -17,9 +14,7 @@ public class Endereco extends AbstractEntiny{
 
     private String referencia;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
+    @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Cliente cliente_id;
+    private Cliente clienteId;
 }
