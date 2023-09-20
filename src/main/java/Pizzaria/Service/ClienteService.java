@@ -63,7 +63,7 @@ public class ClienteService {
         }
     }
 
-    private ClienteDTO convertToDTO(Cliente cliente) {
+    public ClienteDTO convertToDTO(Cliente cliente) {
         ClienteDTO clienteDTO = new ClienteDTO();
         BeanUtils.copyProperties(cliente, clienteDTO);
         return clienteDTO;

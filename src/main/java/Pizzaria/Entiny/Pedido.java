@@ -1,5 +1,6 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,5 +23,6 @@ public class Pedido extends AbstractEntiny {
     private Integer status;
 
     @ManyToMany(mappedBy = "pedidos")
+    @JsonIgnoreProperties("pedidos")
     Set<Cliente> clientes;
 }

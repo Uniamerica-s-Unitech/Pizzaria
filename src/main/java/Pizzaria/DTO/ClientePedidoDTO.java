@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter@Setter
 public class ClientePedidoDTO extends AbstractEntinyDTO{
-    private Cliente cliente;
+    private ClienteDTO cliente;
 
-    private Pedido pedido;
+    private PedidoDTO pedido;
 }

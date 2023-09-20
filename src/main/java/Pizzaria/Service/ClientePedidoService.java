@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,20 @@ public class ClientePedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
+    @Autowired
+    private PedidoService pedidoService;
+
     public ClientePedido findById(Long id){
         return clientePedidoRepository.findById(id).orElse(null);
     }
 
     public List<ClientePedidoDTO> listar(){
         List<ClientePedido> clientePedidos = clientePedidoRepository.findAll();
-        return clientePedidos.stream()
+
+       return clientePedidos.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -59,6 +67,16 @@ public class ClientePedidoService {
     private ClientePedidoDTO convertToDTO(ClientePedido clientePedido) {
         ClientePedidoDTO clientePedidoDTO = new ClientePedidoDTO();
         BeanUtils.copyProperties(clientePedido, clientePedidoDTO);
+
+        if (clientePedido.getCliente() != null)
+        clientePedidoDTO.setCliente(clienteService.convertToDTO(clientePedido.getCliente()));
+
+        if (clientePedido.getPedido() != null)
+        clientePedidoDTO.setPedido(pedidoService.convertToDTO(clientePedido.getPedido()));
+
+
         return clientePedidoDTO;
     }
+
+
 }

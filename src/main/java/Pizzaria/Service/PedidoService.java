@@ -70,7 +70,7 @@ public class PedidoService {
         }
     }
 
-    private PedidoDTO convertToDTO(Pedido pedido) {
+    public PedidoDTO convertToDTO(Pedido pedido) {
         PedidoDTO pedidoDTO = new PedidoDTO();
         BeanUtils.copyProperties(pedido, pedidoDTO);
         return pedidoDTO;

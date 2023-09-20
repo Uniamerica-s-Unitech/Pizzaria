@@ -1,5 +1,6 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,6 @@ public class Cliente extends AbstractEntiny{
             name = "clientepedido",
             joinColumns = @JoinColumn(name = "cliente_id"),
             inverseJoinColumns = @JoinColumn(name = "pedido_id"))
+            @JsonIgnoreProperties("clienteId")
     Set<Pedido> pedidos;
 }
