@@ -13,15 +13,15 @@ import java.util.List;
 @Service
 public class ClienteService {
 
-    private final ClienteRepository clienteRepository;
-    private final ModelMapper modelMapper;
+    private  ClienteRepository clienteRepository;
+    private  ModelMapper modelMapper;
 
     @Autowired
-    public ClienteService(ClienteRepository clienteRepository,
-                          ModelMapper modelMapper){
-        this.clienteRepository = clienteRepository;
-        this.modelMapper = modelMapper;
+    private ClienteService clienteService;
+
+    public ClienteService() {
     }
+
 
     public ClienteDTO findById(Long id) {
         try{
