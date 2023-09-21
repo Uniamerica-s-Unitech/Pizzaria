@@ -35,7 +35,7 @@ public class ProdutoController {
         }
     }
 
-    /*@PutMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> editar(@PathVariable Long id, @RequestBody @Validated ProdutoDTO produtoDTO) {
         try {
             Produto produtoEditado = produtoService.editar(id, produtoDTO);
@@ -59,5 +59,5 @@ public class ProdutoController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
         }
-    }*/
+    }
 }

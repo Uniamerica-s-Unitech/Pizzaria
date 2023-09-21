@@ -44,25 +44,18 @@ public class PedidoService {
             produto.setPedido(pedidonovo);
         }
         return pedidoRepository.save(pedidonovo);
-
-        /*Assert.notNull(pedido.getClienteId(), "Cliente inválido");
-        Cliente cliente = clienteRepository.findById(pedidoDTO.getClienteId().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-*/
     }
 
-    /*public PedidoDTO editar(Long id,PedidoDTO pedidoDTO){
-        if (pedidoRepository.existsById(id)){
-            Pedido pedido = pedidoRepository.findById(id).orElse(null);
-            if (pedido != null){
-                BeanUtils.copyProperties(pedidoDTO,pedido,"id");
-                pedido = pedidoRepository.save(pedido);
-                return convertToDTO(pedido);
-            }
-        }else {
-            throw new IllegalArgumentException("Pedido não encontrado com o ID fornecido: " + id);
+    public Pedido editar(Long id, PedidoDTO pedidoDTO) {
+        if (pedidoRepository.existsById(id)) {
+            Pedido pedidoBanco = pedidoRepository.findById(id).orElseThrow(()
+                    -> new IllegalArgumentException("Pedido não encontrado com o ID fornecido: " + id));
+
+
+            return pedidoRepository.save(pedidoBanco);
+        } else {
+            throw new IllegalArgumentException("Cliente não encontrado com o ID fornecido: " + id);
         }
-        return null;
     }
 
     public void dezAtivar(Long id, Pedido pedido) {
@@ -73,7 +66,7 @@ public class PedidoService {
         }else {
             throw new IllegalArgumentException("Pedido não encontrado com o ID: " + id);
         }
-    }*/
+    }
 
     public PedidoDTO toPedidoDTO(Pedido pedido) {
         return modelMapper.map(pedido, PedidoDTO.class);

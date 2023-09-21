@@ -56,21 +56,19 @@ public class ProdutoService {
     }
 
 
-    /*public void delete(Long id) {
+    public void delete(Long id) {
         Produto produtoBanco = produtoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Produto com ID "+id+" nao existe"));
 
-        if (produtoBanco.getPedido().isEmpty()){
+        if (produtoBanco != null){
             desativarProduto(produtoBanco);
-        }else {
-            throw new IllegalArgumentException("Produto tem Pedido em andamento nao pode ser deletado");
         }
     }
 
     private void desativarProduto(Produto produto) {
         produto.setAtivo(false);
         produtoRepository.save(produto);
-    }*/
+    }
 
     public ProdutoDTO toClienteDTO(Produto produto) {
         return modelMapper.map(produto, ProdutoDTO.class);
