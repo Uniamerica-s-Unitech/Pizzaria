@@ -17,7 +17,7 @@ public class ProdutoDTO extends AbstractEntinyDTO{
 
     private String tamanho;
 
-    private List<SaborDTO> saborId;
+    private SaborDTO saborId;
 
     @JsonIgnoreProperties("produtoId")
     private ProdutoDTO produtos;

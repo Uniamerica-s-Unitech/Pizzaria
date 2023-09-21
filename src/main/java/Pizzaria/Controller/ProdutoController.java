@@ -4,8 +4,11 @@ import Pizzaria.DTO.ProdutoDTO;
 import Pizzaria.Entiny.Produto;
 import Pizzaria.Service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -22,25 +25,35 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ProdutoDTO cadastrar(@RequestBody ProdutoDTO produtoDTO){
-        return produtoService.cadastrar(produtoDTO);
+    public ResponseEntity<String> cadastrar(@RequestBody ProdutoDTO produtoDTO) {
+        try {
+            produtoService.cadastrar(produtoDTO);
+            return ResponseEntity.ok("Cadastrado com Sucesso");
+
+        } catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ProdutoDTO editar(@PathVariable Long id,@RequestBody ProdutoDTO produtoDTO){
-        return produtoService.editar(id, produtoDTO);
+    public ResponseEntity<String> editar(@PathVariable Long id, @RequestBody @Validated ProdutoDTO produtoDTO) {
+        try {
+            Produto produtoEditado = produtoService.editar(id, produtoDTO);
+            return ResponseEntity.ok("O cadastro foi atualizado com sucesso.");
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Ocorreu um erro durante a atualização: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> dezAtivar(@PathVariable Long id){
         try {
-            Produto produto = produtoService.findById(id);
-            if (produto != null) {
-                produtoService.dezAtivar(id, produto);
-                return ResponseEntity.ok().body("Produto desativado com sucesso!");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            produtoService.delete(id);
+            return ResponseEntity.ok().body("Produto dezativado com sucesso!");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
