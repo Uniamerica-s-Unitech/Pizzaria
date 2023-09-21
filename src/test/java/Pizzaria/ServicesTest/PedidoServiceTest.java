@@ -46,7 +46,7 @@ public class PedidoServiceTest {
     }
 
     @Test
-    void testFindByIdWhenPedidoDoesNotExist() {
+    void testFindByIdPedidoDoesNoExist() {
         Long pedidoId = 1L;
 
         when(pedidoRepository.findById(pedidoId)).thenReturn(Optional.empty());
@@ -55,7 +55,7 @@ public class PedidoServiceTest {
     }
 
     @Test
-    void testListarWhenPedidosExist() {
+    void testListarPedidosExist() {
         Pedido pedido1 = new Pedido();
         Pedido pedido2 = new Pedido();
         when(pedidoRepository.findByAtivo()).thenReturn(List.of(pedido1, pedido2));
@@ -66,7 +66,7 @@ public class PedidoServiceTest {
     }
 
     @Test
-    void testListarWhenNoPedidosExist() {
+    void testListarNoPedidosExist() {
         when(pedidoRepository.findByAtivo()).thenReturn(Collections.emptyList());
 
         List<PedidoDTO> result = pedidoService.listar();

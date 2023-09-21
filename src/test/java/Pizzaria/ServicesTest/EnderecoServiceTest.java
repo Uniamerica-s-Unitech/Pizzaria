@@ -36,7 +36,7 @@ public class EnderecoServiceTest {
 
 
     @Test
-    public void testFindEnderecoByIdNotFound() {
+    public void testFindEnderecoByIdNoFound() {
         Long id = 1L;
         when(enderecoRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -44,7 +44,7 @@ public class EnderecoServiceTest {
     }
 
     @Test
-    public void testDeleteEnderecoNotFound() {
+    public void testDeleteEnderecoNoFound() {
         Long id = 1L;
         when(enderecoRepository.findById(id)).thenReturn(Optional.empty());
 

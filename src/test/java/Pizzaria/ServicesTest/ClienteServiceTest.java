@@ -34,7 +34,7 @@ public class ClienteServiceTest {
 
 
     @Test
-    public void testFindById_ClienteDoesNotExist_ShouldThrowException() {
+    public void testFindById_ClienteNoExist() {
         Long id = 1L;
 
         when(clienteRepository.findById(id)).thenReturn(Optional.empty());
@@ -45,7 +45,7 @@ public class ClienteServiceTest {
 
 
     @Test
-    public void testEditar_ClienteExists_ShouldReturnEditedCliente() {
+    public void testEditar_ClienteExists() {
         Long id = 1L;
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setNome("Cliente Editado");
@@ -65,7 +65,7 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void testEditar_ClienteDoesNotExist_ShouldThrowException() {
+    public void testEditar_ClienteNotExist() {
         Long id = 1L;
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setNome("Cliente Editado");
@@ -76,7 +76,7 @@ public class ClienteServiceTest {
     }
 
     @Test
-    public void testDelete_ClienteHasPedidos_ShouldThrowException() {
+    public void testDelete_ClienteTemPedidos() {
         Long id = 1L;
         Cliente clienteBanco = new Cliente();
         clienteBanco.setId(id);

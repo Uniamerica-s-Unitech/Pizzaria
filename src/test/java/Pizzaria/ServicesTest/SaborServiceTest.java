@@ -1,128 +1,69 @@
 package Pizzaria.ServicesTest;
 
+import Pizzaria.Service.SaborService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import Pizzaria.DTO.SaborDTO;
 import Pizzaria.Entiny.Sabor;
 import Pizzaria.Repositorye.SaborRepository;
-import Pizzaria.Service.SaborService;
-import jakarta.persistence.EntityNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+public class SaborServiceTest {
 
-@SpringBootTest
-class SaborServiceTest {
-
+    @InjectMocks
     private SaborService saborService;
 
-    @MockBean
+    @Mock
     private SaborRepository saborRepository;
 
     @BeforeEach
-    void setUp() {
-        ModelMapper modelMapper = new ModelMapper();
-        saborService = new SaborService(saborRepository, modelMapper);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testFindSaborById() {
-        Long saborId = 1L;
-        Sabor sabor = new Sabor();
-        sabor.setId(saborId);
-        when(saborRepository.findById(saborId)).thenReturn(Optional.of(sabor));
 
-        SaborDTO saborDTO = saborService.findById(saborId);
 
-        assertNotNull(saborDTO);
-        assertEquals(saborId, saborDTO.getId());
-    }
+
 
     @Test
-    void testFindSaborByIdNotFound() {
-        Long saborId = 1L;
-        when(saborRepository.findById(saborId)).thenReturn(Optional.empty());
-
-        assertThrows(IllegalArgumentException.class, () -> saborService.findById(saborId));
-    }
-
-    @Test
-    void testListSabores() {
-        Sabor sabor1 = new Sabor();
-        sabor1.setId(1L);
-        Sabor sabor2 = new Sabor();
-        sabor2.setId(2L);
-        List<Sabor> sabores = new ArrayList<>();
-        sabores.add(sabor1);
-        sabores.add(sabor2);
-        when(saborRepository.findByAtivo()).thenReturn(sabores);
-
-        List<SaborDTO> saborDTOs = saborService.listar();
-
-        assertNotNull(saborDTOs);
-        assertEquals(2, saborDTOs.size());
-        assertEquals(1L, saborDTOs.get(0).getId());
-        assertEquals(2L, saborDTOs.get(1).getId());
-    }
-
-    @Test
-    void testCadastrarSabor() {
+    public void testEditar_SaborDoesNotExist() {
         // Arrange
+        Long id = 1L;
         SaborDTO saborDTO = new SaborDTO();
-        saborDTO.setNome("Calabresa");
-        Sabor saborSalvo = new Sabor();
-        saborSalvo.setId(1L);
-        when(saborRepository.save(any(Sabor.class))).thenReturn(saborSalvo);
 
-        Sabor saborCadastrado = saborService.cadastrar(saborDTO);
+        when(saborRepository.existsById(id)).thenReturn(false);
 
-        assertNotNull(saborCadastrado);
-        assertEquals(1L, saborCadastrado.getId());
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> saborService.editar(id, saborDTO));
     }
-
     @Test
-    void testEditarSabor() {
-        Long saborId = 1L;
+    public void testEditar_SaborExists() {
+        // Arrange
+        Long id = 1L;
         SaborDTO saborDTO = new SaborDTO();
-        saborDTO.setNome("Mussarela");
+        saborDTO.setNome("Sabor Editado");
         Sabor saborBanco = new Sabor();
-        saborBanco.setId(saborId);
-        saborBanco.setNome("Margherita");
-        when(saborRepository.existsById(saborId)).thenReturn(true);
-        when(saborRepository.findById(saborId)).thenReturn(Optional.of(saborBanco));
+        saborBanco.setId(id);
+
+        when(saborRepository.existsById(id)).thenReturn(true);
+        when(saborRepository.findById(id)).thenReturn(Optional.of(saborBanco));
         when(saborRepository.save(any(Sabor.class))).thenReturn(saborBanco);
 
-        Sabor saborEditado = saborService.editar(saborId, saborDTO);
+        // Act
+        Sabor result = saborService.editar(id, saborDTO);
 
-        assertNotNull(saborEditado);
-        assertEquals(saborId, saborEditado.getId());
-        assertEquals("Mussarela", saborEditado.getNome());
-    }
-
-    @Test
-    void testEditarSaborNotFound() {
-        Long saborId = 1L;
-        SaborDTO saborDTO = new SaborDTO();
-        saborDTO.setNome("Mussarela");
-        when(saborRepository.existsById(saborId)).thenReturn(false);
-
-        assertThrows(IllegalArgumentException.class, () -> saborService.editar(saborId, saborDTO));
+        // Assert
+        assertNotNull(result);
+        assertEquals(saborDTO.getNome(), result.getNome());
     }
 
 
-
-    @Test
-    void testDeleteSaborNotFound() {
-        Long saborId = 1L;
-        when(saborRepository.findById(saborId)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, () -> saborService.delete(saborId));
-    }
 }

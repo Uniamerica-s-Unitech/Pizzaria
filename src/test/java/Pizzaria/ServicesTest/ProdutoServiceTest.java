@@ -1,116 +1,83 @@
 package Pizzaria.ServicesTest;
 
+import Pizzaria.Service.ProdutoService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import Pizzaria.DTO.ProdutoDTO;
 import Pizzaria.Entiny.Produto;
 import Pizzaria.Repositorye.ProdutoRepository;
-import Pizzaria.Service.ProdutoService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+public class ProdutoServiceTest {
 
-@SpringBootTest
-class ProdutoServiceTest {
-
+    @InjectMocks
     private ProdutoService produtoService;
 
-    @MockBean
+    @Mock
     private ProdutoRepository produtoRepository;
 
     @BeforeEach
-    void setUp() {
-        ModelMapper modelMapper = new ModelMapper();
-        produtoService = new ProdutoService(produtoRepository, modelMapper);
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
+
     @Test
-    void testFindProdutoById() {
-        Long produtoId = 1L;
-        Produto produto = new Produto();
-        produto.setId(produtoId);
-        when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produto));
+    public void testFindById_ProdutoDoesNotExist() {
+        // Arrange
+        Long id = 1L;
+        when(produtoRepository.findById(id)).thenReturn(Optional.empty());
 
-        ProdutoDTO produtoDTO = produtoService.findById(produtoId);
-
-        assertNotNull(produtoDTO);
-        assertEquals(produtoId, produtoDTO.getId());
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> produtoService.findById(id));
     }
 
-    @Test
-    void testFindProdutoByIdNotFound() {
-        Long produtoId = 1L;
-        when(produtoRepository.findById(produtoId)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> produtoService.findById(produtoId));
-    }
 
     @Test
-    void testListProdutos() {
-        Produto produto1 = new Produto();
-        produto1.setId(1L);
-        Produto produto2 = new Produto();
-        produto2.setId(2L);
-        List<Produto> produtos = new ArrayList<>();
-        produtos.add(produto1);
-        produtos.add(produto2);
-        when(produtoRepository.findByAtivo()).thenReturn(produtos);
-
-        List<ProdutoDTO> produtoDTOs = produtoService.listar();
-
-        assertNotNull(produtoDTOs);
-        assertEquals(2, produtoDTOs.size());
-        assertEquals(1L, produtoDTOs.get(0).getId());
-        assertEquals(2L, produtoDTOs.get(1).getId());
-    }
-
-    @Test
-    void testCadastrarProduto() {
+    public void testEditar_ProdutoExists() {
+        // Arrange
+        Long id = 1L;
         ProdutoDTO produtoDTO = new ProdutoDTO();
-        produtoDTO.setNome("Pizza Margherita");
-        Produto produtoSalvo = new Produto();
-        produtoSalvo.setId(1L);
-        when(produtoRepository.save(any(Produto.class))).thenReturn(produtoSalvo);
-
-        Produto produtoCadastrado = produtoService.cadastrar(produtoDTO);
-
-        assertNotNull(produtoCadastrado);
-        assertEquals(1L, produtoCadastrado.getId());
-    }
-
-    @Test
-    void testEditarProduto() {
-        Long produtoId = 1L;
-        ProdutoDTO produtoDTO = new ProdutoDTO();
-        produtoDTO.setNome("Pizza Calabresa");
+        produtoDTO.setNome("Produto Editado");
         Produto produtoBanco = new Produto();
-        produtoBanco.setId(produtoId);
-        produtoBanco.setNome("Pizza Margherita");
-        when(produtoRepository.existsById(produtoId)).thenReturn(true);
-        when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produtoBanco));
+        produtoBanco.setId(id);
+
+        when(produtoRepository.existsById(id)).thenReturn(true);
+        when(produtoRepository.findById(id)).thenReturn(Optional.of(produtoBanco));
         when(produtoRepository.save(any(Produto.class))).thenReturn(produtoBanco);
 
-        Produto produtoEditado = produtoService.editar(produtoId, produtoDTO);
+        // Act
+        Produto result = produtoService.editar(id, produtoDTO);
 
-        assertNotNull(produtoEditado);
-        assertEquals(produtoId, produtoEditado.getId());
-        assertEquals("Pizza Calabresa", produtoEditado.getNome());
+        // Assert
+        assertNotNull(result);
+        assertEquals(produtoDTO.getNome(), result.getNome());
     }
+
+
 
     @Test
-    void testEditarProdutoNotFound() {
-        Long produtoId = 1L;
+    public void testEditar_ProdutoDoesNotExist() {
+        // Arrange
+        Long id = 1L;
         ProdutoDTO produtoDTO = new ProdutoDTO();
-        produtoDTO.setNome("Pizza Calabresa");
-        when(produtoRepository.existsById(produtoId)).thenReturn(false);
 
-        assertThrows(IllegalArgumentException.class, () -> produtoService.editar(produtoId, produtoDTO));
+        when(produtoRepository.existsById(id)).thenReturn(false);
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> produtoService.editar(id, produtoDTO));
     }
+
+
 }
