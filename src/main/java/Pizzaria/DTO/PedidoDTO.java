@@ -1,5 +1,6 @@
 package Pizzaria.DTO;
 
+import Pizzaria.Repositorye.PedidoRepository;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +18,9 @@ public class PedidoDTO extends AbstractEntinyDTO{
     private String observacao;
 
     private Integer status;
+
+    @JsonIgnoreProperties("pedidos")
+    private Set<ProdutoDTO> produtos;
 
     @JsonIgnoreProperties("pedidos")
     private Set<ClienteDTO> clientes;

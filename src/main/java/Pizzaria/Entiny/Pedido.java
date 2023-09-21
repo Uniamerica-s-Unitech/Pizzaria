@@ -21,4 +21,9 @@ public class Pedido extends AbstractEntiny {
     private String observacao;
 
     private Integer status;
+
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produtoId;
+
 }
