@@ -1,20 +1,15 @@
 package Pizzaria.Service;
 
-import Pizzaria.DTO.ClienteDTO;
 import Pizzaria.DTO.PedidoDTO;
-import Pizzaria.Entiny.Cliente;
 import Pizzaria.Entiny.Pedido;
-import Pizzaria.Repositorye.ClienteRepository;
+import Pizzaria.Entiny.Produto;
 import Pizzaria.Repositorye.PedidoRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -45,6 +40,9 @@ public class PedidoService {
 
     public Pedido cadastrar(PedidoDTO pedidoDTO){
         Pedido pedidonovo = modelMapper.map(pedidoDTO,Pedido.class);
+        for (Produto produto : pedidonovo.getProdutos()) {
+            produto.setPedido(pedidonovo);
+        }
         return pedidoRepository.save(pedidonovo);
 
         /*Assert.notNull(pedido.getClienteId(), "Cliente inválido");

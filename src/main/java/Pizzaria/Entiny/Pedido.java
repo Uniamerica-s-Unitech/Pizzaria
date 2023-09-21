@@ -1,11 +1,13 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -17,9 +19,10 @@ public class Pedido extends AbstractEntiny {
     @JsonIgnoreProperties("pedidos")
     private Cliente clienteId;
 
-    @OneToMany
-    @JoinColumn(name = "produto_id")
-    private List<Produto> produtos;
+    @OneToMany(mappedBy = "pedido",cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Produto> produtos = new ArrayList<>();
+
 
     private LocalDateTime dataHora;
 
