@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "cliente", schema = "public")
 @Getter @Setter
 public class Cliente extends AbstractEntiny{
+    @JsonIgnore
     private String nome;
 
     @OneToMany(mappedBy = "cliente")

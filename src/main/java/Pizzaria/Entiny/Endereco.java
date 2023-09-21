@@ -17,6 +17,6 @@ public class Endereco extends AbstractEntiny{
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    @JsonIgnoreProperties("enderecos")
+    @JsonIgnoreProperties("enderecos"+"nome"+"ativo")
     private Cliente cliente;
 }

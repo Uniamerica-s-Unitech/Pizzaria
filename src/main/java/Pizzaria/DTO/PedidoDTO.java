@@ -19,10 +19,10 @@ public class PedidoDTO extends AbstractEntinyDTO{
 
     private Integer status;
 
-    @JsonIgnoreProperties("pedidos")
+    /*@JsonIgnoreProperties("pedidos")
     private Set<ProdutoDTO> produtos;
 
     @JsonIgnoreProperties("pedidos")
     private Set<ClienteDTO> clientes;
-
+*/
 }

@@ -1,84 +1,81 @@
 package Pizzaria.Service;
 
 import Pizzaria.DTO.EnderecoDTO;
-import Pizzaria.Entiny.Cliente;
 import Pizzaria.Entiny.Endereco;
-import Pizzaria.Repositorye.ClienteRepository;
 import Pizzaria.Repositorye.EnderecoRepository;
-import org.springframework.beans.BeanUtils;
+import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EnderecoService {
 
+    private final EnderecoRepository enderecoRepository;
+    private final ModelMapper modelMapper;
+    
     @Autowired
-    private EnderecoRepository enderecoRepository;
+    public EnderecoService(EnderecoRepository enderecoRepository, 
+                           ModelMapper modelMapper) {
+        this.enderecoRepository = enderecoRepository;
+        this.modelMapper = modelMapper;
+    }
 
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    private ClienteService clienteService;
-
-
-    public Endereco findById(Long id){
-        return enderecoRepository.findById(id).orElse(null);
+    public EnderecoDTO findById(Long id) {
+        try{
+            Endereco endereco = enderecoRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Endereco nao existe" + id));
+            return toClienteDTO(endereco);
+        }catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Ocorreu um erro ao tentar recuperar o endereco."+ex.getMessage(), ex);
+        }
     }
 
     public List<EnderecoDTO> listar(){
-        List<Endereco> enderecos = enderecoRepository.findByAtivo();
-        return enderecos.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return enderecoRepository.findByAtivo().stream().map(this::toClienteDTO).toList();
     }
 
-    public String cadastrar(EnderecoDTO enderecoDTO){
-
-
-        /*Assert.notNull(endereco.getCliente(), "Cliente inválido");
-        Cliente cliente = clienteRepository.findById(enderecoDTO.getCliente().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-*/
-
-        return "com sucesso";
+    public Endereco cadastrar(EnderecoDTO enderecoDTO){
+        Endereco enderecoNovo = modelMapper.map(enderecoDTO,Endereco.class);
+        return enderecoRepository.save(enderecoNovo);
     }
 
-    public EnderecoDTO editar(Long id,EnderecoDTO enderecoDTO){
-        if (enderecoRepository.existsById(id)){
-            Endereco endereco = enderecoRepository.findById(id).orElse(null);
-            if (endereco != null){
-                BeanUtils.copyProperties(enderecoDTO,endereco,"id");
-                endereco = enderecoRepository.save(endereco);
-                return convertToDTO(endereco);
-            }
-        }else {
-            throw new IllegalArgumentException("Endereço não encontrado com o ID fornecido: " + id);
-        }
-        return null;
-    }
+    public Endereco editar(Long id, EnderecoDTO enderecoDTO) {
+        if (enderecoRepository.existsById(id)) {
+            Endereco enderecoBanco = enderecoRepository.findById(id).orElseThrow(()
+                    -> new IllegalArgumentException("Endereco não encontrado com o ID fornecido: " + id));
 
-    public void dezAtivar(Long id, Endereco endereco) {
-        Endereco enderecoBanco = enderecoRepository.findById(id).orElse(null);
-        if (enderecoBanco != null){
-            endereco.setAtivo(false);
-            enderecoRepository.save(endereco);
-        }else {
-            throw new IllegalArgumentException("Endereço não encontrado com o ID: " + id);
+            enderecoBanco.setNumero(enderecoDTO.getNumero());
+            enderecoBanco.setRua(enderecoDTO.getRua());
+            enderecoBanco.setReferencia(enderecoDTO.getReferencia());
+            enderecoBanco.setCliente(enderecoDTO.getCliente());
+
+            return enderecoRepository.save(enderecoBanco);
+        } else {
+            throw new IllegalArgumentException("Endereco não encontrado com o ID fornecido: " + id);
         }
     }
 
-    private EnderecoDTO convertToDTO(Endereco endereco) {
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
 
-        enderecoDTO.setId(endereco.getId());
-        enderecoDTO.setRua(endereco.getRua());
-        enderecoDTO.setNumero(endereco.getNumero());
-        enderecoDTO.setCliente(endereco.getCliente());
-        return enderecoDTO;
+    public void delete(Long id) {
+        Endereco enderecoBanco = enderecoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Endereço com ID "+id +" nao existe"));
+
+        if (enderecoBanco.getCliente().getPedidos().isEmpty()){
+            desativarCliente(enderecoBanco);
+        }else {
+            throw new IllegalArgumentException("Endereco tem Pedido em andamento nao pode ser deletado");
+        }
+    }
+
+    private void desativarCliente(Endereco endereco) {
+        endereco.setAtivo(false);
+        enderecoRepository.save(endereco);
+    }
+
+    public EnderecoDTO toClienteDTO(Endereco endereco) {
+        return modelMapper.map(endereco, EnderecoDTO.class);
     }
 }

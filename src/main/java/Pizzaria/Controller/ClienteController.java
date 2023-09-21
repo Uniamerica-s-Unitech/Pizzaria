@@ -6,6 +6,7 @@ import Pizzaria.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -27,35 +28,37 @@ public class ClienteController {
     public ResponseEntity<String> cadastrar(@RequestBody ClienteDTO clienteDTO) {
         try {
             clienteService.cadastrar(clienteDTO);
-            return ResponseEntity.ok("Com Sucesso");
+            return ResponseEntity.ok("Cadastrado com Sucesso");
 
         } catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
-/*    public ResponseEntity<String> updateClient(@PathVariable Long id, @RequestBody ClienteDTO clienteDTO) {
-        if (!id.equals(clienteDTO.getId())) {
-            return ResponseEntity.badRequest().build();
+    @PutMapping("/{id}")
+    public ResponseEntity<String> editar(@PathVariable Long id, @RequestBody @Validated ClienteDTO clienteDTO) {
+        try {
+            Cliente clienteEditado = clienteService.editar(id, clienteDTO);
+            return ResponseEntity.ok("O cadastro foi atualizado com sucesso.");
         }
-        return ResponseEntity.ok(clienteService.updateCliente(clienteDTO));
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+        catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Ocorreu um erro durante a atualização: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> dezAtivar(@PathVariable Long id){
         try {
-            Cliente cliente = clienteService.findById(id);
-            if (cliente != null) {
-                clienteService.dezAtivar(id, cliente);
-                return ResponseEntity.ok().body("Cliente desativado com sucesso!");
-            } else {
-                return ResponseEntity.notFound().build();
-            }
+            clienteService.delete(id);
+            return ResponseEntity.ok().body("Cliente dezativado com sucesso!");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
         }
-    }*/
+    }
 
 }
