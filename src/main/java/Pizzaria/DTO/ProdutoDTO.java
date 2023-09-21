@@ -1,5 +1,7 @@
 package Pizzaria.DTO;
 
+import Pizzaria.Entiny.Pedido;
+import Pizzaria.Entiny.Produto;
 import Pizzaria.Entiny.Sabor;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.JoinColumn;
@@ -17,9 +19,8 @@ public class ProdutoDTO extends AbstractEntinyDTO{
 
     private String tamanho;
 
-    private SaborDTO saborId;
+    private Sabor saborId;
 
-    @JsonIgnoreProperties("produtoId")
-    private ProdutoDTO produtos;
+    private Pedido pedidos;
 
 }

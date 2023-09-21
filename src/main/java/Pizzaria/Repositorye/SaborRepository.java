@@ -1,8 +1,10 @@
 package Pizzaria.Repositorye;
 
+import Pizzaria.Entiny.Produto;
 import Pizzaria.Entiny.Sabor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +13,5 @@ import java.util.List;
 public interface SaborRepository extends JpaRepository<Sabor,Long> {
     @Query("FROM Sabor WHERE ativo = true")
     List<Sabor> findByAtivo();
+
 }

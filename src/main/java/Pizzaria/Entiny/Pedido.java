@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter @Setter
 @Entity
@@ -16,14 +17,14 @@ public class Pedido extends AbstractEntiny {
     @JsonIgnoreProperties("pedidos")
     private Cliente clienteId;
 
+    @OneToMany
+    @JoinColumn(name = "produto_id")
+    private List<Produto> produtos;
+
     private LocalDateTime dataHora;
 
     private String observacao;
 
     private Integer status;
-
-    @ManyToOne
-    @JoinColumn(name = "produto_id")
-    private Produto produtoId;
 
 }

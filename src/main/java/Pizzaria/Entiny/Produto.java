@@ -12,6 +12,6 @@ public class Produto extends AbstractEntiny{
 
     private String tamanho;
     @ManyToOne
-    @JoinColumn(name = "sabor_id")
+    @JoinColumn(name = "sabor_id", nullable = false)
     private Sabor saborId;
 }

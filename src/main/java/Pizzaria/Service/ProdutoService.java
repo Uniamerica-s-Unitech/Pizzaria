@@ -3,64 +3,77 @@ package Pizzaria.Service;
 import Pizzaria.DTO.ProdutoDTO;
 import Pizzaria.Entiny.Produto;
 import Pizzaria.Repositorye.ProdutoRepository;
-import org.springframework.beans.BeanUtils;
+import jakarta.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+    private final ProdutoRepository produtoRepository;
+    private final ModelMapper modelMapper;
 
-    public Produto findById(Long id){
-        return produtoRepository.findById(id).orElse(null);
+    @Autowired
+    public ProdutoService(ProdutoRepository produtoRepository,
+                          ModelMapper modelMapper){
+        this.produtoRepository = produtoRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    public ProdutoDTO findById(Long id) {
+        try{
+            Produto produto = produtoRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Produto nao existe" + id));
+            return toClienteDTO(produto);
+        }catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Ocorreu um erro ao tentar recuperar o produto."+ex.getMessage(), ex);
+        }
     }
 
     public List<ProdutoDTO> listar(){
-        List<Produto> produtos = produtoRepository.findByAtivo();
-        return produtos.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return produtoRepository.findByAtivo().stream().map(this::toClienteDTO).toList();
     }
 
-    public ProdutoDTO cadastrar(ProdutoDTO produtoDTO){
-        Produto produto = new Produto();
-        BeanUtils.copyProperties(produtoDTO,produto);
-        produto = produtoRepository.save(produto);
-        return convertToDTO(produto);
+    public Produto cadastrar(ProdutoDTO produtoDTO){
+        Produto produtoNovo = modelMapper.map(produtoDTO,Produto.class);
+        return produtoRepository.save(produtoNovo);
     }
 
-    public ProdutoDTO editar(Long id,ProdutoDTO produtoDTO){
-        if (produtoRepository.existsById(id)){
-            Produto produto = produtoRepository.findById(id).orElse(null);
-            if (produto != null){
-                BeanUtils.copyProperties(produtoDTO,produto,"id");
-                produto = produtoRepository.save(produto);
-                return convertToDTO(produto);
-            }
-        }else {
+    public Produto editar(Long id, ProdutoDTO produtoDTO) {
+        if (produtoRepository.existsById(id)) {
+            Produto produtoBanco = produtoRepository.findById(id).orElseThrow(()
+                    -> new IllegalArgumentException("Produto não encontrado com o ID fornecido: " + id));
+
+            produtoBanco.setNome(produtoDTO.getNome());
+
+            return produtoRepository.save(produtoBanco);
+        } else {
             throw new IllegalArgumentException("Produto não encontrado com o ID fornecido: " + id);
         }
-        return null;
     }
 
-    public void dezAtivar(Long id, Produto produto) {
-        Produto produtoBanco = produtoRepository.findById(id).orElse(null);
-        if (produtoBanco != null){
-            produto.setAtivo(false);
-            produtoRepository.save(produto);
+
+    /*public void delete(Long id) {
+        Produto produtoBanco = produtoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Produto com ID "+id+" nao existe"));
+
+        if (produtoBanco.getPedido().isEmpty()){
+            desativarProduto(produtoBanco);
         }else {
-            throw new IllegalArgumentException("Produto não encontrado com o ID: " + id);
+            throw new IllegalArgumentException("Produto tem Pedido em andamento nao pode ser deletado");
         }
     }
 
-    private ProdutoDTO convertToDTO(Produto produto) {
-        ProdutoDTO produtoDTO = new ProdutoDTO();
-        BeanUtils.copyProperties(produto, produtoDTO);
-        return produtoDTO;
+    private void desativarProduto(Produto produto) {
+        produto.setAtivo(false);
+        produtoRepository.save(produto);
+    }*/
+
+    public ProdutoDTO toClienteDTO(Produto produto) {
+        return modelMapper.map(produto, ProdutoDTO.class);
     }
+
 }
