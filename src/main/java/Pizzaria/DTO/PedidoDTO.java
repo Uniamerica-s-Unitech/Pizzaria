@@ -1,6 +1,5 @@
 package Pizzaria.DTO;
 
-import Pizzaria.Entiny.Cliente;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import java.util.Set;
 @Getter@Setter
 public class PedidoDTO extends AbstractEntinyDTO{
     @JsonIgnoreProperties("clienteId")
-    private Cliente clienteId;
+    private ClienteDTO clienteId;
 
     private LocalDateTime dataHora;
 

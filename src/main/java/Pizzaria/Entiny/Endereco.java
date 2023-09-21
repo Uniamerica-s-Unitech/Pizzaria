@@ -1,5 +1,6 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,6 @@ public class Endereco extends AbstractEntiny{
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente clienteId;
+    @JsonIgnoreProperties("enderecos")
+    private Cliente cliente;
 }

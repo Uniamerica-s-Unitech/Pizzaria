@@ -4,8 +4,10 @@ import Pizzaria.DTO.PedidoDTO;
 import Pizzaria.Entiny.Pedido;
 import Pizzaria.Service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -22,11 +24,17 @@ public class PedidoController {
     }
 
     @PostMapping
-    public PedidoDTO cadastrar(@RequestBody PedidoDTO pedidoDTO){
-        return pedidoService.cadastrar(pedidoDTO);
+    public ResponseEntity<String> cadastrar(@RequestBody PedidoDTO pedidoDTO){
+        try {
+            pedidoService.cadastrar(pedidoDTO);
+            return ResponseEntity.ok("Com Sucesso");
+
+        } catch(Exception e){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     public PedidoDTO editar(@PathVariable Long id,@RequestBody PedidoDTO pedidoDTO){
         return pedidoService.editar(id, pedidoDTO);
     }
@@ -46,5 +54,5 @@ public class PedidoController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
         }
-    }
+    }*/
 }

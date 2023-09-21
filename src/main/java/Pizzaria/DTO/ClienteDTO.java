@@ -1,16 +1,15 @@
 package Pizzaria.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import Pizzaria.Entiny.Endereco;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter @Setter
 public class ClienteDTO extends AbstractEntinyDTO{
     private String nome;
 
-    @JsonIgnoreProperties({"clienteId", "clientes"})
-    private Set<PedidoDTO> pedidos;
+    private List<Endereco> enderecos;
 
 }

@@ -22,6 +22,10 @@ public class EnderecoService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private ClienteService clienteService;
+
+
     public Endereco findById(Long id){
         return enderecoRepository.findById(id).orElse(null);
     }
@@ -33,16 +37,15 @@ public class EnderecoService {
                 .collect(Collectors.toList());
     }
 
-    public EnderecoDTO cadastrar(EnderecoDTO enderecoDTO){
-         Endereco endereco = new Endereco();
-         BeanUtils.copyProperties(enderecoDTO,endereco);
+    public String cadastrar(EnderecoDTO enderecoDTO){
 
-        Assert.notNull(endereco.getClienteId(), "Cliente inválido");
-        Cliente cliente = clienteRepository.findById(enderecoDTO.getClienteId().getId())
+
+        /*Assert.notNull(endereco.getCliente(), "Cliente inválido");
+        Cliente cliente = clienteRepository.findById(enderecoDTO.getCliente().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+*/
 
-        endereco = enderecoRepository.save(endereco);
-         return convertToDTO(endereco);
+        return "com sucesso";
     }
 
     public EnderecoDTO editar(Long id,EnderecoDTO enderecoDTO){
@@ -71,7 +74,11 @@ public class EnderecoService {
 
     private EnderecoDTO convertToDTO(Endereco endereco) {
         EnderecoDTO enderecoDTO = new EnderecoDTO();
-        BeanUtils.copyProperties(endereco, enderecoDTO);
+
+        enderecoDTO.setId(endereco.getId());
+        enderecoDTO.setRua(endereco.getRua());
+        enderecoDTO.setNumero(endereco.getNumero());
+        enderecoDTO.setCliente(endereco.getCliente());
         return enderecoDTO;
     }
 }

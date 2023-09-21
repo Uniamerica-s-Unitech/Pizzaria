@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter @Setter
 @Entity
@@ -14,6 +13,7 @@ import java.util.Set;
 public class Pedido extends AbstractEntiny {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
+    @JsonIgnoreProperties("pedidos")
     private Cliente clienteId;
 
     private LocalDateTime dataHora;
@@ -21,8 +21,4 @@ public class Pedido extends AbstractEntiny {
     private String observacao;
 
     private Integer status;
-
-    @ManyToMany(mappedBy = "pedidos")
-    @JsonIgnoreProperties("pedidos")
-    Set<Cliente> clientes;
 }

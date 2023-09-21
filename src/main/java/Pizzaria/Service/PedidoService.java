@@ -1,14 +1,17 @@
 package Pizzaria.Service;
 
+import Pizzaria.DTO.ClienteDTO;
 import Pizzaria.DTO.PedidoDTO;
 import Pizzaria.Entiny.Cliente;
 import Pizzaria.Entiny.Pedido;
 import Pizzaria.Repositorye.ClienteRepository;
 import Pizzaria.Repositorye.PedidoRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,37 +19,41 @@ import java.util.stream.Collectors;
 @Service
 public class PedidoService {
 
-    @Autowired
-    private PedidoRepository pedidoRepository;
+    private final PedidoRepository pedidoRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    private ClienteRepository clienteRepository;
+    public PedidoService(PedidoRepository pedidoRepository,
+                         ModelMapper modelMapper) {
+        this.pedidoRepository = pedidoRepository;
+        this.modelMapper = modelMapper;
+    }
 
-    public Pedido findById(Long id){
-        return pedidoRepository.findById(id).orElse(null);
+    public PedidoDTO findById(Long id) {
+        try{
+            Pedido pedido = pedidoRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Pdeido nao existe" + id));
+            return toPedidoDTO(pedido);
+        }catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Ocorreu um erro ao tentar recuperar o pdedido."+ex.getMessage(), ex);
+        }
     }
 
     public List<PedidoDTO> listar(){
-        List<Pedido> pedidos = pedidoRepository.findByAtivo();
-        return pedidos.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return pedidoRepository.findByAtivo().stream().map(this::toPedidoDTO).toList();
     }
 
-    public PedidoDTO cadastrar(PedidoDTO pedidoDTO){
-        Pedido pedido = new Pedido();
-        BeanUtils.copyProperties(pedidoDTO,pedido);
+    public Pedido cadastrar(PedidoDTO pedidoDTO){
+        Pedido pedidonovo = modelMapper.map(pedidoDTO,Pedido.class);
+        return pedidoRepository.save(pedidonovo);
 
-        Assert.notNull(pedido.getClienteId(), "Cliente inválido");
+        /*Assert.notNull(pedido.getClienteId(), "Cliente inválido");
         Cliente cliente = clienteRepository.findById(pedidoDTO.getClienteId().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-
-
-        pedido = pedidoRepository.save(pedido);
-        return convertToDTO(pedido);
+*/
     }
 
-    public PedidoDTO editar(Long id,PedidoDTO pedidoDTO){
+    /*public PedidoDTO editar(Long id,PedidoDTO pedidoDTO){
         if (pedidoRepository.existsById(id)){
             Pedido pedido = pedidoRepository.findById(id).orElse(null);
             if (pedido != null){
@@ -68,11 +75,9 @@ public class PedidoService {
         }else {
             throw new IllegalArgumentException("Pedido não encontrado com o ID: " + id);
         }
-    }
+    }*/
 
-    public PedidoDTO convertToDTO(Pedido pedido) {
-        PedidoDTO pedidoDTO = new PedidoDTO();
-        BeanUtils.copyProperties(pedido, pedidoDTO);
-        return pedidoDTO;
+    public PedidoDTO toPedidoDTO(Pedido pedido) {
+        return modelMapper.map(pedido, PedidoDTO.class);
     }
 }

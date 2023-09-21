@@ -4,7 +4,7 @@ import Pizzaria.DTO.ClienteDTO;
 import Pizzaria.Entiny.Cliente;
 import Pizzaria.Entiny.Pedido;
 import Pizzaria.Repositorye.ClienteRepository;
-import org.springframework.beans.BeanUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,39 +13,43 @@ import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
-    @Autowired
-    private ClienteRepository clienteRepository;
 
-    public Cliente findById(Long id) {
-        return clienteRepository.findById(id).orElse(null);
+    private final ClienteRepository clienteRepository;
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public ClienteService(ClienteRepository clienteRepository,
+                          ModelMapper modelMapper){
+        this.clienteRepository = clienteRepository;
+        this.modelMapper = modelMapper;
+    }
+
+    public ClienteDTO findById(Long id) {
+        try{
+            Cliente cliente = clienteRepository.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Cliente nao existe" + id));
+            return toClienteDTO(cliente);
+        }catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Ocorreu um erro ao tentar recuperar o cliente."+ex.getMessage(), ex);
+        }
     }
 
     public List<ClienteDTO> listar(){
-        List<Cliente> clientes = clienteRepository.findByAtivo();
-        return clientes.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        return clienteRepository.findAll().stream().map(this::toClienteDTO).toList();
     }
 
-    public ClienteDTO cadastrar(ClienteDTO clienteDTO){
-        Cliente cliente = new Cliente();
-        BeanUtils.copyProperties(clienteDTO,cliente);
-        cliente = clienteRepository.save(cliente);
-        return convertToDTO(cliente);
+    public Cliente cadastrar(ClienteDTO clienteDTO){
+        Cliente clienteNovo = modelMapper.map(clienteDTO,Cliente.class);
+        return clienteRepository.save(clienteNovo);
     }
 
-    public ClienteDTO editar(Long id,ClienteDTO clienteDTO){
-        if (clienteRepository.existsById(id)){
-            Cliente cliente = clienteRepository.findById(id).orElse(null);
-            if (cliente != null){
-                BeanUtils.copyProperties(clienteDTO,cliente,"id");
-                cliente = clienteRepository.save(cliente);
-                return convertToDTO(cliente);
-            }
-        }else {
-            throw new IllegalArgumentException("Cliente não encontrado com o ID fornecido: " + id);
-        }
-        return null;
+    /*public String updateCliente(ClienteDTO clienteDTO) {
+
+        Cliente clienteNovo = toCliente(clienteDTO);
+
+        clienteRepository.save(clienteNovo);
+
+        return "Cliente editado com sucesso";
     }
 
     public void dezAtivar(Long id,Cliente cliente) {
@@ -61,11 +65,11 @@ public class ClienteService {
         }else {
             throw new IllegalArgumentException("Cliente não encontrado com o ID: " + id);
         }
+    }*/
+
+    public ClienteDTO toClienteDTO(Cliente cliente) {
+        return modelMapper.map(cliente, ClienteDTO.class);
     }
 
-    public ClienteDTO convertToDTO(Cliente cliente) {
-        ClienteDTO clienteDTO = new ClienteDTO();
-        BeanUtils.copyProperties(cliente, clienteDTO);
-        return clienteDTO;
-    }
+
 }

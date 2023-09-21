@@ -12,5 +12,5 @@ public class EnderecoDTO extends AbstractEntinyDTO{
 
     private String referencia;
 
-    private Cliente clienteId;
+    private Cliente cliente;
 }

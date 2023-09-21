@@ -21,10 +21,10 @@ public class EnderecoController {
         return enderecoService.listar();
     }
 
-    @PostMapping
+    /*@PostMapping
     public EnderecoDTO cadastrar(@RequestBody EnderecoDTO enderecoDTO){
         return enderecoService.cadastrar(enderecoDTO);
-    }
+    }*/
 
     @PutMapping("/{id}")
     public EnderecoDTO editar(@PathVariable Long id,@RequestBody EnderecoDTO enderecoDTO){

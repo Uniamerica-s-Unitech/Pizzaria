@@ -1,12 +1,11 @@
 package Pizzaria.Entiny;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
-
+import java.util.List;
 
 @Entity
 @Table(name = "cliente", schema = "public")
@@ -14,11 +13,13 @@ import java.util.Set;
 public class Cliente extends AbstractEntiny{
     private String nome;
 
-    @ManyToMany
-    @JoinTable(
-            name = "clientepedido",
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "pedido_id"))
-            @JsonIgnoreProperties("clienteId")
-    Set<Pedido> pedidos;
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    private List<Endereco> enderecos;
+
+    @OneToMany(mappedBy = "clienteId")
+    @JsonIgnore
+    private List<Pedido> pedidos;
+
+
 }
