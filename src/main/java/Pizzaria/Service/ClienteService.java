@@ -34,7 +34,8 @@ public class ClienteService {
     }
 
     public List<ClienteDTO> listar(){
-        return clienteRepository.findByAtivo().stream().map(this::toClienteDTO).toList();
+        return clienteRepository.findByAtivo().stream()
+                .map(this::toClienteDTO).toList();
     }
 
     public Cliente cadastrar(ClienteDTO clienteDTO){

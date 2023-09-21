@@ -1,16 +1,17 @@
 package Pizzaria.DTO;
 
-import Pizzaria.Repositorye.PedidoRepository;
+import Pizzaria.Entiny.Produto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter@Setter
 public class PedidoDTO extends AbstractEntinyDTO{
-    @JsonIgnoreProperties("clienteId")
+    @JsonIgnoreProperties("pedidos")
     private ClienteDTO clienteId;
 
     private LocalDateTime dataHora;
@@ -19,10 +20,5 @@ public class PedidoDTO extends AbstractEntinyDTO{
 
     private Integer status;
 
-    /*@JsonIgnoreProperties("pedidos")
-    private Set<ProdutoDTO> produtos;
-
-    @JsonIgnoreProperties("pedidos")
-    private Set<ClienteDTO> clientes;
-*/
+    private List<Produto> produtos = new ArrayList<>();
 }
