@@ -10,15 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter@Setter
-public class PedidoDTO extends AbstractEntinyDTO{
-    @JsonIgnoreProperties("pedidos")
-    private ClienteDTO clienteId;
+public class PedidoDTO {
 
-    private LocalDateTime dataHora;
-
-    private String observacao;
-
-    private Integer status;
-
-    private List<Produto> produtos = new ArrayList<>();
 }

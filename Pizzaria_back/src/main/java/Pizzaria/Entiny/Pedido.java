@@ -13,21 +13,6 @@ import java.util.List;
 @Getter @Setter
 @Entity
 @Table(name = "pedido",schema = "public")
-public class Pedido extends AbstractEntiny {
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
-    @JsonIgnoreProperties("pedidos")
-    private Cliente clienteId;
-
-    @OneToMany(mappedBy = "pedido",cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Produto> produtos = new ArrayList<>();
-
-
-    private LocalDateTime dataHora;
-
-    private String observacao;
-
-    private Integer status;
+public class Pedido  {
 
 }

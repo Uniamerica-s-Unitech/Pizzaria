@@ -5,12 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Setter @Getter
-public class EnderecoDTO extends AbstractEntinyDTO{
-    private String rua;
+public class EnderecoDTO {
 
-    private Integer numero;
-
-    private String referencia;
-
-    private Cliente cliente;
 }
