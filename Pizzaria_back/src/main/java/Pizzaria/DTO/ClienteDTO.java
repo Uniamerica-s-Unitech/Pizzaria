@@ -1,12 +1,19 @@
 package Pizzaria.DTO;
 
-import Pizzaria.Entiny.Endereco;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
 
-@Getter @Setter
+
+
+@Getter@Setter
+
 public class ClienteDTO {
+    private Long id;
+
+    private Boolean ativo = true;
+
+    private String nome;
+
+
 
 }

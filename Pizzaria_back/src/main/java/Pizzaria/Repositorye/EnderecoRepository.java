@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco,Long> {
     @Query("FROM Endereco WHERE ativo = true")
-    List<Endereco> findByAtivo();
+    List<Endereco> findEnderecoByAtivo();
 }

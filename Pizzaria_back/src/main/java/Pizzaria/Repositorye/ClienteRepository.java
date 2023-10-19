@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente,Long> {
     @Query("FROM Cliente WHERE ativo = true")
-    List<Cliente> findByAtivo();
-    @Query("FROM Pedido WHERE clienteId = :cliente AND ativo = true")
-    List<Pedido> findClienteAtivoPedido(@Param("cliente") Cliente cliente);
+    List<Cliente> findClienteByAtivo();
+
+
 }
