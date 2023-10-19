@@ -1,6 +1,5 @@
 package Pizzaria.Entiny;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,25 +9,25 @@ import lombok.Setter;
 @Table(name = "endereco", schema = "public")
 public class Endereco {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "ativo")
     private Boolean ativo = true;
 
-    @Column(name = "bairro", length = 100, nullable = false)
+    @Column(name = "bairro", length = 100)
     private String bairro;
 
-    @Column(name = "rua", length = 100, nullable = false)
+    @Column(name = "rua", length = 100)
     private String rua;
 
-    @Column(name = "numero", length = 100, nullable = false)
-    private Integer numero;
+    @Column(name = "numero", length = 100)
+    private int numero;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id",nullable = false)
-    private Cliente cliente_id;
+    @JoinColumn(name = "cliente_id")
+    private Cliente clienteId;
 
 
 }

@@ -12,6 +12,12 @@ import java.util.List;
 @Table(name = "produto",schema = "public")
 @Getter @Setter
 public class Produto {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
+    @Column(name = "ativo")
+    private Boolean ativo = true;
 
 }

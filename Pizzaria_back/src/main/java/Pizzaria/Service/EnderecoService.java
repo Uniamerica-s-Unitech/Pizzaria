@@ -8,7 +8,6 @@ import Pizzaria.Repositorye.ClienteRepository;
 import Pizzaria.Repositorye.EnderecoRepository;
 import Pizzaria.Repositorye.PedidoRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -24,8 +23,8 @@ public class EnderecoService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    @Autowired
-    private PedidoRepository pedidoRepository;
+    /*@Autowired
+    private PedidoRepository pedidoRepository;*/
 
     public EnderecoDTO findEnderecoById(Long id) {/**/
         Endereco endereco = enderecoRepository.findById(id)
@@ -40,12 +39,12 @@ public class EnderecoService {
     public String cadastrarEndereco(EnderecoDTO enderecoDTO) {
         Endereco endereco = toEndereco(enderecoDTO);
 
-        Assert.notNull(endereco.getRua(),"Rua inválido!");
+       /* Assert.notNull(endereco.getRua(),"Rua inválido!");
         Assert.notNull(endereco.getBairro(),"Bairro inválido!");
         Assert.notNull(endereco.getNumero(),"Numero inválido!");
-        Assert.notNull(endereco.getCliente_id(),"Cliente inválido!");
+        Assert.notNull(endereco.getClienteId(),"Cliente inválido!");
         Assert.isTrue(!clienteRepository.findById
-                (endereco.getCliente_id().getId()).isEmpty(),"Cliente não existe!");
+                (endereco.getClienteId().getId()).isEmpty(),"Cliente não existe!");*/
 
         enderecoRepository.save(endereco);
         return "Endereco cadastrado com sucesso!";
@@ -58,9 +57,9 @@ public class EnderecoService {
             Assert.notNull(endereco.getRua(),"Rua inválido!");
             Assert.notNull(endereco.getBairro(),"Bairro inválido!");
             Assert.notNull(endereco.getNumero(),"Numero inválido!");
-            Assert.notNull(endereco.getCliente_id(),"Cliente inválido!");
+            Assert.notNull(endereco.getClienteId(),"Cliente inválido!");
             Assert.isTrue(!clienteRepository.findById
-                    (endereco.getCliente_id().getId()).isEmpty(),"Cliente não existe!");
+                    (endereco.getClienteId().getId()).isEmpty(),"Cliente não existe!");
 
             enderecoRepository.save(endereco);
             return "Endereco atualizado com sucesso!";
@@ -96,10 +95,10 @@ public class EnderecoService {
         enderecoDTO.setRua(endereco.getRua());
         enderecoDTO.setBairro(endereco.getBairro());
         ClienteDTO clienteDTO = new ClienteDTO();
-        clienteDTO.setId(endereco.getCliente_id().getId());
-        clienteDTO.setAtivo(endereco.getCliente_id().getAtivo());
-        clienteDTO.setNome(endereco.getCliente_id().getNome());
-        enderecoDTO.setCliente_id(clienteDTO);
+        clienteDTO.setId(endereco.getClienteId().getId());
+        clienteDTO.setAtivo(endereco.getClienteId().getAtivo());
+        clienteDTO.setNome(endereco.getClienteId().getNome());
+        enderecoDTO.setClienteId(clienteDTO);
 
         return enderecoDTO;
     }
@@ -112,11 +111,12 @@ public class EnderecoService {
         novoEndereco.setNumero(enderecoDTO.getNumero());
         novoEndereco.setRua(enderecoDTO.getRua());
         novoEndereco.setBairro(enderecoDTO.getBairro());
+
         Cliente cliente = new Cliente();
-        cliente.setId(novoEndereco.getCliente_id().getId());
-        cliente.setAtivo(novoEndereco.getCliente_id().getAtivo());
-        cliente.setNome(novoEndereco.getCliente_id().getNome());
-        novoEndereco.setCliente_id(cliente);
+        cliente.setId(enderecoDTO.getClienteId().getId());
+
+        novoEndereco.setClienteId(cliente);
+
         return novoEndereco;
     }
 }

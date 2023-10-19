@@ -1,6 +1,5 @@
 package Pizzaria.DTO;
 
-import Pizzaria.Entiny.Cliente;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +14,8 @@ public class EnderecoDTO {
 
     private String rua;
 
-    private Integer numero;
+    private int numero;
 
-    private ClienteDTO cliente_id;
+    private ClienteDTO clienteId;
 
 }

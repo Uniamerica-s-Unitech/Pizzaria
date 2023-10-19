@@ -14,7 +14,7 @@ import java.util.List;
 public class Cliente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -25,7 +25,7 @@ public class Cliente {
     private String nome;
 
 
-    @OneToMany(mappedBy = "cliente_id",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "clienteId",cascade = CascadeType.ALL)
     @JsonIgnoreProperties("enderecos")
     private List<Endereco> enderecos;
 

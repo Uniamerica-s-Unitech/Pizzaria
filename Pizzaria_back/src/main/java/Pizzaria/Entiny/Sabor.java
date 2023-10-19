@@ -9,5 +9,11 @@ import lombok.Setter;
 @Table(name = "sabor",schema = "public")
 @Getter @Setter
 public class Sabor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
+    @Column(name = "ativo")
+    private Boolean ativo = true;
 }
