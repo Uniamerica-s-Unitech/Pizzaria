@@ -1,8 +1,9 @@
 package Pizzaria.DTO;
 
+import Pizzaria.Entiny.Endereco;
 import lombok.*;
 
-
+import java.util.List;
 
 
 @Getter@Setter
@@ -14,6 +15,8 @@ public class ClienteDTO {
 
     private String nome;
 
+
+    private List<EnderecoDTO> enderecos;
 
 
 }

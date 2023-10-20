@@ -25,7 +25,7 @@ public class Endereco {
     @Column(name = "numero", length = 100)
     private int numero;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente clienteId;
 

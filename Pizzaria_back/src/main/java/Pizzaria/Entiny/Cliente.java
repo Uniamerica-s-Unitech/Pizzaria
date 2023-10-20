@@ -25,8 +25,7 @@ public class Cliente {
     private String nome;
 
 
-    @OneToMany(mappedBy = "clienteId",cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("enderecos")
+    @OneToMany(mappedBy = "clienteId",cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Endereco> enderecos;
 
 }

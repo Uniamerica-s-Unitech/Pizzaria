@@ -1,7 +1,9 @@
 package Pizzaria.Service;
 
 import Pizzaria.DTO.ClienteDTO;
+import Pizzaria.DTO.EnderecoDTO;
 import Pizzaria.Entiny.Cliente;
+import Pizzaria.Entiny.Endereco;
 import Pizzaria.Entiny.Pedido;
 import Pizzaria.Repositorye.ClienteRepository;
 import Pizzaria.Repositorye.PedidoRepository;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,6 +81,14 @@ public class ClienteService {
         clienteDTO.setAtivo(cliente.getAtivo());
         clienteDTO.setNome(cliente.getNome());
 
+        List<EnderecoDTO> listaEnd = new ArrayList<>();
+        if(cliente.getEnderecos() != null)
+            for(int i=0; i<cliente.getEnderecos().size(); i++){
+                listaEnd.add(toEnderecoDTO(cliente.getEnderecos().get(i)));
+            }
+
+        clienteDTO.setEnderecos(listaEnd);
+
         return clienteDTO;
     }
 
@@ -88,6 +99,37 @@ public class ClienteService {
         novoCliente.setAtivo(clienteDTO.getAtivo());
         novoCliente.setNome(clienteDTO.getNome());
 
+        List<Endereco> listaEnd = new ArrayList<>();
+        if(clienteDTO.getEnderecos() != null)
+            for(int i=0; i<clienteDTO.getEnderecos().size(); i++){
+                listaEnd.add(toEndereco(novoCliente,clienteDTO.getEnderecos().get(i)));
+            }
+
+        novoCliente.setEnderecos(listaEnd);
+
         return novoCliente;
+    }
+
+    public Endereco toEndereco(Cliente novoCliente, EnderecoDTO enderecoDTO){
+        Endereco novoEndereco = new Endereco();
+
+        novoEndereco.setId(enderecoDTO.getId());
+        novoEndereco.setAtivo(enderecoDTO.getAtivo());
+        novoEndereco.setNumero(enderecoDTO.getNumero());
+        novoEndereco.setRua(enderecoDTO.getRua());
+        novoEndereco.setBairro(enderecoDTO.getBairro());
+        novoEndereco.setClienteId(novoCliente);
+        return novoEndereco;
+    }
+
+    public EnderecoDTO toEnderecoDTO(Endereco endereco){
+        EnderecoDTO novoEndereco = new EnderecoDTO();
+
+        novoEndereco.setId(endereco.getId());
+        novoEndereco.setAtivo(endereco.getAtivo());
+        novoEndereco.setNumero(endereco.getNumero());
+        novoEndereco.setRua(endereco.getRua());
+        novoEndereco.setBairro(endereco.getBairro());
+        return novoEndereco;
     }
 }
