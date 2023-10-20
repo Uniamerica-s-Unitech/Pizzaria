@@ -21,4 +21,6 @@ public class Pedido  {
 
     @Column(name = "ativo")
     private Boolean ativo = true;
+
+
 }
