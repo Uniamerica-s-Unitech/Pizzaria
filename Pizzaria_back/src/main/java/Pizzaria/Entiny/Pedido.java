@@ -24,6 +24,7 @@ public class Pedido  {
     @Column(name = "ativo")
     private Boolean ativo = true;
 
+<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "cliente_id")
     private Cliente clienteId;
@@ -38,5 +39,7 @@ public class Pedido  {
     private LocalDateTime finalizacao;
 
 
+=======
+>>>>>>> 0ec3ac8ca6a914dd8d2293b5d3f3ba7bc335c3ee
 
 }

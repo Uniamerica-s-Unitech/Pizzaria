@@ -1,0 +1,33 @@
+import { Injectable, inject } from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Cliente } from '../models/cliente';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ClienteService {
+  API: string = 'http://localhost:8080/cliente';
+  http = inject(HttpClient);
+
+  constructor() { }
+
+
+  listar(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${this.API}` + "/lista");
+  }
+
+  save(cliente: Cliente): Observable<Cliente> {
+    if (cliente.id) {
+      // Se a pessoa já tem um ID, atualize-a
+      return this.http.put<Cliente>(this.API+"/"+`${cliente.id}`, cliente);
+    } else {
+      // Caso contrário, crie uma nova pessoa
+      return this.http.post<Cliente>(this.API, cliente);
+    }
+  }
+
+  deletar(id: number): Observable<any> {
+    return this.http.delete(this.API + "/" + `${id}`);
+  }
+}
