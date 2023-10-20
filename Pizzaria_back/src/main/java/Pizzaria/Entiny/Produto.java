@@ -20,4 +20,13 @@ public class Produto {
     @Column(name = "ativo")
     private Boolean ativo = true;
 
+
+    @OneToMany(mappedBy = "produtoId",cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Sabor> sabores;
+
+    @ManyToOne()
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoriaId;
+
+
 }
