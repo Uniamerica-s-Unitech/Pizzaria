@@ -1,10 +1,8 @@
 package Pizzaria.Service;
 
 
-import Pizzaria.DTO.CategoriaDTO;
-import Pizzaria.DTO.ProdutoDTO;
-import Pizzaria.Entiny.Categoria;
-import Pizzaria.Entiny.Produto;
+import Pizzaria.DTO.*;
+import Pizzaria.Entiny.*;
 import Pizzaria.Repositorye.CategoriaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import java.util.List;
 
 @Service
 public class CategoriaServices {
-
     @Autowired
     private CategoriaRepository categoriaRepository;
 
@@ -92,15 +89,23 @@ public class CategoriaServices {
 
         return novoCategoria;
     }
-
-
     public Produto toProduto(Categoria novoCategoria, ProdutoDTO produtoDTO){
         Produto novoProduto = new Produto();
 
         novoProduto.setId(produtoDTO.getId());
         novoProduto.setAtivo(produtoDTO.getAtivo());
-        novoProduto.setSabores(produtoDTO.getSabores());
-        novoProduto.setCategoriaId(produtoDTO.getCategoriaId());
+        List<Sabor>  listaSabor = new ArrayList<>();
+        if(produtoDTO.getSabores() != null)
+            for(int i=0; i<produtoDTO.getSabores().size(); i++) {
+                listaSabor.add(toSabor(novoProduto, produtoDTO.getSabores().get(i)));
+            }
+        novoProduto.setSabores(listaSabor);
+
+        Categoria categoria = new Categoria();
+        categoria.setId(produtoDTO.getCategoriaId().getId());
+
+        novoProduto.setCategoriaId(categoria);
+
         return novoProduto;
     }
     public ProdutoDTO toProdutoDTO(Produto produto){
@@ -108,9 +113,43 @@ public class CategoriaServices {
 
         novoProduto.setId(produto.getId());
         novoProduto.setAtivo(produto.getAtivo());
-        novoProduto.setCategoriaId(produto.getCategoriaId());
+
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.setId(produto.getCategoriaId().getId());
+
+        novoProduto.setCategoriaId(categoriaDTO);
+
+        List<SaborDTO> listaSabor = new ArrayList<>();
+        if(produto.getSabores()!= null)
+            for(int i=0; i<produto.getSabores().size(); i++){
+                listaSabor.add(toSaborDTO(novoProduto,produto.getSabores().get(i)));
+            }
+        novoProduto.setSabores(listaSabor);
         return novoProduto;
     }
+
+    public SaborDTO toSaborDTO(ProdutoDTO novoProduto, Sabor sabor){
+        SaborDTO saborDTO = new SaborDTO();
+
+        saborDTO.setId(sabor.getId());
+        saborDTO.setAtivo(sabor.getAtivo());
+        saborDTO.setNome(sabor.getNome());
+
+        return saborDTO;
+    }
+
+    public Sabor toSabor(Produto novoProduto, SaborDTO saborDTO){
+        Sabor novoSabor = new Sabor();
+
+        novoSabor.setId(saborDTO.getId());
+        novoSabor.setAtivo(saborDTO.getAtivo());
+        novoSabor.setNome(saborDTO.getNome());
+
+
+        return novoSabor;
+    }
+
+
 
 
 }

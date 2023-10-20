@@ -35,7 +35,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrarCleinte(@RequestBody CategoriaDTO categoriaDTO) {
+    public ResponseEntity<String> cadastrarCategoria(@RequestBody CategoriaDTO categoriaDTO) {
         try{
             return ResponseEntity.ok(categoriaServices.cadastrarCategoria(categoriaDTO));
         }catch (IllegalArgumentException e) {
@@ -48,7 +48,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editarCliente(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
+    public ResponseEntity<String> editarCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
         try {
             return ResponseEntity.ok(categoriaServices.edtitarCategoria(id, categoriaDTO));
         }catch (IllegalArgumentException e) {

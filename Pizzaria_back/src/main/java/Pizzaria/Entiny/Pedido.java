@@ -6,8 +6,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter @Setter
@@ -21,4 +23,20 @@ public class Pedido  {
 
     @Column(name = "ativo")
     private Boolean ativo = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn( name = "cliente_id")
+    private Cliente clienteId;
+
+    @OneToMany(mappedBy = "produto_list",cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Produto> produtos;
+
+    @Column(name = "dataDeSolicitacao")
+    private LocalDateTime soliciatacao;
+
+    @Column(name = "dataDeFinalizacao")
+    private LocalDateTime finalizacao;
+
+
+
 }

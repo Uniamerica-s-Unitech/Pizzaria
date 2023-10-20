@@ -20,8 +20,5 @@ public class Sabor {
     @Column(name = "nome", length = 100)
     private String nome;
 
-    @ManyToOne()
-    @JoinColumn(name = "produtos_id")
-    private Produto produtoId;
 
 }

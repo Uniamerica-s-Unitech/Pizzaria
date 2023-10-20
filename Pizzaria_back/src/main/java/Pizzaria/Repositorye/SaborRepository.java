@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface SaborRepository extends JpaRepository<Sabor,Long> {
     @Query("FROM Sabor WHERE ativo = true")
-    List<Sabor> findByAtivo();
+    List<Sabor> findSaborByAtivo();
 
 }

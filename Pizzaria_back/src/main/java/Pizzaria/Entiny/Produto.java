@@ -20,6 +20,8 @@ public class Produto {
     @Column(name = "ativo")
     private Boolean ativo = true;
 
+    @Column(length = 100, nullable = false)
+    private String nome;
 
     @OneToMany(mappedBy = "produtoId",cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Sabor> sabores;
