@@ -1,16 +1,16 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Entity
-@Table(name = "sabor",schema = "public")
 @Getter @Setter
+@Table(name = "sabor",schema = "public")
 public class Sabor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -19,6 +19,4 @@ public class Sabor {
 
     @Column(name = "nome", length = 100)
     private String nome;
-
-
 }

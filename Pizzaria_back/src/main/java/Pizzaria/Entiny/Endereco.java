@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
 @Entity
+@Getter @Setter
 @Table(name = "endereco", schema = "public")
 public class Endereco {
     @Id
@@ -28,6 +28,4 @@ public class Endereco {
     @ManyToOne()
     @JoinColumn(name = "cliente_id")
     private Cliente clienteId;
-
-
 }

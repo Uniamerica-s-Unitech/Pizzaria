@@ -1,14 +1,9 @@
 package Pizzaria.Service;
 
-import Pizzaria.DTO.ClienteDTO;
-import Pizzaria.DTO.EnderecoDTO;
-import Pizzaria.Entiny.Cliente;
-import Pizzaria.Entiny.Endereco;
-import Pizzaria.Entiny.Pedido;
-import Pizzaria.Repositorye.ClienteRepository;
-import Pizzaria.Repositorye.PedidoRepository;
+import Pizzaria.DTO.*;
+import Pizzaria.Entiny.*;
+import Pizzaria.Repositorye.*;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -56,7 +51,7 @@ public class ClienteService {
             throw new IllegalArgumentException("Cliente não encontrado com o ID fornecido: " + id);
         }
     }
-    /*public void deletar(Long id) {
+    public void deletar(Long id) {
         Cliente clienteBanco = clienteRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Cliente com ID "+id+" nao existe!"));
 
@@ -67,7 +62,7 @@ public class ClienteService {
         } else {
             desativarCliente(clienteBanco);
         }
-    }*/
+    }
 
     private void desativarCliente(Cliente cliente) {
         cliente.setAtivo(false);
@@ -84,7 +79,7 @@ public class ClienteService {
         List<EnderecoDTO> listaEnd = new ArrayList<>();
         if(cliente.getEnderecos() != null)
             for(int i=0; i<cliente.getEnderecos().size(); i++){
-                listaEnd.add(toEnderecoDTO(cliente.getEnderecos().get(i)));
+                listaEnd.add(enderecoToDTO(cliente.getEnderecos().get(i)));
             }
 
         clienteDTO.setEnderecos(listaEnd);
@@ -122,7 +117,7 @@ public class ClienteService {
         return novoEndereco;
     }
 
-    public EnderecoDTO toEnderecoDTO(Endereco endereco){
+    public EnderecoDTO enderecoToDTO(Endereco endereco){
         EnderecoDTO novoEndereco = new EnderecoDTO();
 
         novoEndereco.setId(endereco.getId());

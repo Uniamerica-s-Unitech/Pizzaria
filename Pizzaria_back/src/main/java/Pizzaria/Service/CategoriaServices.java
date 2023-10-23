@@ -4,6 +4,8 @@ package Pizzaria.Service;
 import Pizzaria.DTO.*;
 import Pizzaria.Entiny.*;
 import Pizzaria.Repositorye.CategoriaRepository;
+import Pizzaria.Repositorye.PedidoRepository;
+import Pizzaria.Repositorye.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import java.util.List;
 public class CategoriaServices {
     @Autowired
     private CategoriaRepository categoriaRepository;
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
 
     public CategoriaDTO findCategoriaById(Long id){
@@ -48,6 +52,20 @@ public class CategoriaServices {
             throw new IllegalArgumentException("Categoria nao encontrada com o ID fornecido" + id);
         }
     }
+
+    public void deletar(Long id) {
+        Categoria categoriaBanco = categoriaRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Categoria com ID "+id+" nao existe!"));
+
+        List<Produto> categoriaProdutoAtivos = produtoRepository.findProdutoExisteCategoria(categoriaBanco);
+
+        if (!categoriaProdutoAtivos.isEmpty()){
+            throw new IllegalArgumentException("Não é possível excluir esse categoria tem produto ativo.");
+        } else {
+            desativarCategoria(categoriaBanco);
+        }
+    }
+
     private void desativarCategoria(Categoria categoria) {
         categoria.setAtivo(false);
         categoriaRepository.save(categoria);
@@ -64,7 +82,7 @@ public class CategoriaServices {
 
         if(categoria.getProdutos() != null)
             for(int i=0; i<categoria.getProdutos().size(); i++){
-                listaEnd.add(toProdutoDTO(categoria.getProdutos().get(i)));
+                listaEnd.add(produtoToDTO(categoria.getProdutos().get(i)));
             }
         categoriaDTO.setProdutos(listaEnd);
 
@@ -108,7 +126,7 @@ public class CategoriaServices {
 
         return novoProduto;
     }
-    public ProdutoDTO toProdutoDTO(Produto produto){
+    public ProdutoDTO produtoToDTO(Produto produto){
         ProdutoDTO novoProduto = new ProdutoDTO();
 
         novoProduto.setId(produto.getId());
@@ -122,13 +140,13 @@ public class CategoriaServices {
         List<SaborDTO> listaSabor = new ArrayList<>();
         if(produto.getSabores()!= null)
             for(int i=0; i<produto.getSabores().size(); i++){
-                listaSabor.add(toSaborDTO(novoProduto,produto.getSabores().get(i)));
+                listaSabor.add(saborToDTO(novoProduto,produto.getSabores().get(i)));
             }
         novoProduto.setSabores(listaSabor);
         return novoProduto;
     }
 
-    public SaborDTO toSaborDTO(ProdutoDTO novoProduto, Sabor sabor){
+    public SaborDTO saborToDTO(ProdutoDTO novoProduto, Sabor sabor){
         SaborDTO saborDTO = new SaborDTO();
 
         saborDTO.setId(sabor.getId());
@@ -145,11 +163,6 @@ public class CategoriaServices {
         novoSabor.setAtivo(saborDTO.getAtivo());
         novoSabor.setNome(saborDTO.getNome());
 
-
         return novoSabor;
     }
-
-
-
-
 }

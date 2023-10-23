@@ -13,11 +13,7 @@ import java.util.List;
 public class ProdutoDTO{
     private Long id;
     private String nome;
-
     private Boolean ativo = true;
     private List<SaborDTO> sabores;
-
     private CategoriaDTO categoriaId;
-
-
 }

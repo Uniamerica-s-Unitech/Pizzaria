@@ -8,5 +8,4 @@ public class SaborDTO {
     private Long id;
     private Boolean ativo = true;
     private String nome;
-
 }

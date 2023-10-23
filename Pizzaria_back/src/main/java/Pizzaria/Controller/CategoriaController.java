@@ -1,8 +1,6 @@
 package Pizzaria.Controller;
 
-
 import Pizzaria.DTO.CategoriaDTO;
-import Pizzaria.Service.CategoriaServices;
 import Pizzaria.Service.CategoriaServices;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/categoria")
-
+@CrossOrigin(origins = "http://localhost:4200")
 public class CategoriaController {
     @Autowired
     CategoriaServices categoriaServices;
@@ -60,11 +58,11 @@ public class CategoriaController {
         }
     }
 
-   /* @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
         try {
             categoriaServices.deletar(id);
-            return ResponseEntity.ok("Aluno deletado com sucesso!");
+            return ResponseEntity.ok("Categoria deletada com sucesso!");
         }catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (EntityNotFoundException e) {
@@ -72,7 +70,7 @@ public class CategoriaController {
         } catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }*/
+    }
 
 
 }

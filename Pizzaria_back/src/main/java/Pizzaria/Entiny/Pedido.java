@@ -1,19 +1,14 @@
 package Pizzaria.Entiny;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-@Getter @Setter
 @Entity
+@Getter @Setter
 @Table(name = "pedido",schema = "public")
 public class Pedido  {
     @Id
@@ -24,12 +19,12 @@ public class Pedido  {
     @Column(name = "ativo")
     private Boolean ativo = true;
 
-<<<<<<< HEAD
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn( name = "cliente_id")
     private Cliente clienteId;
 
-    @OneToMany(mappedBy = "produto_list",cascade = CascadeType.ALL, orphanRemoval=true)
+    @ManyToMany
+    @JoinColumn(name = "produto_id")
     private List<Produto> produtos;
 
     @Column(name = "dataDeSolicitacao")
@@ -37,9 +32,4 @@ public class Pedido  {
 
     @Column(name = "dataDeFinalizacao")
     private LocalDateTime finalizacao;
-
-
-=======
->>>>>>> 0ec3ac8ca6a914dd8d2293b5d3f3ba7bc335c3ee
-
 }

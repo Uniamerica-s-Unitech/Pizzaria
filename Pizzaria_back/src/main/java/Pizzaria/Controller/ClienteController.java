@@ -58,11 +58,11 @@ public class ClienteController {
         }
     }
 
-   /* @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deletar(@PathVariable Long id) {
         try {
             clienteService.deletar(id);
-            return ResponseEntity.ok("Aluno deletado com sucesso!");
+            return ResponseEntity.ok("Cliente deletado com sucesso!");
         }catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (EntityNotFoundException e) {
@@ -70,7 +70,5 @@ public class ClienteController {
         } catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-    }*/
-
-
+    }
 }

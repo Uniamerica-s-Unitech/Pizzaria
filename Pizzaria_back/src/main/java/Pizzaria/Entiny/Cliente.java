@@ -9,10 +9,9 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "cliente", schema = "public")
 @Getter @Setter
+@Table(name = "cliente", schema = "public")
 public class Cliente {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -27,5 +26,4 @@ public class Cliente {
 
     @OneToMany(mappedBy = "clienteId",cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Endereco> enderecos;
-
 }

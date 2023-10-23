@@ -1,5 +1,6 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +10,8 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "produto",schema = "public")
 @Getter @Setter
+@Table(name = "produto",schema = "public")
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +24,11 @@ public class Produto {
     @Column(length = 100, nullable = false)
     private String nome;
 
-    @OneToMany(mappedBy = "produtoId",cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany
+    @JoinColumn(name = "sabor_id")
     private List<Sabor> sabores;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoriaId;
-
-
 }

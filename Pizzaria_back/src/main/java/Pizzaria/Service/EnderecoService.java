@@ -1,12 +1,8 @@
 package Pizzaria.Service;
 
-import Pizzaria.DTO.ClienteDTO;
-import Pizzaria.DTO.EnderecoDTO;
-import Pizzaria.Entiny.Cliente;
-import Pizzaria.Entiny.Endereco;
-import Pizzaria.Repositorye.ClienteRepository;
-import Pizzaria.Repositorye.EnderecoRepository;
-import Pizzaria.Repositorye.PedidoRepository;
+import Pizzaria.DTO.*;
+import Pizzaria.Entiny.*;
+import Pizzaria.Repositorye.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

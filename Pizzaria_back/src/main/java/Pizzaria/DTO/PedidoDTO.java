@@ -12,15 +12,10 @@ import java.util.List;
 
 @Getter@Setter
 public class PedidoDTO {
-
     private Long id;
     private Boolean ativo = true;
     private ClienteDTO clienteId;
-
     private List<ProdutoDTO> produtos;
     private LocalDateTime soliciatacao;
     private LocalDateTime finalizacao;
-
-
-
 }

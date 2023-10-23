@@ -1,18 +1,11 @@
 package Pizzaria.Service;
 
 import Pizzaria.DTO.*;
-import Pizzaria.Entiny.Categoria;
-import Pizzaria.Entiny.Pedido;
-import Pizzaria.Entiny.Produto;
-import Pizzaria.Entiny.Sabor;
-import Pizzaria.Repositorye.CategoriaRepository;
+import Pizzaria.Entiny.*;
 import Pizzaria.Repositorye.PedidoRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +15,9 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
-    @Autowired ProdutoService produtoService;
+
+    @Autowired
+    private ProdutoService produtoService;
 
     public PedidoDTO findPedidoById(Long id){
         Pedido pedido = pedidoRepository.findById(id)
@@ -30,8 +25,12 @@ public class PedidoService {
         return pedidoToDTO(pedido);
     }
 
-    public List<PedidoDTO> listar(){
-        return pedidoRepository.findPedidoByAtivo().stream().map(this::pedidoToDTO).toList();
+    public List<PedidoDTO> buscarTicketsAbertos(){
+        return pedidoRepository.findPedidosAbertos().stream().map(this::pedidoToDTO).toList();
+    }
+
+    public List<PedidoDTO> buscarHistorico() {
+        return pedidoRepository.findHistorico().stream().map(this::pedidoToDTO).toList();
     }
 
     public String cadastrarPedido(PedidoDTO pedidoDTO){
@@ -40,7 +39,7 @@ public class PedidoService {
         pedidoRepository.save(pedido);
         return "pedido Cadastrada com sucesso!";
     }
-    public String edtitarPedido(Long id, PedidoDTO pedidoDTO){
+    public String editarPedido(Long id, PedidoDTO pedidoDTO){
         if (pedidoRepository.existsById(id)){
             Pedido pedido = toPedido(pedidoDTO);
 
@@ -72,24 +71,96 @@ public class PedidoService {
         List<ProdutoDTO> listaProduto = new ArrayList<>();
         if(pedido.getProdutos() != null)
             for(int i=0; i<pedido.getProdutos().size(); i++) {
-                listaProduto.add(toProdutoDTO(pedido.getProdutos().get(i)));
+                listaProduto.add(produtoToDTO(pedido.getProdutos().get(i)));
             }
         pedidoDTO.setProdutos(listaProduto);
-
 
         return pedidoDTO;
     }
 
-    public Produto toProdutoDTO(Produto produto){
+    public ProdutoDTO produtoToDTO(Produto produto){
 
-        ProdutoDTO novoProduto = new ProdutoDTO();
+        ProdutoDTO produtoDTO = new ProdutoDTO();
 
-        novoProduto.setId(produto.getId());
-        novoProduto.setAtivo(produto.getAtivo());
-        List<Sabor>  listaSabor = new ArrayList<>();
+        produtoDTO.setId(produto.getId());
+        produtoDTO.setAtivo(produto.getAtivo());
+
+        List<SaborDTO>  listaSabor = new ArrayList<>();
         if(produto.getSabores() != null)
             for(int i=0; i<produto.getSabores().size(); i++) {
-                listaSabor.add(toSaborDTO(novoProduto, produto.getSabores().get(i)));
+                listaSabor.add(saborToDTO(produto.getSabores().get(i)));
+            }
+
+        produtoDTO.setSabores(listaSabor);
+
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.setId(produto.getCategoriaId().getId());
+
+        produtoDTO.setCategoriaId(categoriaDTO);
+
+        return produtoDTO;
+    }
+
+    public SaborDTO saborToDTO(Sabor sabor){
+        SaborDTO saborDTO = new SaborDTO();
+
+        saborDTO.setId(sabor.getId());
+        saborDTO.setAtivo(sabor.getAtivo());
+        saborDTO.setNome(sabor.getNome());
+
+        return saborDTO;
+    }
+
+    public Pedido toPedido(PedidoDTO pedidoDTO){
+        Pedido novoPedido = new Pedido();
+
+        novoPedido.setId(pedidoDTO.getId());
+        novoPedido.setAtivo(pedidoDTO.getAtivo());
+        novoPedido.setSoliciatacao(pedidoDTO.getSoliciatacao());
+        novoPedido.setFinalizacao(pedidoDTO.getFinalizacao());
+
+            Cliente cliente = new Cliente();
+            cliente.setId(pedidoDTO.getClienteId().getId());
+            cliente.setAtivo(pedidoDTO.getClienteId().getAtivo());
+            cliente.setNome(pedidoDTO.getClienteId().getNome());
+            List<Endereco> listaEnd = new ArrayList<>();
+            if(pedidoDTO.getClienteId().getEnderecos() != null)
+                for(int i=0; i<pedidoDTO.getClienteId().getEnderecos().size(); i++){
+                    listaEnd.add(toEndereco(novoPedido,pedidoDTO.getClienteId().getEnderecos().get(i)));
+                }
+            cliente.setEnderecos(listaEnd);
+        novoPedido.setClienteId(cliente);
+
+            List<Produto> listProdutos = new ArrayList<>();
+            if(pedidoDTO.getProdutos() != null)
+                for(int i=0; i<pedidoDTO.getProdutos().size(); i++){
+                    listProdutos.add(toProduto(novoPedido,pedidoDTO.getProdutos().get(i)));
+                }
+        novoPedido.setProdutos(listProdutos);
+
+        return novoPedido;
+    }
+
+    public Endereco toEndereco(Pedido novoPedido, EnderecoDTO enderecoDTO){
+        Endereco novoEndereco = new Endereco();
+
+        novoEndereco.setId(enderecoDTO.getId());
+        novoEndereco.setAtivo(enderecoDTO.getAtivo());
+        novoEndereco.setNumero(enderecoDTO.getNumero());
+        novoEndereco.setRua(enderecoDTO.getRua());
+        novoEndereco.setBairro(enderecoDTO.getBairro());
+        return novoEndereco;
+    }
+
+    public Produto toProduto(Pedido novoPedido, ProdutoDTO produtoDTO){
+        Produto novoProduto = new Produto();
+
+        novoProduto.setId(produtoDTO.getId());
+        novoProduto.setAtivo(produtoDTO.getAtivo());
+        List<Sabor>  listaSabor = new ArrayList<>();
+        if(produtoDTO.getSabores() != null)
+            for(int i=0; i<produtoDTO.getSabores().size(); i++) {
+                listaSabor.add(toSabor(novoProduto, produtoDTO.getSabores().get(i)));
             }
         novoProduto.setSabores(listaSabor);
 
@@ -99,12 +170,15 @@ public class PedidoService {
         novoProduto.setCategoriaId(categoria);
 
         return novoProduto;
-
-
     }
 
+    public Sabor toSabor(Produto novoProduto,SaborDTO saborDTO){
+        Sabor novoSabor = new Sabor();
 
+        novoSabor.setId(saborDTO.getId());
+        novoSabor.setAtivo(saborDTO.getAtivo());
+        novoSabor.setNome(saborDTO.getNome());
 
-
-
+        return novoSabor;
+    }
 }

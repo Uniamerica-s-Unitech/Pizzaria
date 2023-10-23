@@ -6,17 +6,10 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-
+@Getter @Setter
 public class CategoriaDTO {
-
     private Long id;
-
     private Boolean ativo = true;
-
     private String nome;
-
     private List<ProdutoDTO> produtos;
-
 }
