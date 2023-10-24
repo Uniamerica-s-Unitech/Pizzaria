@@ -18,17 +18,17 @@ export class SaborService {
     return this.http.get<Sabor[]>(`${this.API}` + "/lista");
   }
 
-  save(cliente: Sabor): Observable<Mensagem> {
-    if (cliente.id) {
+  save(sabor: Sabor): Observable<Mensagem> {
+    if (sabor.id) {
       // Se a pessoa já tem um ID, atualize-a
-      return this.http.put<Mensagem>(this.API+"/"+`${cliente.id}`, cliente);
+      return this.http.put<Mensagem>(this.API+"/"+`${sabor.id}`, sabor);
     } else {
       // Caso contrário, crie uma nova pessoa
-      return this.http.post<Mensagem>(this.API, cliente);
+      return this.http.post<Mensagem>(this.API, sabor);
     }
   }
 
-  deletar(id: number): Observable<any> {
-    return this.http.delete(this.API + "/" + `${id}`);
+  deletar(id: number): Observable<Mensagem> {
+    return this.http.delete<Mensagem>(this.API + "/" + `${id}`);
   }
 }

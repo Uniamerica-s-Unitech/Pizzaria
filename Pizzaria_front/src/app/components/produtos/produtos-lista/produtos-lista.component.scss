@@ -1,0 +1,47 @@
+.tamanho{
+    margin-left: 12%;
+}
+.bs-accordion {
+    .panel-heading {
+      // remove the padding on the heading so we can increase the click area of the anchor
+      padding: 0;
+      a {
+        // increase the click area of the anchor trigger to match the original .panel-heading
+        display: block;
+        padding: 10px 15px;
+        
+        // spin the chevron!
+        &[aria-expanded=true] {
+          .glyphicon.glyphicon-chevron-right {
+            transform: rotate(90deg);
+            transition: transform 350ms cubic-bezier(0.645, 0.045, 0.355, 1);
+          }
+        }
+        .glyphicon.glyphicon-chevron-right {
+          transition: transform 350ms cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+      }
+    }
+  }
+
+  .btn-success{
+    background: #222427; 
+    border: 0.1rem solid #f96d00;
+      transition-duration: 0.4s;
+      margin-top: 1rem;
+
+}
+.btn-success :hover{
+    background:  #393e46;
+    
+}
+.btn-success:focus{
+    outline: none;
+}
+.tabela{
+    border: 0.2rem solid #f96d00;
+}
+th{
+    border: 0.1rem solid #f96d00;
+
+}

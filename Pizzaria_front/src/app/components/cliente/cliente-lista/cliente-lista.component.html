@@ -4,12 +4,12 @@
 </div>
 <div class="container">
   <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-      <button (click)="cadastrar(modalCliente)" class="btn novo text-white">Nova Pessoa</button>
+      <button (click)="cadastrarCliente(modalCliente)" class="btn novo text-white">Nova Pessoa</button>
   </div>
-  <table class="table table-bordered table-hover">
+  <table class="table tabela table-hover">
       <thead>
           <tr>
-              <th>#ID</th>
+              <th >#ID</th>
               <th>Nome</th>
               <th>Endereço</th>
               <th>Ações</th>
@@ -27,7 +27,7 @@
                   </ng-container>
               </td>
               <td>
-                  <button (click)="editar(modalCliente, cliente, i)" class="btn btn-primary btn-sm">Editar</button>
+                  <button (click)="editarCliente(modalCliente, cliente, i)" class="btn novo text-white">Editar</button>
                   <button (click)="excluirCliente(cliente)" class="btn btn-danger btn-sm">Deletar</button>
               </td>
           </tr>

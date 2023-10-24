@@ -56,16 +56,12 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Long id) {
+    public ResponseEntity<MensagemDTO> deletar(@PathVariable Long id) {
         try {
-            produtoService.deletar(id);
-            return ResponseEntity.ok("Produto deletado com sucesso!");
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.ok(produtoService.deletar(id));
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
 }

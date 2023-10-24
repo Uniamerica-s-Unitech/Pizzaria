@@ -1,0 +1,21 @@
+.novo{
+    background: #222427; 
+    border: 0.1rem solid #f96d00;
+      transition-duration: 0.4s;
+      margin-top: 1rem;
+
+}
+.novo :hover{
+    background:  #393e46;
+    
+}
+.novo:focus{
+    outline: none;
+}
+.tabela{
+    border: 0.2rem solid #f96d00;
+}
+th{
+    border: 0.1rem solid #f96d00;
+
+}

@@ -1,1 +1,114 @@
-<p>produtos-lista works!</p>
+<div class="tamanho">
+    <div class="d-flex justify-content-center">
+        <h2>Lista de Categorias</h2>
+    </div>
+    <div class="container">
+        <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
+            <button (click)="cadastrarCategoria(modalCategoria)" class="btn btn-success text-white">Nova Categoria</button>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let categoria of listaCategoria; let i = index">
+                    <td>{{ categoria.id }}</td>
+                    <td>{{ categoria.nome }}</td>
+                    <td>
+                        <button (click)="editarCategoria(modalCategoria, categoria, i)" class="btn btn-primary btn-sm">Editar</button>
+                        <button (click)="excluirCategoria(categoria)" class="btn btn-danger btn-sm">Deletar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container">
+    <header class="page-header">
+      <h1>Collapse/Accordion</h1>
+    </header>
+    <main>
+      <article class="panel-group bs-accordion" id="accordion" role="tablist" aria-multiselectable="true">
+        <section class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Chapter 1: The Collision of Cultures
+                <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>
+              </a>
+            </h4>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              <ul>
+                <li><a href="#" id="link01-01">Link 1</a> | <a href="#" aria-describedby="link01-01">View Transcript</a></li>
+                <li><a href="#" id="link01-02">Link 2</a> | <a href="#" aria-describedby="link01-02">View Transcript</a></li>
+                <li><a href="#" id="link01-03">Link 3</a> | <a href="#" aria-describedby="link01-03">View Transcript</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Chapter 2: England’s Colonies
+                <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>
+              </a>
+            </h4>
+          </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+              <ul>
+                <li><a href="#" id="link02-01">Link 1</a> | <a href="#" aria-describedby="link02-01">View Transcript</a></li>
+                <li><a href="#" id="link02-02">Link 2</a> | <a href="#" aria-describedby="link02-02">View Transcript</a></li>
+                <li><a href="#" id="link02-03">Link 3</a> | <a href="#" aria-describedby="link02-03">View Transcript</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+        <section class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+              <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Chapter 3: Colonial Ways of Life
+                <span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>
+              </a>
+            </h4>
+          </div>
+          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+              <ul>
+                <li><a href="#" id="link03-01">Link 1</a> | <a href="#" aria-describedby="link03-01">View Transcript</a></li>
+                <li><a href="#" id="link03-02">Link 2</a> | <a href="#" aria-describedby="link03-02">View Transcript</a></li>
+                <li><a href="#" id="link03-03">Link 3</a> | <a href="#" aria-describedby="link03-03">View Transcript</a></li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </article>
+    </main>
+  </div>
+
+
+  
+  
+<ng-template #modalCategoria let-modal>
+    <div class="modal-header">
+        <h4 id="h4" class="modal-title"></h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        
+            <app-produtos-detalhes [categoria]="categoriaParaEditar" (retorno)="atualizarLista($event)" ></app-produtos-detalhes>
+                
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

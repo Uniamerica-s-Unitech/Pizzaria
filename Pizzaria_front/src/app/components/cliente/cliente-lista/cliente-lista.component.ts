@@ -31,7 +31,7 @@ export class ClienteListaComponent {
     })
   }
 
-    cadastrar(modalCliente : any){
+    cadastrarCliente(modalCliente : any){
       this.clienteParaEditar = new Cliente();
       this.modalService.open(modalCliente, { size: 'md' });
       
@@ -39,7 +39,7 @@ export class ClienteListaComponent {
       element.innerHTML = 'Cadastrar Cliente'
     }
 
-    editar(modal: any, cliente: Cliente, indice: number) {
+    editarCliente(modal: any, cliente: Cliente, indice: number) {
       this.clienteParaEditar = Object.assign({}, cliente); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
       Object.assign(this.clienteParaEditar.enderecos, cliente.enderecos);
       this.indiceSelecionadoParaEdicao = indice;
