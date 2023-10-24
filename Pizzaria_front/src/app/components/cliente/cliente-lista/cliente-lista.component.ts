@@ -1,6 +1,7 @@
 import { Component ,inject} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Cliente } from 'src/app/models/cliente';
+import { Mensagem } from 'src/app/models/mensagem';
 import { ClienteService } from 'src/app/services/cliente.service';
 
 @Component({
@@ -32,7 +33,7 @@ export class ClienteListaComponent {
 
     cadastrar(modalCliente : any){
       this.clienteParaEditar = new Cliente();
-      this.modalService.open(modalCliente, { size: 'sm' });
+      this.modalService.open(modalCliente, { size: 'md' });
       
       const element: HTMLElement = document.getElementById('h4') as HTMLElement 
       element.innerHTML = 'Cadastrar Cliente'
@@ -40,17 +41,21 @@ export class ClienteListaComponent {
 
     editar(modal: any, cliente: Cliente, indice: number) {
       this.clienteParaEditar = Object.assign({}, cliente); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+      Object.assign(this.clienteParaEditar.enderecos, cliente.enderecos);
       this.indiceSelecionadoParaEdicao = indice;
   
-      this.modalService.open(modal, { size: 'sm' });
+      this.modalService.open(modal, { size: 'md' });
 
       const element: HTMLElement = document.getElementById('h4') as HTMLElement 
       element.innerHTML = 'Editar Cliente'
     }
 
-    atualizarLista(cliente: Cliente) {
-      this.listar();
+    atualizarLista(mensagem: Mensagem) {
+      console.log(mensagem );
+      alert(mensagem.mensagem)
       this.modalService.dismissAll();
+      this.listar();
+      
     }
 
     excluirCliente(cliente: Cliente) {

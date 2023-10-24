@@ -29,6 +29,6 @@ public class Produto {
     private List<Sabor> sabores;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
+    @JoinColumn(name = "categoria_id",nullable = false)
     private Categoria categoriaId;
 }

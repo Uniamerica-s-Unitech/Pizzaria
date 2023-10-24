@@ -3,12 +3,57 @@
       <label for="exampleInputText1" class="form-label">Nome:</label>
       <input type="text" class="form-control" name="exampleInputText1" [(ngModel)]="cliente.nome">
     </div>
-    <!--<div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">Idade:</label>
-      <input type="number" class="form-control" name="exampleInputPassword1" [(ngModel)]="pessoa.idade">
-    </div>-->
+
+    <div class="d-flex justify-content-center">
+      <h2>Lista de Endereços</h2>
+    </div>
+      <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
+          <button type="button" (click)="cadastrarEndereco(modalEndereco)" class="btn btn-success text-white">Novo Endereço</button>
+      </div>
+      <table class="table table-bordered table-hover">
+          <thead>
+              <tr>
+                  <th>#ID</th>
+                  <th>Rua</th>
+                  <th>Bairro</th>
+                  <th>Numero</th>
+                  <th>Açoes</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let endereco of cliente.enderecos; let i = index">
+                  <td>{{ endereco.id }}</td>
+                  <td>{{ endereco.rua }}</td>
+                  <td>{{ endereco.bairro}}</td>
+                  <td>{{ endereco.numero}}</td>
+                  <td>
+                      <button type="button" (click)="editarEndereco(modalEndereco, endereco, i)" class="btn btn-primary btn-sm">Editar</button>
+                      <button type="button" (click)="excluirEndereco(i)" class="btn btn-danger btn-sm">Deletar</button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
     <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-success">Salvar</button>
     </div>
     
 </form>
+
+
+
+
+
+<ng-template #modalEndereco let-modal>
+  <div class="modal-header">
+    <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    
+        <app-endereco-detalhes [endereco]="enderecoParaEditar" (retorno)="atualizarLista($event)" ></app-endereco-detalhes>
+            
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
+  </ng-template>

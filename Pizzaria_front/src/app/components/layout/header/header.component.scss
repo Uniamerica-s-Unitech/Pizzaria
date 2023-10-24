@@ -1,0 +1,35 @@
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 12%;
+    background: #343a40;
+    color: white;
+}
+
+.btn-sidebar {
+    width: 100%;
+    text-align: left;
+    padding: 10px 15px;
+    border: none;
+    background: none;
+    color: white;
+}
+
+.btn-sidebar:hover {
+    background-color: #555;
+}
+
+.btn-sidebar:focus {
+    outline: none;
+}
+
+.p-3{
+    margin-top: 4rem;
+}
+.list-unstyled{
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}

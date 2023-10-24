@@ -1,6 +1,7 @@
 package Pizzaria.Controller;
 
 import Pizzaria.DTO.CategoriaDTO;
+import Pizzaria.DTO.MensagemDTO;
 import Pizzaria.Service.CategoriaServices;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,28 +34,22 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrarCategoria(@RequestBody CategoriaDTO categoriaDTO) {
+    public ResponseEntity<MensagemDTO> cadastrarCategoria(@RequestBody CategoriaDTO categoriaDTO) {
         try{
             return ResponseEntity.ok(categoriaServices.cadastrarCategoria(categoriaDTO));
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editarCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
+    public ResponseEntity<MensagemDTO> editarCategoria(@PathVariable Long id, @RequestBody CategoriaDTO categoriaDTO) {
         try {
-            return ResponseEntity.ok(categoriaServices.edtitarCategoria(id, categoriaDTO));
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            return ResponseEntity.ok(categoriaServices.editarCategoria(id, categoriaDTO));
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
 

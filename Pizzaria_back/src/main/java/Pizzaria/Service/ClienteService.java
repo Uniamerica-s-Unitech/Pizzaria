@@ -1,14 +1,22 @@
 package Pizzaria.Service;
 
-import Pizzaria.DTO.*;
-import Pizzaria.Entiny.*;
-import Pizzaria.Repositorye.*;
+import Pizzaria.DTO.ClienteDTO;
+import Pizzaria.DTO.EnderecoDTO;
+import Pizzaria.DTO.MensagemDTO;
+import Pizzaria.Entiny.Cliente;
+import Pizzaria.Entiny.Endereco;
+import Pizzaria.Entiny.Pedido;
+import Pizzaria.Repositorye.ClienteRepository;
+import Pizzaria.Repositorye.PedidoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,38 +38,38 @@ public class ClienteService {
         return clienteRepository.findClienteByAtivo().stream().map(this::clienteToDTO).toList();
     }
 
-    public String cadastrarCliente(ClienteDTO clienteDTO) {
+    public MensagemDTO cadastrarCliente(ClienteDTO clienteDTO) {
         Cliente cliente = toCliente(clienteDTO);
-
-        Assert.notNull(cliente.getNome(),"Nome inválido!");
-        clienteRepository.save(cliente);
-        return "Cliente cadastrado com sucesso!";
-    }
-
-    public String editarCliente(Long id, ClienteDTO clienteDTO) {
-        if (clienteRepository.existsById(id)) {
-            Cliente cliente = toCliente(clienteDTO);
-
-            Assert.notNull(cliente.getNome(), "Nome inválido!");
-
-            clienteRepository.save(cliente);
-            return "Cliente atualizado com sucesso!";
-
-        }else {
-            throw new IllegalArgumentException("Cliente não encontrado com o ID fornecido: " + id);
+        if(cliente.getEnderecos() != null)
+        for(int i=0; i<cliente.getEnderecos().size(); i++){
+            cliente.getEnderecos().get(i).setClienteId(cliente);
         }
+        clienteRepository.save(cliente);
+        return new MensagemDTO("Cliente cadastrado com sucesso!", HttpStatus.CREATED);
     }
-    public void deletar(Long id) {
+
+    public MensagemDTO editarCliente(Long id, ClienteDTO clienteDTO) {
+        Cliente cliente = toCliente(clienteDTO);
+        if(cliente.getEnderecos() != null)
+            for(int i=0; i<cliente.getEnderecos().size(); i++){
+                cliente.getEnderecos().get(i).setClienteId(cliente);
+            }
+        clienteRepository.save(cliente);
+        return new MensagemDTO("Cliente atualizado com sucesso!", HttpStatus.CREATED);
+    }
+
+    public MensagemDTO deletar(Long id) {
         Cliente clienteBanco = clienteRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Cliente com ID "+id+" nao existe!"));
 
         List<Pedido> clientePedidoAtivos = pedidoRepository.findPedidoAbertosPorCliente(clienteBanco);
 
         if (!clientePedidoAtivos.isEmpty()){
-            throw new IllegalArgumentException("Não é possível excluir esse cliente tem pedido ativo.");
+            return new MensagemDTO("Não é possível excluir esse cliente, pois existem pedidos ativos associados a ele.", HttpStatus.CREATED);
         } else {
             desativarCliente(clienteBanco);
         }
+        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
     }
 
     private void desativarCliente(Cliente cliente) {
@@ -86,7 +94,6 @@ public class ClienteService {
 
         return clienteDTO;
     }
-
     public Cliente toCliente(ClienteDTO clienteDTO){
         Cliente novoCliente = new Cliente();
 
@@ -101,14 +108,12 @@ public class ClienteService {
             }
 
         novoCliente.setEnderecos(listaEnd);
-
         return novoCliente;
     }
-
     public Endereco toEndereco(Cliente novoCliente, EnderecoDTO enderecoDTO){
         Endereco novoEndereco = new Endereco();
-
-        novoEndereco.setId(enderecoDTO.getId());
+        if(enderecoDTO.getId() != 0)
+            novoEndereco.setId(enderecoDTO.getId());
         novoEndereco.setAtivo(enderecoDTO.getAtivo());
         novoEndereco.setNumero(enderecoDTO.getNumero());
         novoEndereco.setRua(enderecoDTO.getRua());
@@ -116,7 +121,6 @@ public class ClienteService {
         novoEndereco.setClienteId(novoCliente);
         return novoEndereco;
     }
-
     public EnderecoDTO enderecoToDTO(Endereco endereco){
         EnderecoDTO novoEndereco = new EnderecoDTO();
 

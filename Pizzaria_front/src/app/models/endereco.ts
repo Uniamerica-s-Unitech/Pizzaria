@@ -5,5 +5,4 @@ export class Endereco {
     bairro!: string;
     rua!: string;
     numero!: number;
-    clienteId!: Cliente;
 }

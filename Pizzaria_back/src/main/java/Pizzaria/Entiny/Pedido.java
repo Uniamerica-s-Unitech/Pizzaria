@@ -20,14 +20,14 @@ public class Pedido  {
     private Boolean ativo = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn( name = "cliente_id")
+    @JoinColumn( name = "cliente_id",nullable = false)
     private Cliente clienteId;
 
     @ManyToMany
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produto_id",nullable = false)
     private List<Produto> produtos;
 
-    @Column(name = "dataDeSolicitacao")
+    @Column(name = "dataDeSolicitacao",nullable = false)
     private LocalDateTime soliciatacao;
 
     @Column(name = "dataDeFinalizacao")

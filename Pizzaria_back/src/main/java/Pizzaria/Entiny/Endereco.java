@@ -1,5 +1,6 @@
 package Pizzaria.Entiny;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,16 +17,17 @@ public class Endereco {
     @Column(name = "ativo")
     private Boolean ativo = true;
 
-    @Column(name = "bairro", length = 100)
+    @Column(name = "bairro", length = 100,nullable = false)
     private String bairro;
 
-    @Column(name = "rua", length = 100)
+    @Column(name = "rua", length = 100,nullable = false)
     private String rua;
 
-    @Column(name = "numero", length = 100)
+    @Column(name = "numero", length = 100,nullable = false)
     private int numero;
 
     @ManyToOne()
     @JoinColumn(name = "cliente_id")
+    @JsonIgnoreProperties("clienteId")
     private Cliente clienteId;
 }

@@ -1,5 +1,6 @@
 package Pizzaria.Service;
 
+import Pizzaria.DTO.MensagemDTO;
 import Pizzaria.DTO.SaborDTO;
 import Pizzaria.Entiny.Pedido;
 import Pizzaria.Entiny.Produto;
@@ -9,6 +10,7 @@ import Pizzaria.Repositorye.ProdutoRepository;
 import Pizzaria.Repositorye.SaborRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -32,58 +34,35 @@ public class SaborService {
         return saborRepository.findSaborByAtivo().stream().map(this::saborToDTO).toList();
     }
 
-    public String cadastrarSabor(SaborDTO saborDTO) {
+    public MensagemDTO cadastrarSabor(SaborDTO saborDTO) {
         Sabor sabor = toSabor(saborDTO);
         saborRepository.save(sabor);
-        return "Sabor cadastrado com sucesso!";
+        return new MensagemDTO("Sabor cadastrado com sucesso!", HttpStatus.CREATED);
     }
-    public String editarSabor(Long id, SaborDTO saborDTO) {
-        if (saborRepository.existsById(id)) {
-            Sabor sabor = toSabor(saborDTO);
-
-            Assert.notNull(sabor.getNome(),"Nome inválido!");
-
-            saborRepository.save(sabor);
-            return "Sabor atualizado com sucesso!";
-
-        }else {
-            throw new IllegalArgumentException("Sabor não encontrado com o ID fornecido: " + id);
-        }
+    public MensagemDTO editarSabor(Long id, SaborDTO saborDTO) {
+        Sabor sabor = toSabor(saborDTO);
+        saborRepository.save(sabor);
+        return new MensagemDTO("Sabor atualizado com sucesso!", HttpStatus.CREATED);
     }
 
-    public void deletar(Long id) {
+    public MensagemDTO deletar(Long id) {
         Sabor saborBanco = saborRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sabor com ID " + id + " não existe!"));
 
         List<Produto> saborProdutoAtivos = produtoRepository.findProdutoExisteSabores(saborBanco);
 
         if (!saborProdutoAtivos.isEmpty()) {
-            throw new IllegalArgumentException("Não é possível excluir esse Sabor, pois existem produtos ativos associados a ele.");
+            return new MensagemDTO("Não é possível excluir esse Sabor, pois existem produtos ativos associados a ele.", HttpStatus.CREATED);
         } else {
             desativarSabor(saborBanco);
         }
+        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
     }
 
     private void desativarSabor(Sabor sabor) {
         sabor.setAtivo(false);
         saborRepository.save(sabor);
     }
-    /*public void deletar(Long id) {
-        Sabor saborBanco = saborRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Sabor com ID "+id+" nao existe!"));
-
-        List<Produto> saborProdutoAtivos = produtoRepository.findProdutoExisteSabores(saborBanco);
-
-        if (!saborProdutoAtivos.isEmpty()){
-            throw new IllegalArgumentException("Não é possível excluir esse Sabor tem produto ativo.");
-        } else {
-            desativarSabor(saborBanco);
-        }
-    }
-    private void desativarSabor(Sabor sabor) {
-        sabor.setAtivo(false);
-        saborRepository.save(sabor);
-    }*/
     public SaborDTO saborToDTO(Sabor sabor){
         SaborDTO saborDTO = new SaborDTO();
 
@@ -104,5 +83,4 @@ public class SaborService {
 
         return novoSabor;
     }
-
 }

@@ -1,16 +1,20 @@
-<nav class="navbar bg-body-tertiary bg-dark border-bottom border-body" data-bs-theme="dark">
-    <div class="container-fluid">
-        <div class="d-grid gap-2 d-md-flex">
-            <input class="btn btn-outline-primary" type="button" value="Pessoas" routerLink="cliente">
-
-            <input class="btn btn-outline-primary" type="button" value="Carros" routerLink="carros">
-
-            <input class="btn btn-outline-primary" type="button" value="Livros" routerLink="livros">
+<div class="d-flex" id="wrapper">
+    <div class="bg-dark border-end" id="sidebar">
+        <div class="p-3">
+            <ul class="list-unstyled components">
+                <li>
+                    <input class="btn btn-sidebar" type="button" value="Pedidos" routerLink="pedidos">
+                </li>
+                <li>
+                    <input class="btn btn-sidebar" type="button" value="Cliente" routerLink="cliente">
+                </li>
+                <li>
+                    <input class="btn btn-sidebar" type="button" value="Produtos" routerLink="produtos">
+                </li>
+                <li>
+                    <input class="btn btn-sidebar" type="button" value="Sabores" routerLink="sabores">
+                </li>
+            </ul>
         </div>
-
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
     </div>
-  </nav>
+</div>

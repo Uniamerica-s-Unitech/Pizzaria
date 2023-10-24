@@ -1,5 +1,6 @@
 package Pizzaria.Controller;
 
+import Pizzaria.DTO.MensagemDTO;
 import Pizzaria.DTO.SaborDTO;
 import Pizzaria.Service.SaborService;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,28 +36,22 @@ public class SaborController {
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrarSabor(@RequestBody SaborDTO saborDTO) {
+    public ResponseEntity<MensagemDTO> cadastrarSabor(@RequestBody SaborDTO saborDTO) {
         try{
             return ResponseEntity.ok(saborService.cadastrarSabor(saborDTO));
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editarSabor(@PathVariable Long id, @RequestBody SaborDTO saborDTO) {
+    public ResponseEntity<MensagemDTO> editarSabor(@PathVariable Long id, @RequestBody SaborDTO saborDTO) {
         try {
             return ResponseEntity.ok(saborService.editarSabor(id, saborDTO));
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
 

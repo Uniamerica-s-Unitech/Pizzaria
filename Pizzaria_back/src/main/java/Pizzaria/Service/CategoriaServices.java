@@ -1,6 +1,5 @@
 package Pizzaria.Service;
 
-
 import Pizzaria.DTO.*;
 import Pizzaria.Entiny.*;
 import Pizzaria.Repositorye.CategoriaRepository;
@@ -8,6 +7,7 @@ import Pizzaria.Repositorye.PedidoRepository;
 import Pizzaria.Repositorye.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -21,7 +21,6 @@ public class CategoriaServices {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-
     public CategoriaDTO findCategoriaById(Long id){
         Categoria categoria = categoriaRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Categoria nao encontrada!"));
@@ -32,38 +31,30 @@ public class CategoriaServices {
         return categoriaRepository.findCategoriaByAtivo().stream().map(this::categoriaToDTO).toList();
     }
 
-    public String cadastrarCategoria(CategoriaDTO categoriaDTO){
+    public MensagemDTO cadastrarCategoria(CategoriaDTO categoriaDTO){
         Categoria categoria = toCategoria(categoriaDTO);
-
-        Assert.notNull(categoria.getNome(),"Nome Invalido");
         categoriaRepository.save(categoria);
-        return "Catogria Cadastrada com sucesso!";
-    }
-    public String edtitarCategoria(Long id, CategoriaDTO categoriaDTO){
-        if (categoriaRepository.existsById(id)){
-            Categoria categoria = toCategoria(categoriaDTO);
-
-            Assert.notNull(categoria.getNome(), "Nome inválido!");
-
-            categoriaRepository.save(categoria);
-            return "Categoria atualizada com sucesso!";
-
-        }else {
-            throw new IllegalArgumentException("Categoria nao encontrada com o ID fornecido" + id);
-        }
+        return new MensagemDTO("Categoria cadastrada com sucesso!", HttpStatus.CREATED);
     }
 
-    public void deletar(Long id) {
+    public MensagemDTO editarCategoria(Long id, CategoriaDTO categoriaDTO){
+        Categoria categoria = toCategoria(categoriaDTO);
+        categoriaRepository.save(categoria);
+        return new MensagemDTO("Categoria atualizada com sucesso!", HttpStatus.CREATED);
+    }
+
+    public MensagemDTO deletar(Long id) {
         Categoria categoriaBanco = categoriaRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Categoria com ID "+id+" nao existe!"));
 
         List<Produto> categoriaProdutoAtivos = produtoRepository.findProdutoExisteCategoria(categoriaBanco);
 
         if (!categoriaProdutoAtivos.isEmpty()){
-            throw new IllegalArgumentException("Não é possível excluir esse categoria tem produto ativo.");
+            return new MensagemDTO("Não é possível excluir esse categoria tem produto ativo.", HttpStatus.CREATED);
         } else {
             desativarCategoria(categoriaBanco);
         }
+        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
     }
 
     private void desativarCategoria(Categoria categoria) {
@@ -88,7 +79,6 @@ public class CategoriaServices {
 
         return categoriaDTO;
     }
-
     public Categoria toCategoria(CategoriaDTO categoriaDTO){
         Categoria novoCategoria = new Categoria();
 
@@ -145,7 +135,6 @@ public class CategoriaServices {
         novoProduto.setSabores(listaSabor);
         return novoProduto;
     }
-
     public SaborDTO saborToDTO(ProdutoDTO novoProduto, Sabor sabor){
         SaborDTO saborDTO = new SaborDTO();
 
@@ -155,7 +144,6 @@ public class CategoriaServices {
 
         return saborDTO;
     }
-
     public Sabor toSabor(Produto novoProduto, SaborDTO saborDTO){
         Sabor novoSabor = new Sabor();
 

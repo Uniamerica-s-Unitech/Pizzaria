@@ -1,1 +1,13 @@
-<p>endereco-detalhes works!</p>
+<form (ngSubmit)="salvar()" class="mb-3">
+<div>
+    <label for="exampleInputText1" class="form-label">Rua</label>
+    <input type="text" class="form-control" name="exampleInputText1" [(ngModel)]="endereco.rua">
+    <label for="exampleInputText1" class="form-label">Bairro</label>
+    <input type="text" class="form-control" name="exampleInputText1" [(ngModel)]="endereco.bairro">
+    <label for="exampleInputNumber1" class="form-label">Numero</label>
+    <input type="number" class="form-control" name="exampleInputNumber1" [(ngModel)]="endereco.numero">
+  </div>
+  <div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-success">Salvar</button>
+</div>
+</form>

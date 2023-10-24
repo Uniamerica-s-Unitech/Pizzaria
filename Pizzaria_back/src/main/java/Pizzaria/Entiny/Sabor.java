@@ -17,6 +17,6 @@ public class Sabor {
     @Column(name = "ativo")
     private Boolean ativo = true;
 
-    @Column(name = "nome", length = 100)
+    @Column(name = "nome", length = 100,nullable = false)
     private String nome;
 }

@@ -6,6 +6,7 @@ import Pizzaria.Repositorye.PedidoRepository;
 import Pizzaria.Repositorye.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -28,39 +29,30 @@ public class ProdutoService {
     public List<ProdutoDTO> listar() {
         return produtoRepository.findProdutoByAtivo().stream().map(this::produtoToDTO).toList();
     }
-    public String cadastrarProduto(ProdutoDTO produtoDTO) {
+    public MensagemDTO cadastrarProduto(ProdutoDTO produtoDTO) {
         Produto produto = toProduto(produtoDTO);
-
-        Assert.notNull(produto.getNome(),"Nome inválido!");
         produtoRepository.save(produto);
-        return "Produto cadastrado com sucesso!";
+        return new MensagemDTO("Produto cadastrado com sucesso!", HttpStatus.CREATED);
     }
 
-    public String editarProduto(Long id, ProdutoDTO produtoDTO) {
-        if (produtoRepository.existsById(id)) {
-            Produto produto = toProduto(produtoDTO);
-
-            Assert.notNull(produto.getNome(), "Nome inválido!");
-
-            produtoRepository.save(produto);
-            return "Produto atualizado com sucesso!";
-
-        }else {
-            throw new IllegalArgumentException("Produto não encontrado com o ID fornecido: " + id);
-        }
+    public MensagemDTO editarProduto(Long id, ProdutoDTO produtoDTO) {
+        Produto produto = toProduto(produtoDTO);
+        produtoRepository.save(produto);
+        return new MensagemDTO("Produto atualizado com sucesso!", HttpStatus.CREATED);
     }
 
-    public void deletar(Long id) {
+    public MensagemDTO deletar(Long id) {
         Produto produtoBanco = produtoRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException("Produto com ID "+id+" nao existe!"));
 
         List<Pedido> produtoPedidoAtivos = pedidoRepository.findPedidoAbertosPorProduto(produtoBanco);
 
         if (!produtoPedidoAtivos.isEmpty()){
-            throw new IllegalArgumentException("Não é possível excluir esse produto tem pedido ativo.");
+            return new MensagemDTO("Não é possível excluir esse produto, pois existem pedidos ativos associados a ele.", HttpStatus.CREATED);
         } else {
             desativarProduto(produtoBanco);
         }
+        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
     }
 
     private void desativarProduto(Produto produto) {
@@ -113,7 +105,6 @@ public class ProdutoService {
 
         return novoProduto;
     }
-
     public Sabor toSabor(Produto novoProduto, SaborDTO saborDTO){
         Sabor novoSabor = new Sabor();
 
@@ -131,5 +122,4 @@ public class ProdutoService {
         novoSabor.setNome(sabor.getNome());
         return novoSabor;
     }
-
 }

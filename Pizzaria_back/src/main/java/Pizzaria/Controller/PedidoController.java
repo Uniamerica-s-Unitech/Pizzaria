@@ -1,5 +1,6 @@
 package Pizzaria.Controller;
 
+import Pizzaria.DTO.MensagemDTO;
 import Pizzaria.DTO.PedidoDTO;
 import Pizzaria.Service.PedidoService;
 import jakarta.persistence.EntityNotFoundException;
@@ -38,42 +39,22 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<String> cadastrarPedido(@RequestBody PedidoDTO pedidoDTO) {
+    public ResponseEntity<MensagemDTO> cadastrarPedido(@RequestBody PedidoDTO pedidoDTO) {
         try{
             return ResponseEntity.ok(pedidoService.cadastrarPedido(pedidoDTO));
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editarPedido(@PathVariable Long id, @RequestBody PedidoDTO pedidoDTO) {
+    public ResponseEntity<MensagemDTO> editarPedido(@PathVariable Long id, @RequestBody PedidoDTO pedidoDTO) {
         try {
             return ResponseEntity.ok(pedidoService.editarPedido(id, pedidoDTO));
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }catch(Exception e){
+            MensagemDTO mensagem = new MensagemDTO(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(mensagem);
         }
     }
-
-    /* @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletar(@PathVariable Long id) {
-        try {
-            categoriaServices.deletar(id);
-            return ResponseEntity.ok("Aluno deletado com sucesso!");
-        }catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch(Exception e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
-        }
-    }*/
 }

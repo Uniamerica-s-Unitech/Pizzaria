@@ -5,6 +5,7 @@ import Pizzaria.Entiny.*;
 import Pizzaria.Repositorye.PedidoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,27 +34,16 @@ public class PedidoService {
         return pedidoRepository.findHistorico().stream().map(this::pedidoToDTO).toList();
     }
 
-    public String cadastrarPedido(PedidoDTO pedidoDTO){
+    public MensagemDTO cadastrarPedido(PedidoDTO pedidoDTO){
         Pedido pedido = toPedido(pedidoDTO);
 
         pedidoRepository.save(pedido);
-        return "pedido Cadastrada com sucesso!";
+        return new MensagemDTO("Pedido cadastrado com sucesso!", HttpStatus.CREATED);
     }
-    public String editarPedido(Long id, PedidoDTO pedidoDTO){
-        if (pedidoRepository.existsById(id)){
-            Pedido pedido = toPedido(pedidoDTO);
-
-
-            pedidoRepository.save(pedido);
-            return "pedido atualizada com sucesso!";
-
-        }else {
-            throw new IllegalArgumentException("pedido nao encontrada com o ID fornecido" + id);
-        }
-    }
-    private void desativarPedido(Pedido pedido) {
-        pedido.setAtivo(false);
+    public MensagemDTO editarPedido(Long id, PedidoDTO pedidoDTO){
+        Pedido pedido = toPedido(pedidoDTO);
         pedidoRepository.save(pedido);
+        return new MensagemDTO("Pedido atualizado com sucesso!", HttpStatus.CREATED);
     }
 
     public PedidoDTO pedidoToDTO(Pedido pedido){
@@ -77,7 +67,6 @@ public class PedidoService {
 
         return pedidoDTO;
     }
-
     public ProdutoDTO produtoToDTO(Produto produto){
 
         ProdutoDTO produtoDTO = new ProdutoDTO();
@@ -100,7 +89,6 @@ public class PedidoService {
 
         return produtoDTO;
     }
-
     public SaborDTO saborToDTO(Sabor sabor){
         SaborDTO saborDTO = new SaborDTO();
 
@@ -110,7 +98,6 @@ public class PedidoService {
 
         return saborDTO;
     }
-
     public Pedido toPedido(PedidoDTO pedidoDTO){
         Pedido novoPedido = new Pedido();
 
@@ -140,7 +127,6 @@ public class PedidoService {
 
         return novoPedido;
     }
-
     public Endereco toEndereco(Pedido novoPedido, EnderecoDTO enderecoDTO){
         Endereco novoEndereco = new Endereco();
 
@@ -151,7 +137,6 @@ public class PedidoService {
         novoEndereco.setBairro(enderecoDTO.getBairro());
         return novoEndereco;
     }
-
     public Produto toProduto(Pedido novoPedido, ProdutoDTO produtoDTO){
         Produto novoProduto = new Produto();
 
@@ -171,7 +156,6 @@ public class PedidoService {
 
         return novoProduto;
     }
-
     public Sabor toSabor(Produto novoProduto,SaborDTO saborDTO){
         Sabor novoSabor = new Sabor();
 

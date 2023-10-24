@@ -23,7 +23,6 @@ public class Cliente {
     @Column(length = 100, nullable = false)
     private String nome;
 
-
-    @OneToMany(mappedBy = "clienteId",cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy = "clienteId", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Endereco> enderecos;
 }
