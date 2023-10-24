@@ -56,7 +56,7 @@ public class SaborService {
         } else {
             desativarSabor(saborBanco);
         }
-        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
+        return new MensagemDTO("Sabor deletado com sucesso!", HttpStatus.CREATED);
     }
 
     private void desativarSabor(Sabor sabor) {

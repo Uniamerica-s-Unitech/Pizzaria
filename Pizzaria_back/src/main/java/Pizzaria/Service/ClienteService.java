@@ -69,7 +69,7 @@ public class ClienteService {
         } else {
             desativarCliente(clienteBanco);
         }
-        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
+        return new MensagemDTO("Cliente deletado com sucesso!", HttpStatus.CREATED);
     }
 
     private void desativarCliente(Cliente cliente) {

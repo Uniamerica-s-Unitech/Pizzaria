@@ -52,7 +52,7 @@ public class ProdutoService {
         } else {
             desativarProduto(produtoBanco);
         }
-        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
+        return new MensagemDTO("Produto deletado com sucesso!", HttpStatus.CREATED);
     }
 
     private void desativarProduto(Produto produto) {

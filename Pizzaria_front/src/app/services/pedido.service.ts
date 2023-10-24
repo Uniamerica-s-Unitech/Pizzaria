@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Cliente } from '../models/cliente';
 import { Mensagem } from '../models/mensagem';
+import { Pedido } from '../models/pedido';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +14,11 @@ export class PedidoService {
   constructor() { }
 
 
-  listar(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(`${this.API}` + "/lista");
+  listar(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(`${this.API}` + "/lista");
   }
 
-  save(cliente: Cliente): Observable<Mensagem> {
+  save(cliente: Pedido): Observable<Mensagem> {
     if (cliente.id) {
       // Se a pessoa já tem um ID, atualize-a
       return this.http.put<Mensagem>(this.API+"/"+`${cliente.id}`, cliente);

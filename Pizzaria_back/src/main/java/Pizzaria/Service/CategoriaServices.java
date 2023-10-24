@@ -54,7 +54,7 @@ public class CategoriaServices {
         } else {
             desativarCategoria(categoriaBanco);
         }
-        return new MensagemDTO("Não é possível", HttpStatus.CREATED);
+        return new MensagemDTO("Categoria deletada com sucesso!", HttpStatus.CREATED);
     }
 
     private void desativarCategoria(Categoria categoria) {

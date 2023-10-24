@@ -1,30 +1,30 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Produto } from '../models/produto';
 import { Mensagem } from '../models/mensagem';
+import { Categoria } from '../models/categoria';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProdutoService {
-  API: string = 'http://localhost:8080/produto';
+export class CategoriaService {
+  API: string = 'http://localhost:8080/categoria';
   http = inject(HttpClient);
 
   constructor() { }
 
 
-  listar(): Observable<Produto[]> {
-    return this.http.get<Produto[]>(`${this.API}` + "/lista");
+  listar(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(`${this.API}` + "/lista");
   }
 
-  save(produto: Produto): Observable<Mensagem> {
-    if (produto.id) {
+  save(categoria: Categoria): Observable<Mensagem> {
+    if (categoria.id) {
       // Se a pessoa já tem um ID, atualize-a
-      return this.http.put<Mensagem>(this.API+"/"+`${produto.id}`, produto);
+      return this.http.put<Mensagem>(this.API+"/"+`${categoria.id}`, categoria);
     } else {
       // Caso contrário, crie uma nova pessoa
-      return this.http.post<Mensagem>(this.API, produto);
+      return this.http.post<Mensagem>(this.API, categoria);
     }
   }
 
