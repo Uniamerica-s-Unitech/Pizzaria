@@ -1,3 +1,16 @@
 .tamanho{
     margin-left: 12%;
 }
+
+.novo{
+    background: #222427; 
+    border: 0.1rem solid #f96d00;
+}
+.novo :hover{
+    background:  #393e46;
+    
+}
+.novo:focus{
+    outline: none;
+
+}
