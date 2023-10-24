@@ -5,12 +5,15 @@ import { ClienteListaComponent } from './components/cliente/cliente-lista/client
 import { PedidoListaComponent } from './components/pedido/pedido-lista/pedido-lista.component';
 import { ProdutosListaComponent } from './components/produtos/produtos-lista/produtos-lista.component';
 import { SaboresListComponent } from './components/sabores/sabores-list/sabores-list.component';
+import { CategoriaListaComponent } from './components/categoria/categoria-lista/categoria-lista.component';
 
 const routes: Routes = [
   {path:"",component:IndexComponent,children:[
     {path:"cliente",component:ClienteListaComponent},
     {path:"pedidos",component:PedidoListaComponent},
-    {path:"produtos",component:ProdutosListaComponent},
+    {path:"produtos",component:ProdutosListaComponent, children:[
+      {path:"categoria",component:CategoriaListaComponent}
+    ]},
     {path:"sabores",component:SaboresListComponent}
   ]}
 ];
