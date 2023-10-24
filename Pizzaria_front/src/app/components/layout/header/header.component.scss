@@ -4,8 +4,15 @@
     left: 0;
     height: 100%;
     width: 12%;
-    background: #343a40;
-    color: white;
+	background: #222427; 
+    border-right: 0.2rem solid #f96d00;
+    
+}
+.imagem{
+    margin-bottom: 2rem;
+    width: 12rem ;
+    height: 10rem;
+
 }
 
 .btn-sidebar {
@@ -13,12 +20,26 @@
     text-align: left;
     padding: 10px 15px;
     border: none;
-    background: none;
-    color: white;
+	background: #f2f2f2; 
+    border-radius: 3rem;
+    border: 2px solid black;
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 18px;
+    letter-spacing: 0px;
+    word-spacing: 0px;
+    color: #f96d00;
+    font-weight: 700;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+
 }
 
+
+
 .btn-sidebar:hover {
-    background-color: #555;
+    background:  #393e46;
 }
 
 .btn-sidebar:focus {
@@ -33,3 +54,7 @@
     flex-direction: column;
     gap: 3rem;
 }
+
+
+
+

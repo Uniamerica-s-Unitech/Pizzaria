@@ -1,56 +1,59 @@
 <div class="tamanho">
-    <div class="d-flex justify-content-center">
-        <h2>Lista de Pessoas</h2>
-    </div>
-    <div class="container">
-        <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-            <button (click)="cadastrarCliente(modalCliente)" class="btn btn-success text-white">Nova Pessoa</button>
-        </div>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>#ID</th>
-                    <th>Nome</th>
-                    <th>Endereço</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let cliente of lista; let i = index">
-                    <td>{{ cliente.id }}</td>
-                    <td>{{ cliente.nome }}</td>
-                    <td>
-                        <ng-container *ngFor="let endereco of cliente.enderecos">
-                            <div class="address-details">
-                                <p>RUA: {{ endereco.rua }}, {{ endereco.numero }} ,{{ endereco.bairro }}</p>
-                            </div>
-                        </ng-container>
-                    </td>
-                    <td>
-                        <button (click)="editarCliente(modalCliente, cliente, i)" class="btn btn-primary btn-sm">Editar</button>
-                        <button (click)="excluirCliente(cliente)" class="btn btn-danger btn-sm">Deletar</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="d-flex justify-content-center">
+  <h2>Lista de Pessoas</h2>
+</div>
+<div class="container">
+  <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
+      <button (click)="cadastrarCliente(modalCliente)" class="btn novo text-white">Nova Pessoa</button>
+  </div>
+  <table class="table tabela table-hover">
+      <thead>
+          <tr>
+              <th >#ID</th>
+              <th>Nome</th>
+              <th>Endereço</th>
+              <th>Ações</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let cliente of lista; let i = index">
+              <td>{{ cliente.id }}</td>
+              <td>{{ cliente.nome }}</td>
+              <td>
+                  <ng-container *ngFor="let endereco of cliente.enderecos">
+                      <div class="address-details">
+                          <p>RUA: {{ endereco.rua }}, {{ endereco.numero }} ,{{ endereco.bairro }}</p>
+                      </div>
+                  </ng-container>
+              </td>
+              <td>
+                  <button (click)="editarCliente(modalCliente, cliente, i)" class="btn novo text-white">Editar</button>
+                  <button (click)="excluirCliente(cliente)" class="btn btn-danger btn-sm">Deletar</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</div>
 </div>
 
 
 
   
   
-<ng-template #modalCliente let-modal>
+  
+    
+    
+    <ng-template #modalCliente let-modal>
     <div class="modal-header">
-        <h4 id="h4" class="modal-title"></h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      <h4 id="h4" class="modal-title"></h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        
-            <app-cliente-detalhes [cliente]="clienteParaEditar" (retorno)="atualizarLista($event)" ></app-cliente-detalhes>
-                
+      
+          <app-cliente-detalhes [cliente]="clienteParaEditar" (retorno)="atualizarLista($event)" ></app-cliente-detalhes>
+              
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
-</ng-template>
+    </ng-template>
