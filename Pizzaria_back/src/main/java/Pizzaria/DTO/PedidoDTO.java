@@ -18,4 +18,5 @@ public class PedidoDTO {
     private List<ProdutoDTO> produtos;
     private LocalDateTime soliciatacao;
     private LocalDateTime finalizacao;
+    private Double valorTotal;
 }

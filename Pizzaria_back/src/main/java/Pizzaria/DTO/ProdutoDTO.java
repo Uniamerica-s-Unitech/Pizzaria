@@ -16,4 +16,5 @@ public class ProdutoDTO{
     private Boolean ativo = true;
     private List<SaborDTO> sabores;
     private CategoriaDTO categoriaId;
+    private Double valor;
 }

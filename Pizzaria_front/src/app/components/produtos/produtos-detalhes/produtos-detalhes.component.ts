@@ -35,9 +35,9 @@ export class ProdutosDetalhesComponent {
       next: mensagem => { // QUANDO DÁ CERTO
         this.retorno.emit(mensagem);
       },
-      error: erro => { // QUANDO DÁ ERRO
-        alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
-        console.error(erro);
+      error: (mensagem:Mensagem) => { // QUANDO DÁ ERRO
+        alert(mensagem);
+        console.error(mensagem);
       }
     });
   }

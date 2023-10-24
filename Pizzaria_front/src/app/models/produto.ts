@@ -6,4 +6,5 @@ export class Produto {
     nome!:string;
     sabores!: Sabor[];
     categoriaId!: Categoria;
+    valor!:number;
 }

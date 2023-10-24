@@ -32,4 +32,7 @@ public class Pedido  {
 
     @Column(name = "dataDeFinalizacao")
     private LocalDateTime finalizacao;
+
+    @Column(name = "valorTotal")
+    private Double valorTotal;
 }

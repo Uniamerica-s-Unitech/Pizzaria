@@ -7,4 +7,5 @@ export class Pedido {
     produtos!: Produto[];
     solicitacao!: Date;
     finalizacao!: Date;
+    valorTotal!:number;
   }

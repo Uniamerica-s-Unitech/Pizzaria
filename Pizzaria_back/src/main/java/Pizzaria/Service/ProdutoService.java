@@ -65,6 +65,7 @@ public class ProdutoService {
         produtoDTO.setId(produto.getId());
         produtoDTO.setAtivo(produto.getAtivo());
         produtoDTO.setNome(produto.getNome());
+        produtoDTO.setValor(produto.getValor());
 
         List<SaborDTO> listaEnd = new ArrayList<>();
 
@@ -89,6 +90,7 @@ public class ProdutoService {
         novoProduto.setId(produtoDTO.getId());
         novoProduto.setAtivo(produtoDTO.getAtivo());
         novoProduto.setNome(produtoDTO.getNome());
+        novoProduto.setValor(produtoDTO.getValor());
 
         List<Sabor> listaEnd = new ArrayList<>();
         if(produtoDTO.getSabores() != null)
