@@ -1,37 +1,25 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { Categoria } from 'src/app/models/categoria';
 import { Mensagem } from 'src/app/models/mensagem';
-import { Produto } from 'src/app/models/produto';
 import { CategoriaService } from 'src/app/services/categoria.service';
-import { ProdutoService } from 'src/app/services/produto.service';
 
 @Component({
-  selector: 'app-produtos-detalhes',
-  templateUrl: './produtos-detalhes.component.html',
-  styleUrls: ['./produtos-detalhes.component.scss']
+  selector: 'app-categoria-detalhes',
+  templateUrl: './categoria-detalhes.component.html',
+  styleUrls: ['./categoria-detalhes.component.scss']
 })
-export class ProdutosDetalhesComponent {
-  listaCategoria: Categoria[] = [];
-  @Input() produto:Produto = new Produto();
+export class CategoriaDetalhesComponent {
+  @Input() categoria:Categoria = new Categoria();
   @Output() retorno = new EventEmitter<Mensagem>;
 
-  produtoService = inject(ProdutoService);
   categoriaService = inject(CategoriaService);
 
-  constructor() {
-    this.listarCategorias();
-  }
-
-  listarCategorias() {
-    this.categoriaService.listar().subscribe((categorias: Categoria[]) => {
-      this.listaCategoria = categorias;
-    });
-  }
+  constructor() {}
 
   salvar() {
     //ISSO AQUI SERVE PARA EDITAR OU ADICIONAR... TANTO FAZ
 
-    this.produtoService.save(this.produto).subscribe({
+    this.categoriaService.save(this.categoria).subscribe({
       next: mensagem => { // QUANDO DÁ CERTO
         this.retorno.emit(mensagem);
       },

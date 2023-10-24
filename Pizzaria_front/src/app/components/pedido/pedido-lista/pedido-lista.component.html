@@ -1,49 +1,36 @@
 <div class="tamanho">
-    <div class="d-flex justify-content-center">
-      <h2>Lista de Pessoas</h2>
+  <div class="container">
+    <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
+      <button (click)="cadastrarPedido(modalPedido)" class="btn novo text-white">Novo Pedido</button>
     </div>
-    <div class="container">
-      <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-          <button (click)="cadastrarPedido(modalPedido)" class="btn btn-success text-white">Nova Pessoa</button>
+    <div class="card" *ngFor="let pedido of listaPedidos; let i = index">
+      <p>Pedidos:</p>
+      <div class="card-body">
+        <h5 class="card-title">
+          <button class="btn btn-link">{{ pedido.clienteId }}</button>
+          <button (click)="editarPedido(modalPedido, pedido, i)" class="btn novo text-white">Editar</button>
+        </h5>
+        <ul>
+          <li *ngFor="let produto of pedido.produtos">
+            {{ produto.nome }}
+          </li>
+        </ul>
       </div>
-      <table class="table tabla table-hover">
-          <thead>
-              <tr>
-                  <th>#ID</th>
-                  <th>Nome</th>
-                  <th>Endereço</th>
-                  <th>Ações</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let pedido of listaPedido; let i = index">
-                  <td>{{ pedido.id }}</td>
-                  <td>{{ pedido.clienteId }}</td>
-                  
-                  <td>
-                      <button (click)="editarPedido(modalPedido, pedido, i)" class="btn btn-primary btn-sm">Editar</button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
     </div>
-    </div>
-      
-      
-      
-        
+  </div>
+</div>
         
 <ng-template #modalPedido let-modal>
-    <!--<div class="modal-header">
-        <h4 id="h4" class="modal-title"></h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-        
-            <app-pedido-detalhes [pedido]="pedidoParaEditar" (retorno)="atualizarLista($event)" ></app-pedido-detalhes>
-                
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
-    </div>-->
+  <div class="modal-header">
+    <h4 id="h4" class="modal-title"></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    
+    <app-pedido-detalhes [pedido]="pedidoParaEditar" (retorno)="atualizarLista($event)" ></app-pedido-detalhes>
+            
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  </div>
 </ng-template>

@@ -59,15 +59,14 @@ export class ClienteListaComponent {
     }
 
     excluirCliente(cliente: Cliente) {
-      if (confirm(`Tem certeza de que deseja excluir ${cliente.nome}?`)) {
+      if (confirm(`Tem certeza de que deseja excluir este cliente?`)) {
         this.clienteService.deletar(cliente.id).subscribe({
-          next: () => {
+          next: (mensagem:Mensagem) => {
             this.listar(); // Atualize a lista após a exclusão
-            alert('Cliente excluída com sucesso!');
+            alert(mensagem.mensagem);
           },
-          error: (erro) => {
-            alert('Ocorreu um erro ao excluir a cliente.');
-            console.error(erro);
+          error: (mensagem:Mensagem) => {
+            alert(mensagem.mensagem);
           }
         });
       }

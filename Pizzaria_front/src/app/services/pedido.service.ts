@@ -14,8 +14,11 @@ export class PedidoService {
   constructor() { }
 
 
-  listar(): Observable<Pedido[]> {
-    return this.http.get<Pedido[]>(`${this.API}` + "/lista");
+  listarAbertos(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(`${this.API}` + "/abertos");
+  }
+  listarFinalizados(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(`${this.API}` + "/historico");
   }
 
   save(cliente: Pedido): Observable<Mensagem> {

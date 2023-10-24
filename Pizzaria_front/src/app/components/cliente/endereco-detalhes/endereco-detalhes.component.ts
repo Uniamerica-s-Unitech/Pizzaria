@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Endereco } from 'src/app/models/endereco';
-import { Mensagem } from 'src/app/models/mensagem';
 
 @Component({
   selector: 'app-endereco-detalhes',
