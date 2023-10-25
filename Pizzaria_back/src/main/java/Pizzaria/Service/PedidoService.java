@@ -63,6 +63,15 @@ public class PedidoService {
 
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setId(pedido.getClienteId().getId());
+        clienteDTO.setNome(pedido.getClienteId().getNome());
+
+        List<EnderecoDTO> listaEnd = new ArrayList<>();
+        if(pedido.getClienteId().getEnderecos() != null)
+            for(int i=0; i<pedido.getClienteId().getEnderecos().size(); i++){
+                listaEnd.add(enderecoToDTO(pedido.getClienteId().getEnderecos().get(i)));
+            }
+
+        clienteDTO.setEnderecos(listaEnd);
         pedidoDTO.setClienteId(clienteDTO);
 
         List<ProdutoDTO> listaProduto = new ArrayList<>();
@@ -106,6 +115,16 @@ public class PedidoService {
         saborDTO.setNome(sabor.getNome());
 
         return saborDTO;
+    }
+    public EnderecoDTO enderecoToDTO(Endereco endereco){
+        EnderecoDTO novoEndereco = new EnderecoDTO();
+
+        novoEndereco.setId(endereco.getId());
+        novoEndereco.setAtivo(endereco.getAtivo());
+        novoEndereco.setNumero(endereco.getNumero());
+        novoEndereco.setRua(endereco.getRua());
+        novoEndereco.setBairro(endereco.getBairro());
+        return novoEndereco;
     }
     public Pedido toPedido(PedidoDTO pedidoDTO){
         Pedido novoPedido = new Pedido();

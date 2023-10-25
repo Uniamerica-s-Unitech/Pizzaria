@@ -13,7 +13,6 @@ import { ProdutoService } from 'src/app/services/produto.service';
 })
 export class ProdutosListaComponent {
   listaCategoria: Categoria[] = [];
-  listaCproduto: Produto[] = [];
   categoriaParaEditar: Categoria = new Categoria();
   produtoParaEditar: Produto = new Produto();
   modalService = inject(NgbModal);

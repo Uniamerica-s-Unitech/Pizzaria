@@ -1,9 +1,10 @@
 import { Component ,Input,inject} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pedido } from 'src/app/models/pedido';
+import { Cliente } from 'src/app/models/cliente';
+import { Produto } from 'src/app/models/produto';
 import { Mensagem } from 'src/app/models/mensagem';
 import { PedidoService } from 'src/app/services/pedido.service';
-import { Produto } from 'src/app/models/produto';
 
 @Component({
   selector: 'app-pedido-lista',
@@ -12,28 +13,29 @@ import { Produto } from 'src/app/models/produto';
 })
 export class PedidoListaComponent {
   listaPedidos: Pedido[] = [];
-  @Input() produto:Produto = new Produto();
+  @Input() pedido:Pedido = new Pedido();
 
   pedidoParaEditar: Pedido = new Pedido();
+  produtoParaEditar: Produto = new Produto();
+  ClienteParaEditar: Cliente = new Cliente();
   indiceSelecionadoParaEdicao!: number;
+  pedidoSelecionado: number | null = null;
   
   modalService = inject(NgbModal);
   pedidoService = inject(PedidoService);
 
-  pedidoAberto: number | null = null;
 
   constructor() {
     this.listar();
   }
 
-  togglePedido(pedidoId: number) {
-    if (this.pedidoAberto === pedidoId) {
-      this.pedidoAberto = null;
+  mostrarDetalhes(pedido: number) {
+    if (this.pedidoSelecionado === pedido) {
+      this.pedidoSelecionado = null;
     } else {
-      this.pedidoAberto = pedidoId;
+      this.pedidoSelecionado = pedido;
     }
   }
-  
 
   listar(){
     this.pedidoService.listarAbertos().subscribe({
@@ -43,29 +45,29 @@ export class PedidoListaComponent {
     })
   }
 
-    cadastrarPedido(modalPedido : any){
-      this.pedidoParaEditar = new Pedido();
-      this.modalService.open(modalPedido, { size: 'md' });
-      
-      const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-      element.innerHTML = 'Cadastrar Pedido'
-    }
+  cadastrarPedido(modalPedido : any){
+    this.pedidoParaEditar = new Pedido();
+    this.modalService.open(modalPedido, { size: 'md' });
+    
+    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
+    element.innerHTML = 'Cadastrar Pedido'
+  }
 
-    editarPedido(modal: any, pedido: Pedido, indice: number) {
-      this.pedidoParaEditar = Object.assign({}, pedido); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
-      this.indiceSelecionadoParaEdicao = indice;
-  
-      this.modalService.open(modal, { size: 'md' });
+  editarPedido(modal: any, pedido: Pedido, indice: number) {
+    this.pedidoParaEditar = Object.assign({}, pedido); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+    this.indiceSelecionadoParaEdicao = indice;
 
-      const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-      element.innerHTML = 'Editar Pedido'
-    }
+    this.modalService.open(modal, { size: 'md' });
 
-    atualizarLista(mensagem: Mensagem) {
-      console.log(mensagem );
-      alert(mensagem.mensagem)
-      this.modalService.dismissAll();
-      this.listar();
-      
-    }
+    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
+    element.innerHTML = 'Editar Pedido'
+  }
+
+  atualizarLista(mensagem: Mensagem) {
+    console.log(mensagem );
+    alert(mensagem.mensagem)
+    this.modalService.dismissAll();
+    this.listar();
+    
+  }
 }
