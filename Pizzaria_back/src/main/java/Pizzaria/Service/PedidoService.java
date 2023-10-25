@@ -38,10 +38,16 @@ public class PedidoService {
         Pedido pedido = toPedido(pedidoDTO);
 
         pedidoRepository.save(pedido);
+
+
+        pedidoRepository.save(pedido);
+
         return new MensagemDTO("Pedido cadastrado com sucesso!", HttpStatus.CREATED);
     }
     public MensagemDTO editarPedido(Long id, PedidoDTO pedidoDTO){
         Pedido pedido = toPedido(pedidoDTO);
+       
+
         pedidoRepository.save(pedido);
         return new MensagemDTO("Pedido atualizado com sucesso!", HttpStatus.CREATED);
     }
@@ -171,4 +177,10 @@ public class PedidoService {
 
         return novoSabor;
     }
+
+
+
+
+
+
 }

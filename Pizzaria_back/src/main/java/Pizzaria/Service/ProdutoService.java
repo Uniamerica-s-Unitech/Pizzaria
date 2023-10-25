@@ -20,6 +20,7 @@ public class ProdutoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+
     public ProdutoDTO findProdutoById(Long id) {
         Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("produto  não encontrado!"));
@@ -126,4 +127,9 @@ public class ProdutoService {
         novoSabor.setNome(sabor.getNome());
         return novoSabor;
     }
+
+
+
+
+
 }

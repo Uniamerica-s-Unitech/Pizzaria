@@ -1,5 +1,5 @@
 <div class="tamanho">
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-start ">
         <h2>Lista de Sabores</h2>
       </div>
     
@@ -10,15 +10,15 @@
       </div>
       <table class="table  tabela  table-hover">
           <thead>
-              <tr>
+              <tr >
                   <th>Nome</th>
-                  <th>Ações</th>
+                  <th class="d-flex justify-content-center" >Ações</th>
               </tr>
           </thead>
           <tbody>
               <tr *ngFor="let sabor of lista; let i = index">
                   <td>{{ sabor.nome }}</td>
-                  <td>
+                  <td class="d-flex justify-content-center">
                       <button (click)="editarSabor(modalSabor, sabor, i)" class="btn btn-success btn-sm">Editar</button>
                       <button (click)="excluirSabor(sabor)" class="btn btn-danger btn-sm">Deletar</button>
                   </td>
