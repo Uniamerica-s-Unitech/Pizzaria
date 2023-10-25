@@ -1,5 +1,5 @@
 .tamanho{
-    margin-left: 12%;
+    margin-left: 7rem;
 }
 .btn-success{
     background: #222427; 
@@ -8,14 +8,31 @@
       margin-top: 1rem;
 
 }
+.listaPedidos{
+    display: flex;
+    justify-content: start;
+}
 h2{
     color: #f96d00;
     margin-top: 2rem;
+}
+.detalhesPedido{
+    background: #222427;
+    border: 0.1rem solid #f96d00;
+    padding: 1rem;
+    padding-top: 0px;
+    margin-top: 5rem;
+    margin-left: 4rem;
 }
 
 .btn-success :hover{
     background:  #393e46;
     
+}
+.btn-link{
+    text-decoration:dotted;
+    font-weight: bold;
+    color: #cbcdcf;
 }
 .btn-success:focus{
     outline: none;
@@ -26,5 +43,9 @@ h2{
 th{
     border: 0.1rem solid #f96d00;
 
+}
+.li_lista{
+    background: #222427;
+    border: 0.1rem solid #f96d00;
 }
 p ,h2 {color: #f96d00;}
