@@ -3,6 +3,8 @@ import { Sabor } from "./sabor";
 
 export class Produto {
     id!: number;
+    nome!:string;
     sabores!: Sabor[];
-    categoria!: Categoria;
+    categoriaId!: Categoria[];
+    valor!:number
 }

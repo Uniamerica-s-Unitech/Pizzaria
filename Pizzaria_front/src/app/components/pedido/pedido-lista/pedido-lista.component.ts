@@ -1,8 +1,9 @@
-import { Component ,inject} from '@angular/core';
+import { Component ,Input,inject} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Mensagem } from 'src/app/models/mensagem';
 import { Pedido } from 'src/app/models/pedido';
+import { Mensagem } from 'src/app/models/mensagem';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { Produto } from 'src/app/models/produto';
 
 @Component({
   selector: 'app-pedido-lista',
@@ -10,7 +11,8 @@ import { PedidoService } from 'src/app/services/pedido.service';
   styleUrls: ['./pedido-lista.component.scss']
 })
 export class PedidoListaComponent {
-  listaPedido: Pedido[] = [];
+  listaPedidos: Pedido[] = [];
+  @Input() produto:Produto = new Produto();
 
   pedidoParaEditar: Pedido = new Pedido();
   indiceSelecionadoParaEdicao!: number;
@@ -18,15 +20,25 @@ export class PedidoListaComponent {
   modalService = inject(NgbModal);
   pedidoService = inject(PedidoService);
 
+  pedidoAberto: number | null = null;
+
   constructor() {
     this.listar();
+  }
+
+  togglePedido(pedidoId: number) {
+    if (this.pedidoAberto === pedidoId) {
+      this.pedidoAberto = null;
+    } else {
+      this.pedidoAberto = pedidoId;
+    }
   }
   
 
   listar(){
-    this.pedidoService.listar().subscribe({
-      next: listaPedido => {
-        this.listaPedido = listaPedido;
+    this.pedidoService.listarAbertos().subscribe({
+      next: listaPedidos => {
+        this.listaPedidos = listaPedidos;
       }
     })
   }

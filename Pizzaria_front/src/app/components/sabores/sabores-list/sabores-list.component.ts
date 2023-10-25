@@ -60,12 +60,12 @@ export class SaboresListComponent {
     excluirSabor(sabor: Sabor) {
       if (confirm(`Tem certeza de que deseja excluir este sabor?`)) {
         this.saborService.deletar(sabor.id).subscribe({
-          next: () => {
+          next: (mensagem:Mensagem) => {
             this.listar(); // Atualize a lista após a exclusão
+            alert(mensagem.mensagem);
           },
-          error: (erro) => {
-            alert('Ocorreu um erro ao excluir a sabor.');
-            console.error(erro);
+          error: (mensagem:Mensagem) => {
+            alert(mensagem.mensagem);
           }
         });
       }

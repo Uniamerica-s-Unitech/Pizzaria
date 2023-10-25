@@ -8,7 +8,7 @@ import { ClienteListaComponent } from './components/cliente/cliente-lista/client
 import { ClienteDetalhesComponent } from './components/cliente/cliente-detalhes/cliente-detalhes.component';
 import { PedidoDetalhesComponent } from './components/pedido/pedido-detalhes/pedido-detalhes.component';
 import { PedidoListaComponent } from './components/pedido/pedido-lista/pedido-lista.component';
-import { EnderecoDetalhesComponent } from './components/endereco/endereco-detalhes/endereco-detalhes.component';
+import { EnderecoDetalhesComponent } from './components/cliente/endereco-detalhes/endereco-detalhes.component';
 import { ProdutosListaComponent } from './components/produtos/produtos-lista/produtos-lista.component';
 import { ProdutosDetalhesComponent } from './components/produtos/produtos-detalhes/produtos-detalhes.component';
 import { SaboresListComponent } from './components/sabores/sabores-list/sabores-list.component';
@@ -18,6 +18,7 @@ import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { CategoriaDetalhesComponent } from './components/produtos/categoria-detalhes/categoria-detalhes.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
     SaboresDetalhesComponent,
     IndexComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    CategoriaDetalhesComponent
   ],
   imports: [
     BrowserModule,

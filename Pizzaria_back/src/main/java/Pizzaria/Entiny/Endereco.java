@@ -26,7 +26,7 @@ public class Endereco {
     @Column(name = "numero", length = 100,nullable = false)
     private int numero;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     @JsonIgnoreProperties("clienteId")
     private Cliente clienteId;

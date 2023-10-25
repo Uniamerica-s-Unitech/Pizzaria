@@ -53,6 +53,7 @@ public class PedidoService {
         pedidoDTO.setAtivo(pedido.getAtivo());
         pedidoDTO.setSoliciatacao(pedido.getSoliciatacao());
         pedidoDTO.setFinalizacao(pedido.getFinalizacao());
+        pedidoDTO.setValorTotal(pedido.getValorTotal());
 
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setId(pedido.getClienteId().getId());
@@ -73,6 +74,8 @@ public class PedidoService {
 
         produtoDTO.setId(produto.getId());
         produtoDTO.setAtivo(produto.getAtivo());
+        produtoDTO.setNome(produto.getNome());
+        produtoDTO.setValor(produto.getValor());
 
         List<SaborDTO>  listaSabor = new ArrayList<>();
         if(produto.getSabores() != null)
@@ -105,6 +108,7 @@ public class PedidoService {
         novoPedido.setAtivo(pedidoDTO.getAtivo());
         novoPedido.setSoliciatacao(pedidoDTO.getSoliciatacao());
         novoPedido.setFinalizacao(pedidoDTO.getFinalizacao());
+        novoPedido.setValorTotal(pedidoDTO.getValorTotal());
 
             Cliente cliente = new Cliente();
             cliente.setId(pedidoDTO.getClienteId().getId());
@@ -142,6 +146,8 @@ public class PedidoService {
 
         novoProduto.setId(produtoDTO.getId());
         novoProduto.setAtivo(produtoDTO.getAtivo());
+        novoProduto.setNome(produtoDTO.getNome());
+        novoProduto.setValor(produtoDTO.getValor());
         List<Sabor>  listaSabor = new ArrayList<>();
         if(produtoDTO.getSabores() != null)
             for(int i=0; i<produtoDTO.getSabores().size(); i++) {

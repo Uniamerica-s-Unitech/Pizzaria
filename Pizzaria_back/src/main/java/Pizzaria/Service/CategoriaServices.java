@@ -53,8 +53,8 @@ public class CategoriaServices {
             return new MensagemDTO("Não é possível excluir esse categoria tem produto ativo.", HttpStatus.CREATED);
         } else {
             desativarCategoria(categoriaBanco);
+            return new MensagemDTO("Categoria deletada com sucesso!", HttpStatus.CREATED);
         }
-        return new MensagemDTO("Categoria deletada com sucesso!", HttpStatus.CREATED);
     }
 
     private void desativarCategoria(Categoria categoria) {
@@ -102,6 +102,7 @@ public class CategoriaServices {
 
         novoProduto.setId(produtoDTO.getId());
         novoProduto.setAtivo(produtoDTO.getAtivo());
+        novoProduto.setNome(produtoDTO.getNome());
         List<Sabor>  listaSabor = new ArrayList<>();
         if(produtoDTO.getSabores() != null)
             for(int i=0; i<produtoDTO.getSabores().size(); i++) {
@@ -121,9 +122,12 @@ public class CategoriaServices {
 
         novoProduto.setId(produto.getId());
         novoProduto.setAtivo(produto.getAtivo());
+        novoProduto.setNome(produto.getNome());
 
         CategoriaDTO categoriaDTO = new CategoriaDTO();
         categoriaDTO.setId(produto.getCategoriaId().getId());
+        categoriaDTO.setAtivo(produto.getCategoriaId().getAtivo());
+        categoriaDTO.setNome(produto.getCategoriaId().getNome());
 
         novoProduto.setCategoriaId(categoriaDTO);
 
