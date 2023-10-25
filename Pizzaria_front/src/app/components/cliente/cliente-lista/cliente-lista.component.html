@@ -1,15 +1,14 @@
 <div class="tamanho">
 <div class="d-flex justify-content-center">
-  <h2>Lista de Pessoas</h2>
+  <h2>Lista de Clientes</h2>
 </div>
 <div class="container">
   <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-      <button (click)="cadastrarCliente(modalCliente)" class="btn novo text-white">Nova Pessoa</button>
+      <button (click)="cadastrarCliente(modalCliente)" class="btn novo text-white">Novo Cliente</button>
   </div>
   <table class="table tabela table-hover">
       <thead>
           <tr>
-              <th >#ID</th>
               <th>Nome</th>
               <th>Endereço</th>
               <th>Ações</th>
@@ -17,12 +16,11 @@
       </thead>
       <tbody>
           <tr *ngFor="let cliente of lista; let i = index">
-              <td>{{ cliente.id }}</td>
               <td>{{ cliente.nome }}</td>
               <td>
                   <ng-container *ngFor="let endereco of cliente.enderecos">
                       <div class="address-details">
-                          <p> {{ endereco.rua }},<br>{{ endereco.numero }}</p>
+                          <p > Rua: {{ endereco.rua }},<br> Numero: {{ endereco.numero }}</p>
                       </div>
                   </ng-container>
               </td>
@@ -35,14 +33,7 @@
   </table>
 </div>
 </div>
-
-
-
   
-  
-  
-    
-    
     <ng-template #modalCliente let-modal>
     <div class="modal-header modal-style ">
       <h4 id="h4" class="modal-title"></h4>

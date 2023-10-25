@@ -3,6 +3,8 @@
     border: 0.1rem solid #f96d00;
       transition-duration: 0.4s;
       margin-right: 1rem;
+      margin-top: 0.5rem;
+
 
 }
 .novo :hover{
@@ -16,6 +18,12 @@
     border: 0.2rem solid #f96d00;
 
 }
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 th{
     border: 0.1rem solid #f96d00;
 

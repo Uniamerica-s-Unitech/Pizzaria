@@ -43,7 +43,7 @@ export class ClienteDetalhesComponent {
     this.enderecoParaEditar.id = -1;
     this.modalRef = this.modalService.open(modalEndereco, { size: 'sm' });
     
-    this.tituloModal = "Cadastrar Cliente";
+    this.tituloModal = "Cadastrar Endereço";
   }
 
   editarEndereco(modal: any, endereco: Endereco, indice: number) {

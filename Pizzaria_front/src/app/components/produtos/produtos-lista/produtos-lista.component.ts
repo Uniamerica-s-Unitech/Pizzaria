@@ -89,7 +89,7 @@ export class ProdutosListaComponent {
     this.modalService.open(modalProduto, { size: 'md' });
 
     const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-    element.innerHTML = 'Cadastrar Categoria'
+    element.innerHTML = 'Cadastrar Produto'
   }
 
   editarProduto(modal: any, produto: Produto, indice: number) {
@@ -99,7 +99,7 @@ export class ProdutosListaComponent {
     this.modalService.open(modal, { size: 'md' });
 
     const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-    element.innerHTML = 'Editar Categoria'
+    element.innerHTML = 'Editar Produto'
   }
 
   excluirProduto(produto: Produto,index:number) {

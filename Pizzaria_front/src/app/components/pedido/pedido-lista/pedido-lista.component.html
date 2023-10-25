@@ -1,5 +1,8 @@
 <div class="container tamanho">
   <div class="row">
+<div class="tamanho">
+  <h2>Lista de Pedidos</h2>
+  <div class="container">
     <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
       <button (click)="cadastrarPedido(modalPedido)" class="btn btn-success text-white">Novo Pedido</button>
     </div>
@@ -53,6 +56,6 @@
             
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
