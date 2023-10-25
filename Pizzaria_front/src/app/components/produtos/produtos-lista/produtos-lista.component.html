@@ -6,17 +6,17 @@
     </div>
     <div class="card style-categorias" *ngFor="let categoria of listaCategoria; let i = index">
       <div class="card-body">
-        <h5 class="card-title w-100 ">
+        <button class="card-title w-100" (click)="toggleCategoria(categoria.id)">
           <div class="d-flex justify-content-between  w-100">
             <div class="text-left">
-              <button  class="btn style-text" (click)="toggleCategoria(categoria.id)">{{ categoria.nome }}</button>
+              <button  class="btn style-text" >{{ categoria.nome }}</button>
             </div>
             <div class="text-right">
               <button (click)="editarCategoria(modalCategoria, categoria, i)" class="btn btn-success btn-sm">Editar</button>
               <button (click)="excluirCategoria(categoria)" class="btn btn-danger btn-sm">Deletar</button>
             </div>
           </div>
-        </h5>
+        </button>
         <h6>Produtos relacionados a {{ categoria.nome }}:</h6>
         <ul *ngIf="categoriaAberta === categoria.id">
           <li *ngFor="let produto of categoria.produtos">

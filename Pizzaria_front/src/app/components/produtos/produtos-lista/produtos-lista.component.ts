@@ -35,7 +35,7 @@ export class ProdutosListaComponent {
       this.categoriaAberta = categoriaId;
     }
   }
-  
+
 
   listar(){
     this.categoriaService.listar().subscribe({
@@ -48,7 +48,7 @@ export class ProdutosListaComponent {
   cadastrarCategoria(modalCategoria : any){
     this.categoriaParaEditar = new Categoria();
     this.modalService.open(modalCategoria, { size: 'md' });
-    
+
     const element: HTMLElement = document.getElementById('h4') as HTMLElement 
     element.innerHTML = 'Cadastrar Categoria'
   }
@@ -68,7 +68,7 @@ export class ProdutosListaComponent {
     alert(mensagem.mensagem)
     this.modalService.dismissAll();
     this.listar();
-    
+
   }
 
   excluirCategoria(categoria: Categoria) {
@@ -88,7 +88,7 @@ export class ProdutosListaComponent {
   cadastrarProduto(modalProduto : any){
     this.produtoParaEditar = new Produto();
     this.modalService.open(modalProduto, { size: 'md' });
-    
+
     const element: HTMLElement = document.getElementById('h4') as HTMLElement 
     element.innerHTML = 'Cadastrar Categoria'
   }
@@ -110,7 +110,7 @@ export class ProdutosListaComponent {
           alert(mensagem.mensagem);
           this.editarCategoriaExcluirProduto(produto);
           this.listar(); // Atualize a lista após a exclusão
-          
+
         },
         error: (mensagem:Mensagem) => {
           alert(mensagem.mensagem);
@@ -122,14 +122,14 @@ export class ProdutosListaComponent {
   editarCategoriaExcluirProduto(produto: Produto) {
     // Encontre a categoria relacionada ao produto que você está excluindo
     const categoria = this.listaCategoria.find(item => item.produtos.some(produtoId => produtoId.id === produto.id));
-  
+
     if (categoria) {
       // Edite a categoria para remover o produto da lista de produtos
       const produtoIndex = categoria.produtos.findIndex(produtoId => produtoId.id === produto.id);
       if (produtoIndex !== -1) {
         categoria.produtos.splice(produtoIndex, 1);
       }
-  
+
       // Agora, você pode chamar o serviço para editar a categoria no backend
       this.categoriaService.save(categoria).subscribe({
         next: () => {
