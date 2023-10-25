@@ -102,6 +102,8 @@ public class ProdutoService {
 
         Categoria categoria = new Categoria();
         categoria.setId(produtoDTO.getCategoriaId().getId());
+        categoria.setAtivo(produtoDTO.getCategoriaId().getAtivo());
+        categoria.setNome(produtoDTO.getCategoriaId().getNome());
 
         novoProduto.setCategoriaId(categoria);
 

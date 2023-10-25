@@ -6,9 +6,10 @@
     <div class="mb-3">
       <label for="categoria" class="form-label">Categoria:</label>
       <select class="form-select" name="categoria" [(ngModel)]="produto.categoriaId">
-        <option *ngFor="let categoria of listaCategoria" [value]="produto.categoriaId">{{ categoria.nome }}</option>
+        <option *ngFor="let categoria of listaCategorias" [ngValue]="categoria">{{ categoria.nome }}</option>
       </select>
     </div>
+
     <div class="mb-3">
       <label for="exampleInputNumber1" class="form-label">Valor:</label>
       <input type="number" class="form-control" name="exampleInputNumber1" [(ngModel)]="produto.valor">

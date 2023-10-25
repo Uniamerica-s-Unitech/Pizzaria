@@ -5,6 +5,6 @@ export class Produto {
     id!: number;
     nome!:string;
     sabores!: Sabor[];
-    categoriaId!: Categoria;
-    valor!:number;
+    categoriaId!: Categoria[];
+    valor!:number
 }
