@@ -40,8 +40,6 @@ export class ProdutosDetalhesComponent {
 
   salvar() {
     //ISSO AQUI SERVE PARA EDITAR OU ADICIONAR... TANTO FAZ
-    console.log("Valor de categoriaId:", this.produto.categoriaId);
-    
     this.produtoService.save(this.produto).subscribe({
       next: mensagem => { // QUANDO DÁ CERTO
         this.retorno.emit(mensagem);
