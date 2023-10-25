@@ -4,18 +4,28 @@
       <button (click)="cadastrarCategoria(modalCategoria)" class="btn btn-success text-white">Nova Categoria</button>
       <button (click)="cadastrarProduto(modalProduto)" class="btn btn-success text-white">Novo Produto</button>
     </div>
-    <div class="card" *ngFor="let categoria of listaCategoria; let i = index">
+    <div class="card style-categorias" *ngFor="let categoria of listaCategoria; let i = index">
       <div class="card-body">
-        <h5 class="card-title">
-          <button (click)="toggleCategoria(categoria.id)" class="btn btn-link">{{ categoria.nome }}</button>
-          <button (click)="editarCategoria(modalCategoria, categoria, i)" class="btn btn-primary btn-sm">Editar</button>
-          <button (click)="excluirCategoria(categoria)" class="btn btn-danger btn-sm">Deletar</button>
+
+        <h5 class="card-title w-100 ">
+          
+          <div class="d-flex justify-content-between  w-100">
+            <div class="text-left">
+              <button  class="btn style-text">{{ categoria.nome }}</button>
+  
+            </div>
+            <div class="text-right">
+              <button (click)="editarCategoria(modalCategoria, categoria, i)" class="btn btn-success btn-sm">Editar</button>
+              <button (click)="excluirCategoria(categoria)" class="btn btn-danger btn-sm">Deletar</button>
+            </div>
+          </div>
+          
+       
         </h5>
-        <h6>Produtos relacionados a {{ categoria.nome }}:</h6>
         <ul *ngIf="categoriaAberta === categoria.id">
           <li *ngFor="let produto of categoria.produtos">
             {{ produto.nome }}
-            <button (click)="editarProduto(modalProduto, produto, i)" class="btn btn-primary btn-sm">Editar</button>
+            <button (click)="editarProduto(modalProduto, produto, i)" class="btn btn-success btn-sm">Editar</button>
             <button (click)="excluirProduto(produto,i)" class="btn btn-danger btn-sm">Deletar</button>
           </li>
         </ul>

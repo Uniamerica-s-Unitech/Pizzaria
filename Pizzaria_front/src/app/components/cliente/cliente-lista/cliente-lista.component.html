@@ -22,7 +22,7 @@
               <td>
                   <ng-container *ngFor="let endereco of cliente.enderecos">
                       <div class="address-details">
-                          <p>RUA: {{ endereco.rua }}, {{ endereco.numero }} ,{{ endereco.bairro }}</p>
+                          <p> {{ endereco.rua }},<br>{{ endereco.numero }}</p>
                       </div>
                   </ng-container>
               </td>
@@ -44,16 +44,16 @@
     
     
     <ng-template #modalCliente let-modal>
-    <div class="modal-header">
+    <div class="modal-header modal-style ">
       <h4 id="h4" class="modal-title"></h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body modal-style">
       
           <app-cliente-detalhes [cliente]="clienteParaEditar" (retorno)="atualizarLista($event)" ></app-cliente-detalhes>
               
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    <div class="modal-footer modal-style">
+      <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
     </div>
     </ng-template>

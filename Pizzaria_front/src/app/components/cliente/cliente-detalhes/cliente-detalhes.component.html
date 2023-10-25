@@ -1,5 +1,6 @@
-<form (ngSubmit)="salvar()" class="mb-3">
-    <div class="mb-3">
+
+<form  (ngSubmit)="salvar()" class="mb-3">
+    <div class="mb-3 " >
       <label for="exampleInputText1" class="form-label">Nome:</label>
       <input type="text" class="form-control" name="exampleInputText1" [(ngModel)]="cliente.nome">
     </div>
@@ -13,7 +14,6 @@
       <table class="table table-bordered table-hover">
           <thead>
               <tr>
-                  <th>#ID</th>
                   <th>Rua</th>
                   <th>Bairro</th>
                   <th>Numero</th>
@@ -44,16 +44,16 @@
 
 
 <ng-template #modalEndereco let-modal>
-  <div class="modal-header">
+  <div class="modal-header ">
     <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body ">
     
         <app-endereco-detalhes [endereco]="enderecoParaEditar" (retorno)="atualizarLista($event)" ></app-endereco-detalhes>
             
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+  <div class="modal-footer ">
+    <button type="button" class="btn btn-danger " (click)="modal.close('Close click')">Close</button>
   </div>
   </ng-template>
