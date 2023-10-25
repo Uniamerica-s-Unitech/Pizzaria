@@ -3,7 +3,7 @@
     border: 0.1rem solid #f96d00;
       transition-duration: 0.4s;
       margin-right: 1rem;
-
+      margin-top: 0.5rem;
 }
 .novo :hover{
     background:  #393e46;
@@ -18,9 +18,27 @@
 }
 th{
     border: 0.1rem solid #f96d00;
-
+    background: #222427;
+    color: #f96d00;
 }
 td{
     border: 0.1rem solid #f96d00;
+    background: #222427;
+    color: #f96d00;
+}
+.modal-footer{
+    background: #222427; 
+    border: 0.1rem solid #f96d00;
+    color: #f96d00;
+}
+.modal-body{
+    background: #222427; 
+    border: 0.1rem solid #f96d00;
+    color: #f96d00;
 
+}
+.modal-header{
+    background: #222427; 
+    border: 0.1rem solid #f96d00;
+    color: #f96d00;
 }

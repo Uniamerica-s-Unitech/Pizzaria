@@ -12,6 +12,11 @@
       margin-right: 0.5rem;
 
 }
+h2{
+    color: #f96d00;
+    margin-top: 2rem;
+}
+
 .btn-success :hover{
     background:  #393e46;
     
@@ -20,15 +25,16 @@
     outline: none;
 }
 .tabela{
-    border: 0.2rem solid #f96d00;
+    border: 0.1rem solid #f96d00;
     background: #222427;
     color: #f96d00;
+    width: 40rem;
 }
 th{
     border: 0.1rem solid #f96d00;
     background: #222427;
     color: #f96d00;
-
+    width: 20rem;
 }
 td{
     border: 0.1rem solid #f96d00;
