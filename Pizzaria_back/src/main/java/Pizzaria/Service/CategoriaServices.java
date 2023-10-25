@@ -103,6 +103,7 @@ public class CategoriaServices {
         novoProduto.setId(produtoDTO.getId());
         novoProduto.setAtivo(produtoDTO.getAtivo());
         novoProduto.setNome(produtoDTO.getNome());
+        novoProduto.setValor(produtoDTO.getValor());
         List<Sabor>  listaSabor = new ArrayList<>();
         if(produtoDTO.getSabores() != null)
             for(int i=0; i<produtoDTO.getSabores().size(); i++) {
@@ -123,6 +124,7 @@ public class CategoriaServices {
         novoProduto.setId(produto.getId());
         novoProduto.setAtivo(produto.getAtivo());
         novoProduto.setNome(produto.getNome());
+        novoProduto.setValor(produto.getValor());
 
         CategoriaDTO categoriaDTO = new CategoriaDTO();
         categoriaDTO.setId(produto.getCategoriaId().getId());
