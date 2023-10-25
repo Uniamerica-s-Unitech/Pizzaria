@@ -1,24 +1,46 @@
-<div class="tamanho">
-  <div class="container">
+<div class="container tamanho">
+  <div class="row">
     <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-      <button (click)="cadastrarPedido(modalPedido)" class="btn novo text-white">Novo Pedido</button>
+      <button (click)="cadastrarPedido(modalPedido)" class="btn btn-success text-white">Novo Pedido</button>
     </div>
-    <div class="card" *ngFor="let pedido of listaPedidos; let i = index">
-      <p>Pedidos:</p>
-      <div class="card-body">
-        <h5 class="card-title">
-          <button class="btn btn-link">{{ pedido.clienteId }}</button>
-          <button (click)="editarPedido(modalPedido, pedido, i)" class="btn novo text-white">Editar</button>
-        </h5>
+    <div class="col-md-3">
+      <h2>Listagem de Pedidos</h2>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let pedido of listaPedidos">
+          <button class="btn btn-link" (click)="mostrarDetalhes(pedido.id)">{{ pedido.id }}</button>
+        </li>
+      </ul>
+    </div>
+    <div *ngFor="let pedido of listaPedidos">
+      <div *ngIf="pedidoSelecionado === pedido.id">
+        <h2>Detalhes do Pedido</h2>
+        <p>ID: {{ pedido.id }}</p>
+        <p>Cliente: {{ pedido.clienteId.nome}}</p>
         <ul>
-          <li *ngFor="let produto of pedido.produtos">
-            {{ produto.nome }}
+          <li *ngFor="let cliente of pedido.clienteId.enderecos">
+            <p>Endereço: {{ cliente.rua }},{{ cliente.bairro}},{{cliente.numero}}</p>
           </li>
         </ul>
+        <ul>
+          <li *ngFor="let produto of pedido.produtos">
+            <p>Item: {{ produto.nome }} R$ {{ produto.valor}}</p>
+            <h4>Sabores</h4>
+            <ul>
+              <li *ngFor="let sabor of produto.sabores">
+                <p>Nome do Sabor: {{ sabor.nome }}</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        
+        <p>Data de Solicitação: {{ pedido.solicitacao | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p>Valor Total: R$ {{ pedido.valorTotal }}</p>
       </div>
     </div>
   </div>
 </div>
+
+
         
 <ng-template #modalPedido let-modal>
   <div class="modal-header">
@@ -34,4 +56,3 @@
     <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
-

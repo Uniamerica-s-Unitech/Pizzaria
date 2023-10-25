@@ -1,5 +1,3 @@
-import { Cliente } from "./cliente";
-
 export class Endereco {
     id!: number;
     bairro!: string;
