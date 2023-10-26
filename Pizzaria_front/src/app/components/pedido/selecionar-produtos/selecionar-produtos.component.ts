@@ -1,9 +1,6 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { Mensagem } from 'src/app/models/mensagem';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Produto } from 'src/app/models/produto';
-import { Sabor } from 'src/app/models/sabor';
 import { ProdutoService } from 'src/app/services/produto.service';
-import { SaborService } from 'src/app/services/sabor.service';
 
 @Component({
   selector: 'app-selecionar-produtos',
@@ -12,13 +9,13 @@ import { SaborService } from 'src/app/services/sabor.service';
 })
 export class SelecionarProdutosComponent {
   @Input() produto: Produto = new Produto();
-  @Output() retorno = new EventEmitter<Produto>;
+  @Output() retorno = new EventEmitter<Produto>();
 
-  produtoService = inject(ProdutoService);
-
+  produtoService: ProdutoService;
   listaProdutos: Produto[] = [];
 
-  constructor() {
+  constructor(produtoService: ProdutoService) {
+    this.produtoService = produtoService;
     this.carregarProdutos();
   }
 
@@ -29,13 +26,9 @@ export class SelecionarProdutosComponent {
       }
     });
   }
-  salvar() {
-    this.produto.id = this.produto.id;
-    this.produto.nome = this.produto.nome;
-    this.produto.valor = this.produto.valor;
-    this.produto.sabores = this.produto.sabores;
 
+  salvar() {
+    // Não emita o produto diretamente, apenas mantenha-o no componente pai
     this.retorno.emit(this.produto);
   }
-  
 }

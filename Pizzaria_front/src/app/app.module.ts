@@ -19,6 +19,7 @@ import { FooterComponent } from './components/layout/footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoriaDetalhesComponent } from './components/produtos/categoria-detalhes/categoria-detalhes.component';
+import { SelecionarProdutosComponent } from './components/pedido/selecionar-produtos/selecionar-produtos.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CategoriaDetalhesComponent } from './components/produtos/categoria-deta
     IndexComponent,
     HeaderComponent,
     FooterComponent,
-    CategoriaDetalhesComponent
+    CategoriaDetalhesComponent,
+    SelecionarProdutosComponent
   ],
   imports: [
     BrowserModule,
