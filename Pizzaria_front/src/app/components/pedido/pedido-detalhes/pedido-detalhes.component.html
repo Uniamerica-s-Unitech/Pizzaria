@@ -9,7 +9,7 @@
     <label for="endereco" class="form-label">Endereço:</label>
     <select class="form-select" name="endereco" [(ngModel)]="enderecoSelecionado" [disabled]="!pedido.clienteId">
       <ng-container *ngIf="pedido.clienteId">
-        <option *ngFor="let endereco of pedido.clienteId.enderecos" [ngValue]="endereco">{{ endereco.rua }}, {{ endereco.bairro }}</option>
+        <option *ngFor="let endereco of pedido.clienteId.enderecos" [ngValue]="endereco.id">{{ endereco.rua }}, {{ endereco.bairro }}</option>
       </ng-container>
     </select>
   </div>
@@ -22,7 +22,6 @@
             <tr>
                 <th>Nome</th>
                 <th>Valor</th>
-                <th>Sabores</th>
                 <th>Açoes</th>
             </tr>
         </thead>
@@ -30,7 +29,6 @@
             <tr *ngFor="let produto of pedido.produtos; let i = index">
                 <td>{{ produto.nome }}</td>
                 <td>{{ produto.valor}}</td>
-                <td>{{ produto.sabores}}</td>
                 <td>
                     <button type="button" (click)="editarProduto(modalListaProdutos, produto, i)" class="btn btn-success text-white">Editar</button>
                     <button type="button" (click)="excluirProduto(i)" class="btn btn-danger btn-sm">Deletar</button>

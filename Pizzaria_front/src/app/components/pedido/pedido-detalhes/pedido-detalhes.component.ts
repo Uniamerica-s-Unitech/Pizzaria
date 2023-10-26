@@ -1,5 +1,7 @@
-import { Component,EventEmitter,Input,Output,inject} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment-timezone';
+import 'moment-timezone';
 import { Cliente } from 'src/app/models/cliente';
 import { Endereco } from 'src/app/models/endereco';
 import { Mensagem } from 'src/app/models/mensagem';
@@ -15,8 +17,8 @@ import { SaborService } from 'src/app/services/sabor.service';
   styleUrls: ['./pedido-detalhes.component.scss']
 })
 export class PedidoDetalhesComponent {
-  @Input() pedido:Pedido = new Pedido();
-  @Output() retorno = new EventEmitter<Mensagem>;
+  @Input() pedido: Pedido = new Pedido();
+  @Output() retorno = new EventEmitter<Mensagem>();
 
   pedidoService = inject(PedidoService);
   saborService = inject(SaborService);
@@ -31,14 +33,13 @@ export class PedidoDetalhesComponent {
   tituloModal!: string;
   enderecoSelecionado: Endereco | null = null;
 
-
   constructor() {
     this.carregarClientes();
   }
 
-  carregarClientes(){
+  carregarClientes() {
     this.clienteService.listar().subscribe({
-      next: lista => { // QUANDO DÁ CERTO
+      next: lista => {
         this.listaClientes = lista;
       }
     });
@@ -46,55 +47,46 @@ export class PedidoDetalhesComponent {
 
   carregarEnderecos() {
     if (this.pedido.clienteId && this.pedido.clienteId.enderecos) {
-      // Defina os endereços do cliente selecionado no pedido
       this.pedido.clienteId.enderecos = this.pedido.clienteId.enderecos;
-      console.log('Endereços carregados:', this.pedido.clienteId.enderecos);
     } else {
-      // Limpe os endereços do cliente no pedido se nenhum cliente estiver selecionado
       this.pedido.clienteId.enderecos = [];
     }
   }
 
-
-  adicionarProduto(modalListaProdutos : any){
+  adicionarProduto(modalListaProdutos: any) {
     this.produtoParaEditar = new Produto();
     this.produtoParaEditar.id = -1;
     this.modalRef = this.modalService.open(modalListaProdutos, { size: 'sm' });
-    
-    this.modalRef.result.then((produtoSelecionado: Produto) => {
-      // Aqui você recebe o produto selecionado do modal e pode adicioná-lo ao seu pedido
-      if (produtoSelecionado) {
-        this.pedido.produtos.push(produtoSelecionado);
-      }
-    });
 
     this.tituloModal = "Adicionar Produto";
   }
 
   atualizarLista(produto: Produto) {
 
-    if(this.pedido.produtos == null)
-    this.pedido.produtos = [];
+    if (this.pedido.produtos == null) this.pedido.produtos = [];
 
-    if(produto.id >= 0){
+    this.pedido.produtos.push(Object.assign({}, produto));
+
+    /*if (produto.id >= 0) {
       let index = this.pedido.produtos.findIndex(item => produto.id === item.id);
       this.pedido.produtos[index] = Object.assign({}, produto);
-    }else{
-      produto.id = 0;
+    } else if (produto.id < 0) {
+      produto.id = 0; 
       this.pedido.produtos.push(Object.assign({}, produto));
-    }
+    }  */
+    console.log(this.pedido);
 
     this.modalRef.dismiss();
   }
 
   salvar() {
-    //ISSO AQUI SERVE PARA EDITAR OU ADICIONAR... TANTO FAZ
-
+    let dataAtual = moment.tz('America/Brasilia ');
+    this.pedido.solicitacao = dataAtual.toDate();
     this.pedidoService.save(this.pedido).subscribe({
-      next: mensagem => { // QUANDO DÁ CERTO
+      next: mensagem => {
         this.retorno.emit(mensagem);
       },
-      error: erro => { // QUANDO DÁ ERRO
+      error: erro => {
         alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
         console.error(erro);
       }
@@ -102,7 +94,7 @@ export class PedidoDetalhesComponent {
   }
 
   editarProduto(modal: any, produto: Produto, indice: number) {
-    this.produtoParaEditar = Object.assign({}, produto); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+    this.produtoParaEditar = Object.assign({}, produto);
     this.indiceSelecionadoParaEdicao = indice;
 
     this.modalRef = this.modalService.open(modal, { size: 'sm' });
@@ -110,7 +102,7 @@ export class PedidoDetalhesComponent {
     this.tituloModal = "Editar Produto";
   }
 
-  excluirProduto(index : number) {
-    this.pedido.produtos.splice(index , 1);
+  excluirProduto(index: number) {
+    this.pedido.produtos.splice(index, 1);
   }
 }
