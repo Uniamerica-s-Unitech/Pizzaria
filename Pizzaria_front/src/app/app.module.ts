@@ -20,6 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoriaDetalhesComponent } from './components/produtos/categoria-detalhes/categoria-detalhes.component';
 import { SelecionarProdutosComponent } from './components/pedido/selecionar-produtos/selecionar-produtos.component';
+import { HistoricoPedidosComponent } from './components/pedido/historico-pedidos/historico-pedidos.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { SelecionarProdutosComponent } from './components/pedido/selecionar-prod
     HeaderComponent,
     FooterComponent,
     CategoriaDetalhesComponent,
-    SelecionarProdutosComponent
+    SelecionarProdutosComponent,
+    HistoricoPedidosComponent
   ],
   imports: [
     BrowserModule,

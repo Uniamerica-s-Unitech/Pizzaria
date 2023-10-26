@@ -1,5 +1,5 @@
 import { Component ,EventEmitter,Input,Output,inject} from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Pedido } from 'src/app/models/pedido';
 import { Cliente } from 'src/app/models/cliente';
 import { Produto } from 'src/app/models/produto';
@@ -25,6 +25,8 @@ export class PedidoListaComponent {
   modalService = inject(NgbModal);
   pedidoService = inject(PedidoService);
 
+  modalRef!: NgbModalRef;
+
 
   constructor() {
     this.listar();
@@ -48,10 +50,17 @@ export class PedidoListaComponent {
 
   cadastrarPedido(modalPedido : any){
     this.pedidoParaEditar = new Pedido();
-    this.modalService.open(modalPedido, { size: 'md' });
+    this.modalRef = this.modalService.open(modalPedido, { size: 'md' });
     
     const element: HTMLElement = document.getElementById('h4') as HTMLElement 
     element.innerHTML = 'Cadastrar Pedido'
+  }
+
+  historico(modalPedidoHistorico : any){
+    this.modalRef = this.modalService.open(modalPedidoHistorico, { size: 'lg' });
+    
+    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
+    element.innerHTML = 'Histórico Pedido'
   }
 
   editarPedido(modal: any, pedido: Pedido, indice: number) {

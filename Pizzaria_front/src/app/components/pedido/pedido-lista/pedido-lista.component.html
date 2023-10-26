@@ -1,7 +1,6 @@
-<div class="container tamanho">
-  <div class="row ">
 <div class="tamanho">
   <h2>Lista de Pedidos</h2>
+  <button (click)="historico(modalPedidoHistorico)" class="btn btn-success text-white">Histórico</button>
   <div class="container">
     <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
       <button (click)="cadastrarPedido(modalPedido)" class="btn btn-success text-white">Novo Pedido</button>
@@ -56,6 +55,21 @@
   <div class="modal-body">
     
     <app-pedido-detalhes [pedido]="pedidoParaEditar" (retorno)="atualizarLista($event)" ></app-pedido-detalhes>
+            
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #modalPedidoHistorico let-modal>
+  <div class="modal-header">
+    <h4 id="h4" class="modal-title"></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    
+    <app-historico-pedidos></app-historico-pedidos>
             
   </div>
   <div class="modal-footer">
