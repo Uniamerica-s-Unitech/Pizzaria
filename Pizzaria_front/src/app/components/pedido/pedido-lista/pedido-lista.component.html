@@ -12,6 +12,7 @@
         <ul class="list-group">
           <li class="list-group-item li_lista" *ngFor="let pedido of listaPedidos">
             <button class="btn btn-link" (click)="mostrarDetalhes(pedido.id)">{{ pedido.clienteId.nome }}</button>
+            <button class="btn btn-primary" (click)="finalizarPedido(pedido)">Finalizar</button>
           </li>
         </ul>
       </div>

@@ -25,8 +25,8 @@
                   <td>{{ endereco.rua }}</td>
                   <td>{{ endereco.bairro}}</td>
                   <td>{{ endereco.numero}}</td>
-                  <td>
-                      <button type="button" (click)="editarEndereco(modalEndereco, endereco, i)" class="btn novo text-white">Editar</button>
+                  <td class="d-flex justify-content-center ">
+                      <button type="button" (click)="editarEndereco(modalEndereco, endereco, i)" class="btn btn-success text-white">Editar</button>
                       <button type="button" (click)="excluirEndereco(i)" class="btn btn-danger btn-sm">Deletar</button>
                   </td>
               </tr>

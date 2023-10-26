@@ -21,13 +21,11 @@ export class PedidoService {
     return this.http.get<Pedido[]>(`${this.API}` + "/historico");
   }
 
-  save(cliente: Pedido): Observable<Mensagem> {
-    if (cliente.id) {
-      // Se a pessoa já tem um ID, atualize-a
-      return this.http.put<Mensagem>(this.API+"/"+`${cliente.id}`, cliente);
+  save(pedido: Pedido): Observable<Mensagem> {
+    if (pedido.id) {
+      return this.http.put<Mensagem>(this.API+"/"+`${pedido.id}`, pedido);
     } else {
-      // Caso contrário, crie uma nova pessoa
-      return this.http.post<Mensagem>(this.API, cliente);
+      return this.http.post<Mensagem>(this.API, pedido);
     }
   }
 

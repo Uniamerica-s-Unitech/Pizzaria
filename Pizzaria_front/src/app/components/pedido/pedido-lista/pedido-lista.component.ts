@@ -1,4 +1,4 @@
-import { Component ,Input,inject} from '@angular/core';
+import { Component ,EventEmitter,Input,Output,inject} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pedido } from 'src/app/models/pedido';
 import { Cliente } from 'src/app/models/cliente';
@@ -14,6 +14,7 @@ import { PedidoService } from 'src/app/services/pedido.service';
 export class PedidoListaComponent {
   listaPedidos: Pedido[] = [];
   @Input() pedido:Pedido = new Pedido();
+  @Output() retorno = new EventEmitter<Mensagem>();
 
   pedidoParaEditar: Pedido = new Pedido();
   produtoParaEditar: Produto = new Produto();
@@ -69,5 +70,21 @@ export class PedidoListaComponent {
     this.modalService.dismissAll();
     this.listar();
     
+  }
+  finalizarPedido(pedido: Pedido) {
+    const dataAtual = new Date();
+    pedido.finalizacao = dataAtual;
+  
+    this.pedidoService.save(pedido).subscribe({
+      next: mensagem => {
+        this.listar();
+        this.retorno.emit(mensagem);
+        // Atualize a lista de pedidos após a finalização bem-sucedida, se necessário.
+      },
+      error: erro => {
+        alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
+        console.error(erro);
+      }
+    });
   }
 }
