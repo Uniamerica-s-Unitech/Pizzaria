@@ -28,7 +28,7 @@ public class Pedido  {
     private List<Produto> produtos;
 
     @Column(name = "dataDeSolicitacao",nullable = false)
-    private LocalDateTime soliciatacao;
+    private LocalDateTime solicitacao;
 
     @Column(name = "dataDeFinalizacao")
     private LocalDateTime finalizacao;

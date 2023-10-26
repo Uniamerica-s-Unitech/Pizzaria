@@ -16,7 +16,7 @@ public class PedidoDTO {
     private Boolean ativo = true;
     private ClienteDTO clienteId;
     private List<ProdutoDTO> produtos;
-    private LocalDateTime soliciatacao;
+    private LocalDateTime solicitacao;
     private LocalDateTime finalizacao;
     private Double valorTotal;
 }

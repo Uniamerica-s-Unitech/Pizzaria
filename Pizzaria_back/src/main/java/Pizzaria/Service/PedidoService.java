@@ -57,7 +57,7 @@ public class PedidoService {
 
         pedidoDTO.setId(pedido.getId());
         pedidoDTO.setAtivo(pedido.getAtivo());
-        pedidoDTO.setSoliciatacao(pedido.getSoliciatacao());
+        pedidoDTO.setSolicitacao(pedido.getSolicitacao());
         pedidoDTO.setFinalizacao(pedido.getFinalizacao());
         pedidoDTO.setValorTotal(pedido.getValorTotal());
 
@@ -131,7 +131,7 @@ public class PedidoService {
 
         novoPedido.setId(pedidoDTO.getId());
         novoPedido.setAtivo(pedidoDTO.getAtivo());
-        novoPedido.setSoliciatacao(pedidoDTO.getSoliciatacao());
+        novoPedido.setSolicitacao(pedidoDTO.getSolicitacao());
         novoPedido.setFinalizacao(pedidoDTO.getFinalizacao());
         novoPedido.setValorTotal(pedidoDTO.getValorTotal());
 
@@ -182,6 +182,8 @@ public class PedidoService {
 
         Categoria categoria = new Categoria();
         categoria.setId(produtoDTO.getCategoriaId().getId());
+        categoria.setAtivo(produtoDTO.getCategoriaId().getAtivo());
+        categoria.setNome(produtoDTO.getCategoriaId().getNome());
 
         novoProduto.setCategoriaId(categoria);
 

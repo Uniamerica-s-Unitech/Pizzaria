@@ -1,6 +1,5 @@
 package Pizzaria.Entiny;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,7 @@ public class Produto {
     private List<Sabor> sabores;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id",nullable = false)
+    @JoinColumn(name = "categoria_id")
     private Categoria categoriaId;
 
     @Column(nullable = false)
