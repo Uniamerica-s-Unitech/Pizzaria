@@ -14,7 +14,6 @@ export class ProdutosDetalhesComponent {
   listaProdutos: Produto[] = [];
   listaCategorias: Categoria[] = [];
   @Input() produto:Produto = new Produto();
-  @Input() categoria:Categoria = new Categoria();
   @Output() retorno = new EventEmitter<Mensagem>;
 
   produtoService = inject(ProdutoService);

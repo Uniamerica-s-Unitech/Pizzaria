@@ -67,6 +67,7 @@ export class ClienteDetalhesComponent {
       endereco.id = 0;
       this.cliente.enderecos.push(Object.assign({}, endereco));
     }
+    console.log(this.cliente);
 
     this.modalRef.dismiss();
   }

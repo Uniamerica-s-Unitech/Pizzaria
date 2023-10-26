@@ -29,6 +29,7 @@ export class SelecionarProdutosComponent {
 
   salvar() {
     // Não emita o produto diretamente, apenas mantenha-o no componente pai
+    console.log(this.produto);
     this.retorno.emit(this.produto);
   }
 }
