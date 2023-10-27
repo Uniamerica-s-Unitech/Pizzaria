@@ -82,6 +82,14 @@ export class PedidoDetalhesComponent {
   salvar() {
     let dataAtual = moment.tz('America/Brasilia ');
     this.pedido.solicitacao = dataAtual.toDate();
+
+    this.pedido.valorTotal = 0;
+
+  // Use um loop para somar os valores dos produtos
+    for (const produto of this.pedido.produtos) {
+      this.pedido.valorTotal += produto.valor;
+    }
+
     this.pedidoService.save(this.pedido).subscribe({
       next: mensagem => {
         this.retorno.emit(mensagem);
