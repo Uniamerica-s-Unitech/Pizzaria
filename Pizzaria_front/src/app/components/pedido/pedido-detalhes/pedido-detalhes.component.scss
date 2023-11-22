@@ -1,16 +1,43 @@
-.btn-success{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-top: 1rem;
-
+p{
+    border: none;
 }
-.btn-success :hover{
-    background:  #393e46;
-    
+.alert-success{
+    background-color: #8b4513;
+    color: #eead2d;
 }
-.btn-success:focus{
+.form-select{
+    border: 2px solid #8b4513;
     outline: none;
+    box-shadow: none;
+}
+.btnAdicionar{
+    padding: 5px 10px;
+    background-color: #8b4513;
+    color: #fdfffc;
+    border: 2px solid #eead2d;
+    border-radius: 8px;
+}
+.btnAdicionar:hover{
+    background-color: #eead2d;
+    color: #8b4513;
+    border: 2px solid #000;
+}
+.produtos{
+    border-radius: 10px;
+    background-color: #8b4513;
+    color: #eee;
+    max-height: 40%;
+    overflow-y: auto;
+}
+.lista{
+    border-radius: 10px;
+    border: 2px solid #eead2d;
+}
+.produto{
+    border-bottom: 1px solid #eead2d;
+}
+.gap{
+    gap: .3rem;
 }
 .tabela{
     border: 0.2rem solid #f96d00;
