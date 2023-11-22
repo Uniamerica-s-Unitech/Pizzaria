@@ -1,37 +1,42 @@
-<div class="tamanho">
-<div class="d-flex justify-content-center">
-  <h2>Lista de Clientes</h2>
-</div>
-<div class="container">
-  <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-      <button (click)="cadastrarCliente(modalCliente)" class="btn novo text-white">Novo Cliente</button>
-  </div>
-  <table class="table tabela table-hover">
-      <thead>
-          <tr>
-              <th>Nome</th>
-              <th>Endereço</th>
-              <th>Ações</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let cliente of lista; let i = index">
-              <td>{{ cliente.nome }}</td>
-              <td>
-                  <ng-container *ngFor="let endereco of cliente.enderecos">
-                      <div class="address-details">
-                          <p > Rua: {{ endereco.rua }},<br> Numero: {{ endereco.numero }}</p>
-                      </div>
-                  </ng-container>
-              </td>
-              <td class="d-flex justify-content-center p-4"  >
-                  <button (click)="editarCliente(modalCliente, cliente, i)" class="btn novo text-white">Editar</button>
-                  <button (click)="excluirCliente(cliente)" class="btn btn-danger btn-sm">Deletar</button>
-              </td>
-          </tr>
-      </tbody>
-  </table>
-</div>
+<div class="h-100 d-flex col-lg-12 flex-column" style="gap: 20px;">
+    <div class="serch">
+        <div *ngIf="!modoVincular">
+            <button (click)="cadastrarCliente(modalCliente)" class="novoCliente">Novo Cliente</button>
+        </div>
+        <div>
+            <input class="w-100" type="text" placeholder="Pesquisar por nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>  
+        </div>
+    </div>
+    <div class="container">
+        <table class="table table-striped">
+            <thead class="fixed-header">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Endereço</th>
+                    <th scope="col" class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cliente of listaClientesFiltrada; let i = index">
+                    <td>{{ cliente.nome }}</td>
+                    <td>
+                        <ng-container *ngFor="let endereco of cliente.enderecos">
+                            <div class="address-details">
+                                <p><span>Rua:</span> {{ endereco.rua }}, Numero: {{ endereco.numero }}</p>
+                            </div>
+                        </ng-container>
+                    </td>
+                    <td class="text-center" *ngIf="!modoVincular">
+                        <button (click)="editarCliente(modalCliente, cliente, i)" class="btn btn-outline-warning mx-2">Editar</button>
+                        <button (click)="excluirCliente(cliente)"   class="btn btn-danger">Deletar</button>
+                    </td>
+                    <td class="text-center" *ngIf="modoVincular">
+                        <button (click)="vincular(cliente)" class="btn btn-danger">Vincular</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
   
     <ng-template #modalCliente let-modal>

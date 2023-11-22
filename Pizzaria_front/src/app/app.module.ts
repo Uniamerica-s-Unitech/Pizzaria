@@ -21,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoriaDetalhesComponent } from './components/produtos/categoria-detalhes/categoria-detalhes.component';
 import { SelecionarProdutosComponent } from './components/pedido/selecionar-produtos/selecionar-produtos.component';
 import { HistoricoPedidosComponent } from './components/pedido/historico-pedidos/historico-pedidos.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { HistoricoPedidosComponent } from './components/pedido/historico-pedidos
     AppRoutingModule,
     NgbModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

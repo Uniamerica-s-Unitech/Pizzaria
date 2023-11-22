@@ -1,5 +1,5 @@
-import { Component ,inject} from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component ,EventEmitter,Input,Output,inject} from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Cliente } from 'src/app/models/cliente';
 import { Mensagem } from 'src/app/models/mensagem';
 import { ClienteService } from 'src/app/services/cliente.service';
@@ -10,14 +10,25 @@ import { ClienteService } from 'src/app/services/cliente.service';
   styleUrls: ['./cliente-lista.component.scss']
 })
 export class ClienteListaComponent {
-  lista: Cliente[] = [];
+  @Output() retorno = new EventEmitter<any>();
+  @Input() modoVincular: boolean = false;
 
-  clienteParaEditar: Cliente = new Cliente();
-  indiceSelecionadoParaEdicao!: number;
-  
+  listaClientesOrginal: Cliente[] = [];
+  listaClientesFiltrada: Cliente[] = [];
+
   modalService = inject(NgbModal);
   clienteService = inject(ClienteService);
 
+  clienteParaEditar: Cliente = new Cliente();
+
+  indiceSelecionadoParaEdicao!: number;
+  modalRef!: NgbModalRef;
+  tituloModal!: string;
+  termoPesquisa!: "";
+
+  ngOnInit(){
+    this.listar();
+  }
   constructor() {
     this.listar();
   }
@@ -26,7 +37,8 @@ export class ClienteListaComponent {
   listar(){
     this.clienteService.listar().subscribe({
       next: lista => {
-        this.lista = lista;
+        this.listaClientesOrginal = lista;
+        this.listaClientesFiltrada = lista;
       }
     })
   }
@@ -51,11 +63,9 @@ export class ClienteListaComponent {
     }
 
     atualizarLista(mensagem: Mensagem) {
-      console.log(mensagem );
-      alert(mensagem.mensagem)
       this.modalService.dismissAll();
       this.listar();
-      
+      this.retorno.emit("ok");
     }
 
     excluirCliente(cliente: Cliente) {
@@ -71,4 +81,21 @@ export class ClienteListaComponent {
         });
       }
     }
+  vincular(cliente: Cliente){
+    this.retorno.emit(cliente);
+  }
+
+  @Output() realizarPesquisa(termoPesquisa: string) {
+    termoPesquisa.toLowerCase();
+    if (!termoPesquisa) {
+      this.listaClientesFiltrada = this.listaClientesOrginal;
+    } else {
+      this.listaClientesFiltrada = this.listaClientesOrginal.filter((cliente: Cliente) => {
+        const nome = cliente.nome.toLowerCase();
+        return (
+          nome.includes(termoPesquisa)
+        );
+      });
+    }
+  }
 }

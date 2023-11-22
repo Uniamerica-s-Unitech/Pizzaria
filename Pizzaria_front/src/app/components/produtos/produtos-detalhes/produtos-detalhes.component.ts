@@ -21,6 +21,8 @@ export class ProdutosDetalhesComponent {
 
   constructor() {
 
+    this.produto.temSabores = false;
+
     this.carregarCategorias();
 
   }

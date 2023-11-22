@@ -6,10 +6,24 @@
     <div class="mb-3">
       <label for="categoria" class="form-label">Categoria:</label>
       <select class="form-select" name="categoria" [(ngModel)]="produto.categoriaId">
+        <option [ngValue]="undefined">Selecione o categoria</option>
         <option *ngFor="let categoria of listaCategorias" [ngValue]="categoria">{{ categoria.nome }}</option>
       </select>
     </div>
-
+    <div class="mb-3">
+      <label for="tamanho" class="form-label">O produto pode ter tamanhos?</label>
+      <input name="dlkfsad" type="checkbox" [(ngModel)]="produto.temSabores">
+    </div>
+    <div class="mb-3" *ngIf="produto.temSabores">
+      <label for="tamanho" class="form-label">Tamanho:</label>
+      <select class="form-select" name="tamanho" [(ngModel)]="produto.tamanho">
+        <option [ngValue]="undefined">Selecione o tamanho</option>
+        <option [ngValue]="'GG'">GG</option>
+        <option [ngValue]="'G'">G</option>
+        <option [ngValue]="'M'">M</option>
+        <option [ngValue]="'P'">P</option>
+      </select>
+    </div>
     <div class="mb-3">
       <label for="exampleInputNumber1" class="form-label">Valor:</label>
       <input type="number" class="form-control" name="exampleInputNumber1" [(ngModel)]="produto.valor">

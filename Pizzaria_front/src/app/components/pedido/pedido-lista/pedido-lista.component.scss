@@ -1,70 +1,161 @@
-.tamanho{
-    margin-left: 15%;
+.menuPedidos{
+    background-color: #64310d;
+    border-right: 3px solid #eead2d;
 }
-.btn-success{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-top: 1rem;
+.campoSerch{
+    padding: 1vh;
+}
+.serch{
+    border-radius: 10px;
+    border: 3px solid #eead2d;
+    outline: none;
+    font-size: 18px;
+    background-color: #8b4513;
+    color: #eead2d;
+    background-image: url(../../../../assets/imagens/search_icon.svg);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: 20px;
+    padding: 1vh 5vh;
+    padding-left: 3.5vh;
+}
+.serch::placeholder{
+    color: #fdfffc;
+}
+.list-group{
+    max-height: 88%;
+    overflow-y: auto;
+    border:  3px solid #eead2d;;
+    
+    .list-group-item{
+        background-color: #8b4513;
+        border: none;
+        border-bottom: 3px solid #eead2d;
+        border-radius: 0;
+        color: #fdfffc;
+        text-align: left; 
+        outline: none;
+    }
+    .list-group-item:hover{
+        background-color:  #64310d;
+        border-bottom: 3px solid #fdfffc;
+        color: #eead2d;
+        transition: .5s;
+    }
+    .list-group-item-active{
+        background-color:  #64310d;
+        border-bottom: 3px solid #fdfffc;
+        color: #eead2d;
+        transition: .5s;
+    }
+}
+.menu{
+    height: 88% !important;
+}
 
-}
-.listaPedidos{
-    display: flex;
-    justify-content: start;
-}
-h2{
-    color: #f96d00;
-    margin-top: 2rem;
-}
-.detalhesPedido{
-    background: #222427;
-    border: 0.1rem solid #f96d00;
-    padding: 1rem;
-    padding-top: 0px;
-    margin-top: 5rem;
-    margin-left: 4rem;
+::-webkit-scrollbar {
+    width: 10px;
 }
 
-.btn-success :hover{
-    background:  #393e46;
+/* Track */
+::-webkit-scrollbar-track {
+    background: #000;
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #64310d;
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.novoPedido{
+    padding: 1vh 3vh;
+    border-radius: 10px;
+    background-color: #eead2d;
+    color: #64310d;
+    border: 3px solid #8b4513;
+    outline: none;
     
 }
-.btn-link{
-    text-decoration:dotted;
-    font-weight: bold;
-    color: #cbcdcf;
+.novoPedido:hover{
+    padding: 1vh 3vh;
+    border-radius: 10px;
+    background-color: #8b4513;
+    color: #fdfffc;
+    border: 3px solid #eead2d;
+    transition: .5s;
 }
-.btn-success:focus{
+.historico{
+    padding: 1vh 3vh;
+    border-radius: 10px;
+    background-color: #555;
+    border: 3px solid #eead2d;
+    color: #fdfffc;
     outline: none;
 }
-.tabela{
-    border: 0.2rem solid #f96d00;
-}
-th{
-    border: 0.1rem solid #f96d00;
 
-}
-.li_lista{
-    background: #222427;
-    border: 0.1rem solid #f96d00;
-}
-p ,h2 {color: #f96d00;}
-.modal-footer{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
 
+.listarPedidos {
+    background-color: #8b4513;
+    padding: 20px;
 }
-.modal-body{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
+.cabecalho{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    h1{
+      color: #fdfffc;  
+    }
+    
+    span{
+        font-size: 18px;
+        color: #ccc;
+    }
+}
+.endereco{
+    display: flex;
+    align-items: center;
+    background-color: #64310d;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #eead2d;
+    
+    p{
+        font-size: 20px;
+        color: #eee;
+        margin: 0;
+    }
+}
+.produto{
+    .produtoNome{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
 }
 
-.modal-header{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
 
+.cabecalhoModal{
+    background-color: #64310d;
+    border-bottom: 3px solid #eead2d;
+    color: #fdfffc;
+}
+.footerModal{
+    background-color: #64310d;
+    border-top: 3px solid #eead2d;
+    color: #fdfffc;
+}
+.backBody{
+    background-color: #ffffff;
+    border: none
+}
+.btn-close{
+    --bs-btn-close-focus-shadow:0
 }

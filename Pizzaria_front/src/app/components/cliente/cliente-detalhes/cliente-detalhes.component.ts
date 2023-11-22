@@ -11,7 +11,7 @@ import { ClienteService } from 'src/app/services/cliente.service';
   styleUrls: ['./cliente-detalhes.component.scss']
 })  
 export class ClienteDetalhesComponent {
-  @Input() cliente:Cliente = new Cliente();
+  @Input() cliente: Cliente = new Cliente();
   @Output() retorno = new EventEmitter<Mensagem>;
   clienteService = inject(ClienteService);
   modalService = inject(NgbModal);

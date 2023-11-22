@@ -3,13 +3,13 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment-timezone';
 import 'moment-timezone';
 import { Cliente } from 'src/app/models/cliente';
-import { Endereco } from 'src/app/models/endereco';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Pedido } from 'src/app/models/pedido';
-import { Produto } from 'src/app/models/produto';
+import { PedidoProduto } from 'src/app/models/pedido-produto';
 import { ClienteService } from 'src/app/services/cliente.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { SaborService } from 'src/app/services/sabor.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-pedido-detalhes',
@@ -17,21 +17,24 @@ import { SaborService } from 'src/app/services/sabor.service';
   styleUrls: ['./pedido-detalhes.component.scss']
 })
 export class PedidoDetalhesComponent {
+  @Input() modo: number = 1;
   @Input() pedido: Pedido = new Pedido();
   @Output() retorno = new EventEmitter<Mensagem>();
 
   pedidoService = inject(PedidoService);
   saborService = inject(SaborService);
   clienteService = inject(ClienteService);
+  modalService = inject(NgbModal);
+  toastr = inject(ToastrService);
+  modalRef!: NgbModalRef;
 
   listaClientes: Cliente[] = [];
 
-  modalService = inject(NgbModal);
-  produtoParaEditar: Produto = new Produto();
-  modalRef!: NgbModalRef;
+
+  produtoParaEditar: PedidoProduto = new PedidoProduto();
+
   indiceSelecionadoParaEdicao!: number;
   tituloModal!: string;
-  enderecoSelecionado: Endereco | null = null;
 
   constructor() {
     this.carregarClientes();
@@ -54,18 +57,23 @@ export class PedidoDetalhesComponent {
   }
 
   adicionarProduto(modalListaProdutos: any) {
-    this.produtoParaEditar = new Produto();
-    this.produtoParaEditar.id = -1;
+    this.indiceSelecionadoParaEdicao = -1;
+    this.produtoParaEditar = new PedidoProduto();
     this.modalRef = this.modalService.open(modalListaProdutos, { size: 'sm' });
 
     this.tituloModal = "Adicionar Produto";
   }
 
-  atualizarLista(produto: Produto) {
+  atualizarLista(produto: PedidoProduto) {
 
-    if (this.pedido.produtos == null) this.pedido.produtos = [];
+    if (this.pedido.produtos == null)
+      this.pedido.produtos = [];
 
-    this.pedido.produtos.push(Object.assign({}, produto));
+    if (this.indiceSelecionadoParaEdicao == -1)
+      this.pedido.produtos.push(Object.assign({}, produto));
+    else {
+      this.pedido.produtos[this.indiceSelecionadoParaEdicao] = Object.assign({}, produto);
+    }
 
     /*if (produto.id >= 0) {
       let index = this.pedido.produtos.findIndex(item => produto.id === item.id);
@@ -74,21 +82,20 @@ export class PedidoDetalhesComponent {
       produto.id = 0; 
       this.pedido.produtos.push(Object.assign({}, produto));
     }  */
-    console.log(this.pedido);
 
     this.modalRef.dismiss();
   }
 
   salvar() {
-    let dataAtual = moment.tz('America/Brasilia ');
-    this.pedido.solicitacao = dataAtual.toDate();
-
     this.pedido.valorTotal = 0;
 
-  // Use um loop para somar os valores dos produtos
-    for (const produto of this.pedido.produtos) {
-      this.pedido.valorTotal += produto.valor;
-    }
+    // Use um loop para somar os valores dos produtos
+    if (this.pedido.produtos != null)
+      for (const produto of this.pedido.produtos) {
+        this.pedido.valorTotal += produto.produtoId.valor;
+      }
+
+    console.log(this.pedido);
 
     this.pedidoService.save(this.pedido).subscribe({
       next: mensagem => {
@@ -101,7 +108,7 @@ export class PedidoDetalhesComponent {
     });
   }
 
-  editarProduto(modal: any, produto: Produto, indice: number) {
+  editarProduto(modal: any, produto: PedidoProduto, indice: number) {
     this.produtoParaEditar = Object.assign({}, produto);
     this.indiceSelecionadoParaEdicao = indice;
 
@@ -112,5 +119,22 @@ export class PedidoDetalhesComponent {
 
   excluirProduto(index: number) {
     this.pedido.produtos.splice(index, 1);
+  }
+
+  retornoCliente(cliente: any) {
+    this.toastr.success('Cliente vinculado com sucesso');
+    this.pedido.clienteId = cliente;
+    this.modalRef.dismiss();
+  }
+
+  buscar(modal: any) {
+    this.modalRef = this.modalService.open(modal, { size: 'lg' });
+  }
+
+  byId(item1: any, item2: any) {
+    if (item1 != null && item2 != null)
+      return item1.id === item2.id;
+    else
+      return item1 === item2;
   }
 }

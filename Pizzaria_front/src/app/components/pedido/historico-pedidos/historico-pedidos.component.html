@@ -23,7 +23,7 @@
             </ul>
             <ul>
               <li *ngFor="let produto of pedido.produtos">
-                <p>Item: {{ produto.nome }} R$ {{ produto.valor}}</p>
+                <p>Item: {{ produto.produtoId.nome }} R$ {{ produto.produtoId.valor}}</p>
                 <h4>Sabores</h4>
                 <ul>
                   <li *ngFor="let sabor of produto.sabores">

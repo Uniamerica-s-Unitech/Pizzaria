@@ -1,10 +1,12 @@
 import { Cliente } from "./cliente";
-import { Produto } from "./produto";
+import { Endereco } from "./endereco";
+import { PedidoProduto } from "./pedido-produto";
 
 export class Pedido {
   id!: number;
   clienteId!: Cliente;
-  produtos!: Produto[];
+  enderecoId!: Endereco;
+  produtos!: PedidoProduto[];
   solicitacao!: Date;
   finalizacao!: Date;
   valorTotal!:number;

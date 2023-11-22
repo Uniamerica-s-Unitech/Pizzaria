@@ -1,70 +1,95 @@
-<div class="tamanho">
-  <h2>Lista de Pedidos</h2>
-  <button (click)="historico(modalPedidoHistorico)" class="btn btn-success text-white">Histórico</button>
-  <div class="container">
-    <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-      <button (click)="cadastrarPedido(modalPedido)" class="btn btn-success text-white">Novo Pedido</button>
-    </div>
-    <div class="listaPedidos">
-      <div class="col-md-3">
-        <h2>Listagem de Pedidos</h2>
+<div class="h-100 d-flex col-lg-12">
+  <section class="menuPedidos d-flex text-center flex-column h-100 col-lg-3">
+    <div class="menu">
+      <div class="campoSerch">
+          <input class="serch" type="text" placeholder="Pesquisar por Id ou nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>
+      </div>
+      <div class="container h-100">
         <ul class="list-group">
-          <li class="list-group-item li_lista" *ngFor="let pedido of listaPedidos">
-            <button class="btn btn-link" (click)="mostrarDetalhes(pedido.id)">{{ pedido.clienteId.nome }}</button>
-            <button class="btn btn-primary" (click)="finalizarPedido(pedido)">Finalizar</button>
-          </li>
+          <button class="list-group-item" [ngClass]="{'list-group-item-active' : (active == pedido)}"  *ngFor="let pedido of listaPedidosFiltrada" (click)="[mostrarDetalhes(pedido.id) ,active = pedido]">
+            <span>#{{ pedido.id }} • {{ pedido.clienteId.nome }}</span> 
+          </button>
         </ul>
       </div>
-      <div  *ngFor="let pedido of listaPedidos">
-        <div  class="detalhesPedido" *ngIf="pedidoSelecionado === pedido.id">
-          <h2>Detalhes do Pedido</h2>
-          <p>ID: {{ pedido.id }}</p>
-          <p>Cliente: {{ pedido.clienteId.nome}}</p>
-          <ul>
-            <li *ngFor="let cliente of pedido.clienteId.enderecos">
-              <p>Endereço: {{ cliente.rua }},{{ cliente.bairro}},{{cliente.numero}}</p>
-            </li>
-          </ul>
-          <ul>
-            <li *ngFor="let produto of pedido.produtos">
-              <p>Item: {{ produto.nome }} R$ {{ produto.valor}}</p>
-              <h4>Sabores</h4>
-              <ul>
-                <li *ngFor="let sabor of produto.sabores">
-                  <p>Nome do Sabor: {{ sabor.nome }}</p>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          
-          <p>Data de Solicitação: {{ pedido.solicitacao | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
-          <p>Valor Total: R$ {{ pedido.valorTotal }}</p>
-        </div>
-     </div>
     </div>
-  </div>
+    <div class="d-flex justify-content-around">
+      <button class="novoPedido" (click)="cadastrarPedido(modalPedido)">Novo Pedido</button>
+      <button class="historico" (click)="historico(modalPedidoHistorico)">Histórico</button>
+    </div>
+  </section>
+  
+  <section class="listarPedidos h-100 col-lg-9">
+    <div *ngFor="let pedido of listaPedidosOrginal">
+      <div  class="detalhesPedido" *ngIf="pedidoSelecionado === pedido.id">
+        <div class="cabecalho">
+          <h1>{{pedido.clienteId.nome}}</h1>
+          <span>Pedido #{{pedido.id}}</span>
+          <span>• Feito às {{pedido.solicitacao}}</span>
+        </div>
+        <div class="endereco">
+          <p>{{pedido.enderecoId.rua}}, {{pedido.enderecoId.numero}} - {{pedido.enderecoId.bairro}}</p>
+        </div>
+        <ul class="produto">
+          <li *ngFor="let produto of pedido.produtos">
+            <div class="produtoNome">
+              <p>{{ produto.produtoId.nome }}</p>
+              <p>R$ {{ produto.produtoId.valor}}</p>
+            </div>
+             
+            <ul>
+              <li *ngFor="let sabor of produto.sabores">
+                <p>{{ sabor.nome }}</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+       
+        <!--p>ID: {{ pedido.id }}</p>*ngIf="pedidoSelecionado === pedido.id"
+        <p>Cliente: {{ pedido.clienteId.nome}}</p>
+        <ul>
+          <li *ngFor="let cliente of pedido.clienteId.enderecos">
+            <p>Endereço: {{ cliente.rua }},{{ cliente.bairro}},{{cliente.numero}}</p>
+          </li>
+        </ul>
+        <ul>
+          <li *ngFor="let produto of pedido.produtos">
+            <p>Item: {{ produto.produtoId.nome }} R$ {{ produto.produtoId.valor}}</p>
+            <h4>Sabores</h4>
+            <ul>
+              <li *ngFor="let sabor of produto.sabores">
+                <p>Nome do Sabor: {{ sabor.nome }}</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        
+        <p>Data de Solicitação: {{ pedido.solicitacao | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
+        <p>Valor Total: R$ {{ pedido.valorTotal }}</p>
+        <button class="btn btn-primary" (click)="finalizarPedido(pedido)">Finalizar</button-->
+      </div>
+    </div>
+  </section>
 </div>
-
 
         
 <ng-template #modalPedido let-modal>
-  <div class="modal-header">
-    <h4 id="h4" class="modal-title"></h4>
+  <div class="modal-header cabecalhoModal">
+    <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
+  <div class="modal-body backBody">
     
     <app-pedido-detalhes [pedido]="pedidoParaEditar" (retorno)="atualizarLista($event)" ></app-pedido-detalhes>
             
   </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  <div class="modal-footer footerModal">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Fechar</button>
   </div>
 </ng-template>
 
 <ng-template #modalPedidoHistorico let-modal>
   <div class="modal-header">
-    <h4 id="h4" class="modal-title"></h4>
+    <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
@@ -73,6 +98,8 @@
             
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Fechar</button>
   </div>
 </ng-template>
+
+
