@@ -5,13 +5,17 @@ import { ClienteListaComponent } from './components/cliente/cliente-lista/client
 import { PedidoListaComponent } from './components/pedido/pedido-lista/pedido-lista.component';
 import { ProdutosListaComponent } from './components/produtos/produtos-lista/produtos-lista.component';
 import { SaboresListComponent } from './components/sabores/sabores-list/sabores-list.component';
+import { LoginComponent } from './components/sistema/login/login.component';
+import { rotaguardGuard } from './guards/rotaguard.guard';
 
 const routes: Routes = [
-  {path:"",component:IndexComponent,children:[
-    {path:"cliente",component:ClienteListaComponent},
-    {path:"pedidos",component:PedidoListaComponent},
-    {path:"produtos",component:ProdutosListaComponent},
-    {path:"sabores",component:SaboresListComponent}
+  { path: "", redirectTo: "login", pathMatch: 'full'},
+  { path: "login", component: LoginComponent },
+  { path: "admin", component:IndexComponent, canActivate: [rotaguardGuard], children:[
+    { path: "cliente", component:ClienteListaComponent },
+    { path: "pedidos", component:PedidoListaComponent },
+    { path: "produtos", component:ProdutosListaComponent },
+    { path: "sabores", component:SaboresListComponent }
   ]}
 ];
 

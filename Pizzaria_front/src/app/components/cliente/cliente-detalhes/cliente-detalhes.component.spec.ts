@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ClienteDetalhesComponent } from './cliente-detalhes.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ClienteDetalhesComponent', () => {
   let component: ClienteDetalhesComponent;
@@ -8,7 +10,11 @@ describe('ClienteDetalhesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ClienteDetalhesComponent]
+      declarations: [ClienteDetalhesComponent],
+      imports: [HttpClientTestingModule],
+      schemas:[
+        CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA
+      ]
     });
     fixture = TestBed.createComponent(ClienteDetalhesComponent);
     component = fixture.componentInstance;

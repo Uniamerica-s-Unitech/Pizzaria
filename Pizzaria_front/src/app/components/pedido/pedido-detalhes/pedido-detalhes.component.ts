@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment-timezone';
-import 'moment-timezone';
 import { Cliente } from 'src/app/models/cliente';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Pedido } from 'src/app/models/pedido';
@@ -74,14 +72,6 @@ export class PedidoDetalhesComponent {
     else {
       this.pedido.produtos[this.indiceSelecionadoParaEdicao] = Object.assign({}, produto);
     }
-
-    /*if (produto.id >= 0) {
-      let index = this.pedido.produtos.findIndex(item => produto.id === item.id);
-      this.pedido.produtos[index] = Object.assign({}, produto);
-    } else if (produto.id < 0) {
-      produto.id = 0; 
-      this.pedido.produtos.push(Object.assign({}, produto));
-    }  */
 
     this.modalRef.dismiss();
   }

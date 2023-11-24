@@ -23,6 +23,8 @@ import { SelecionarProdutosComponent } from './components/pedido/selecionar-prod
 import { HistoricoPedidosComponent } from './components/pedido/historico-pedidos/historico-pedidos.component';
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LoginComponent } from './components/sistema/login/login.component';
+import { httpInterceptorProviders } from './interceptors/httpinterceptor.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FooterComponent,
     CategoriaDetalhesComponent,
     SelecionarProdutosComponent,
-    HistoricoPedidosComponent
+    HistoricoPedidosComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
