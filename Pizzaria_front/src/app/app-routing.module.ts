@@ -11,7 +11,12 @@ import { rotaguardGuard } from './guards/rotaguard.guard';
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: 'full'},
   { path: "login", component: LoginComponent },
-  { path: "admin", component:IndexComponent, canActivate: [rotaguardGuard], children:[
+  { 
+    path: "admin", 
+    component:IndexComponent,
+    canActivate: [rotaguardGuard], 
+    data: { roles: ['ADMIN'] }
+  , children:[
     { path: "cliente", component:ClienteListaComponent },
     { path: "pedidos", component:PedidoListaComponent },
     { path: "produtos", component:ProdutosListaComponent },

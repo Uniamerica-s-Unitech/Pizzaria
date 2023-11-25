@@ -1,4 +1,4 @@
-package app.controller;
+package Pizzaria.Controller;
 
 import Pizzaria.DTO.LoginDTO;
 import Pizzaria.DTO.UserDTO;
