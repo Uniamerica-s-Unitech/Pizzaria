@@ -1,14 +1,18 @@
+<form #formulario1="ngForm" (ngSubmit)="salvar(formulario1)" class="mb-3">
+  <div>
+      <label for="exampleInputText1" class="form-label">Rua</label>
+      <input #rua="ngModel" required type="text" class="form-control" name="exampleInputText1" [(ngModel)]="endereco.rua">
+      <div *ngIf="!rua.valid && rua.touched" class="alert alert-danger" role="alert">*Nome é obrigatório!</div>
 
-<form (ngSubmit)="salvar()" class="mb-3">
-<div>
-    <label for="exampleInputText1" class="form-label">Rua</label>
-    <input type="text" class="form-control" name="exampleInputText1" [(ngModel)]="endereco.rua">
-    <label for="exampleInputText2" class="form-label">Bairro</label>
-    <input type="text" class="form-control" name="exampleInputText2" [(ngModel)]="endereco.bairro">
-    <label for="exampleInputNumber1" class="form-label">Numero</label>
-    <input type="number" class="form-control no-spin"  name="exampleInputNumber1" [(ngModel)]="endereco.numero">
+      <label for="exampleInputText2" class="form-label">Bairro</label>
+      <input #bairro="ngModel" required type="text" class="form-control" name="exampleInputText2" [(ngModel)]="endereco.bairro">
+      <div *ngIf="!bairro.valid && bairro.touched" class="alert alert-danger" role="alert">*Nome é obrigatório!</div>
+
+      <label for="exampleInputNumber1" class="form-label">Numero</label>
+      <input #numero="ngModel" required type="number" class="form-control no-spin" name="exampleInputNumber1" [(ngModel)]="endereco.numero">
+      <div *ngIf="!numero.valid && numero.touched" class="alert alert-danger" role="alert">*Nome é obrigatório!</div>
   </div>
-  <div class="d-flex justify-content-center">
-    <button type="submit" class="btn  novo text-white">Salvar</button>
-</div>
+  <div class="d-flex justify-content-center mt-2">
+      <button type="submit" class="salvar">Salvar</button>
+  </div>
 </form>

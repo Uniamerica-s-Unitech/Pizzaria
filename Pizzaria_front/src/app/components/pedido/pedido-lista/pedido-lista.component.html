@@ -35,7 +35,7 @@
               <p>{{ produto.produtoId.nome }}</p>
               <p>R$ {{ produto.produtoId.valor}}</p>
             </div>
-             
+
             <ul>
               <li *ngFor="let sabor of produto.sabores">
                 <p>{{ sabor.nome }}</p>
@@ -44,7 +44,7 @@
           </li>
         </ul>
        
-        <!--p>ID: {{ pedido.id }}</p>*ngIf="pedidoSelecionado === pedido.id"
+        <!--p>ID: {{ pedido.id }}</p>
         <p>Cliente: {{ pedido.clienteId.nome}}</p>
         <ul>
           <li *ngFor="let cliente of pedido.clienteId.enderecos">
@@ -70,14 +70,13 @@
     </div>
   </section>
 </div>
-
-        
+    
 <ng-template #modalPedido let-modal>
   <div class="modal-header cabecalhoModal">
-    <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
+    <h4 class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body backBody">
+  <div class="modal-body">
     
     <app-pedido-detalhes [pedido]="pedidoParaEditar" (retorno)="atualizarLista($event)" ></app-pedido-detalhes>
             
@@ -89,7 +88,7 @@
 
 <ng-template #modalPedidoHistorico let-modal>
   <div class="modal-header">
-    <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
+    <h4 class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
@@ -101,5 +100,3 @@
     <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Fechar</button>
   </div>
 </ng-template>
-
-

@@ -7,49 +7,70 @@
             <input class="w-100" type="text" placeholder="Pesquisar por nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>  
         </div>
     </div>
-    <div class="container">
-        <table class="table table-striped">
-            <thead class="fixed-header">
-                <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Endereço</th>
-                    <th scope="col" class="text-center">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let cliente of listaClientesFiltrada; let i = index">
-                    <td>{{ cliente.nome }}</td>
-                    <td>
-                        <ng-container *ngFor="let endereco of cliente.enderecos">
-                            <div class="address-details">
-                                <p><span>Rua:</span> {{ endereco.rua }}, Numero: {{ endereco.numero }}</p>
-                            </div>
-                        </ng-container>
-                    </td>
-                    <td class="text-center" *ngIf="!modoVincular">
-                        <button (click)="editarCliente(modalCliente, cliente, i)" class="btn btn-outline-warning mx-2">Editar</button>
-                        <button (click)="excluirCliente(cliente)"   class="btn btn-danger">Deletar</button>
-                    </td>
-                    <td class="text-center" *ngIf="modoVincular">
-                        <button (click)="vincular(cliente)" class="btn btn-danger">Vincular</button>
-                    </td>
-                </tr>
-            </tbody>
+    
+    <section class="quadroTabela container">
+        <table class="table">
+            
         </table>
-    </div>
+        
+        <div class="tabela">
+            <table class="table table-striped">
+                <thead class="fixed-header">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Endereço</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cliente of listaClientesFiltrada; let i = index">
+                        <td class="text-break text-wrap">{{ cliente.nome }}</td>
+                        <td class="text-break text-wrap">
+                            <ng-container *ngFor="let endereco of cliente.enderecos">
+                                <div class="address-details">
+                                    <p>{{ endereco.rua }}, {{ endereco.numero }}, {{ endereco.bairro }}</p>
+                                </div>
+                            </ng-container>
+                        </td>
+                        <td class="text-center text-break text-wrap" *ngIf="!modoVincular">
+                            <button (click)="editarCliente(modalCliente, cliente, i)" class="btn btn-outline-warning mx-2">Editar</button>
+                            <button (click)="excluirCliente(modalExcluir, cliente, i)" class="btn btn-danger">Deletar</button>
+                        </td>
+                        <td class="text-center" *ngIf="modoVincular">
+                            <button (click)="vincular(cliente)" class="btn btn-danger">Vincular</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
   
-    <ng-template #modalCliente let-modal>
-    <div class="modal-header modal-style ">
-      <h4 id="h4" class="modal-title"></h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+<ng-template #modalCliente let-modal>
+    <div class="modal-header cabecalhoModal">
+        <h4 class="modal-title">{{tituloModal}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body modal-style">
-      
-          <app-cliente-detalhes [cliente]="clienteParaEditar" (retorno)="atualizarLista($event)" ></app-cliente-detalhes>
-              
+        
+        <app-cliente-detalhes [cliente]="clienteParaEditar" (retorno)="atualizarLista($event)" ></app-cliente-detalhes>
+                
+    </div>
+    <div class="modal-footer footerModal">
+        <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #modalExcluir let-modal>
+    <div class="modal-header modal-style">
+        <h4 class="modal-title">{{tituloModal}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body modal-style">
+        <h5>Vc tem certeza que quer deletar esse Cliente?</h5>   
     </div>
     <div class="modal-footer modal-style">
-      <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-outline-danger" (click)="confirmarExclusao(clienteParaExcluir)">Deletar</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
     </div>
-    </ng-template>
+</ng-template>

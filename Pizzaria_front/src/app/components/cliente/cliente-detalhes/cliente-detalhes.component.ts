@@ -4,6 +4,7 @@ import { Cliente } from 'src/app/models/cliente';
 import { Endereco } from 'src/app/models/endereco';
 import { Mensagem } from 'src/app/models/mensagem';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cliente-detalhes',
@@ -13,28 +14,31 @@ import { ClienteService } from 'src/app/services/cliente.service';
 export class ClienteDetalhesComponent {
   @Input() cliente: Cliente = new Cliente();
   @Output() retorno = new EventEmitter<Mensagem>;
+
   clienteService = inject(ClienteService);
   modalService = inject(NgbModal);
+  toastr = inject(ToastrService);
+  
   enderecoParaEditar: Endereco = new Endereco();
   modalRef!: NgbModalRef;
   indiceSelecionadoParaEdicao!: number;
   tituloModal!: string;
 
-  constructor() {}
-
-  salvar() {
-    console.log(this.cliente);
-    //ISSO AQUI SERVE PARA EDITAR OU ADICIONAR... TANTO FAZ
-    this.clienteService.save(this.cliente).subscribe({
-      next: mensagem => { // QUANDO DÁ CERTO
-        this.retorno.emit(mensagem);
-      },
-      error: erro => { // QUANDO DÁ ERRO
-        console.log(erro);
-        alert(erro.mensagem);
-        console.error(erro);
-      }
-    });
+  salvar(formulario1: any) {
+    if (!formulario1.valid){
+      this.toastr.error('Formulário inválido. Preencha os campos corretamente');
+    }else{
+      this.clienteService.save(this.cliente).subscribe({
+        next: mensagem => {
+          this.toastr.success(mensagem.mensagem);
+          this.retorno.emit(mensagem);
+        },
+        error: erro => {
+          this.toastr.error(erro.error.mensagem);
+        }
+      });
+    }
+    
   }
 
 
@@ -67,8 +71,6 @@ export class ClienteDetalhesComponent {
       endereco.id = 0;
       this.cliente.enderecos.push(Object.assign({}, endereco));
     }
-    console.log(this.cliente);
-
     this.modalRef.dismiss();
   }
 

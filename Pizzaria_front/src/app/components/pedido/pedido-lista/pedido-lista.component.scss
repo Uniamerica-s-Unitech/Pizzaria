@@ -22,6 +22,9 @@
 .serch::placeholder{
     color: #fdfffc;
 }
+.menu{
+    height: 88% !important;
+}
 .list-group{
     max-height: 88%;
     overflow-y: auto;
@@ -49,10 +52,6 @@
         transition: .5s;
     }
 }
-.menu{
-    height: 88% !important;
-}
-
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -140,8 +139,6 @@
         justify-content: space-around;
     }
 }
-
-
 .cabecalhoModal{
     background-color: #64310d;
     border-bottom: 3px solid #eead2d;
@@ -152,10 +149,7 @@
     border-top: 3px solid #eead2d;
     color: #fdfffc;
 }
-.backBody{
-    background-color: #ffffff;
-    border: none
-}
+
 .btn-close{
     --bs-btn-close-focus-shadow:0
 }

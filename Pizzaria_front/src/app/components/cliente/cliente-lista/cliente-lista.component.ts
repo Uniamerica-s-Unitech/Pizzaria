@@ -3,6 +3,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Cliente } from 'src/app/models/cliente';
 import { Mensagem } from 'src/app/models/mensagem';
 import { ClienteService } from 'src/app/services/cliente.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cliente-lista',
@@ -18,8 +19,10 @@ export class ClienteListaComponent {
 
   modalService = inject(NgbModal);
   clienteService = inject(ClienteService);
+  toastr = inject(ToastrService);
 
   clienteParaEditar: Cliente = new Cliente();
+  clienteParaExcluir: Cliente = new Cliente();
 
   indiceSelecionadoParaEdicao!: number;
   modalRef!: NgbModalRef;
@@ -27,14 +30,13 @@ export class ClienteListaComponent {
   termoPesquisa!: "";
 
   ngOnInit(){
-    this.listar();
+    this.listarClientes();
   }
   constructor() {
-    this.listar();
+    this.listarClientes();
   }
   
-
-  listar(){
+  listarClientes(){
     this.clienteService.listar().subscribe({
       next: lista => {
         this.listaClientesOrginal = lista;
@@ -42,45 +44,52 @@ export class ClienteListaComponent {
       }
     })
   }
+  atualizarLista(mensagem: Mensagem) {
+    this.modalService.dismissAll();
+    this.listarClientes();
+    this.retorno.emit("ok");
+  }
 
-    cadastrarCliente(modalCliente : any){
-      this.clienteParaEditar = new Cliente();
-      this.modalService.open(modalCliente, { size: 'md' });
-      
-      const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-      element.innerHTML = 'Cadastrar Cliente'
-    }
+  cadastrarCliente(modalCliente : any){
+    this.clienteParaEditar = new Cliente();
+    this.modalService.open(modalCliente, { size: 'lg' ,scrollable: true});
+    
+    this.tituloModal = "Cadastrar Cliente";
+  }
 
-    editarCliente(modal: any, cliente: Cliente, indice: number) {
-      this.clienteParaEditar = Object.assign({}, cliente); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
-      Object.assign(this.clienteParaEditar.enderecos, cliente.enderecos);
-      this.indiceSelecionadoParaEdicao = indice;
-  
-      this.modalService.open(modal, { size: 'md' });
+  editarCliente(modal: any, cliente: Cliente, indice: number) {
+    this.clienteParaEditar = Object.assign({}, cliente);
+    Object.assign(this.clienteParaEditar.enderecos, cliente.enderecos);
+    this.indiceSelecionadoParaEdicao = indice;
 
-      const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-      element.innerHTML = 'Editar Cliente'
-    }
+    this.modalService.open(modal, { size: 'lg' ,scrollable: true});
 
-    atualizarLista(mensagem: Mensagem) {
-      this.modalService.dismissAll();
-      this.listar();
-      this.retorno.emit("ok");
-    }
+    this.tituloModal = "Editar Cliente";
+  }
 
-    excluirCliente(cliente: Cliente) {
-      if (confirm(`Tem certeza de que deseja excluir este cliente?`)) {
-        this.clienteService.deletar(cliente.id).subscribe({
-          next: (mensagem:Mensagem) => {
-            this.listar(); // Atualize a lista após a exclusão
-            alert(mensagem.mensagem);
-          },
-          error: (mensagem:Mensagem) => {
-            alert(mensagem.mensagem);
-          }
-        });
+  excluirCliente(modal: any, cliente: Cliente, indice: number) {
+    this.clienteParaExcluir = Object.assign({}, cliente);
+    this.indiceSelecionadoParaEdicao = indice;
+
+    this.modalService.open(modal, { size: 'sm' });
+    this.tituloModal = "Deleter Cliente";
+
+  }
+
+  confirmarExclusao(cliente: Cliente) {
+    this.clienteService.deletar(cliente.id).subscribe({
+      next: (mensagem: Mensagem) => {
+        this.toastr.success(mensagem.mensagem);
+        this.listarClientes();
+        this.modalService.dismissAll(); // Atualize a lista após a exclusão
+      },
+      error: erro => { // QUANDO DÁ ERRO
+        this.toastr.error(erro.error.mensagem);
+        console.error(erro);
       }
-    }
+    });
+  }
+
   vincular(cliente: Cliente){
     this.retorno.emit(cliente);
   }

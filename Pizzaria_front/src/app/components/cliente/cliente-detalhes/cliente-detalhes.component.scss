@@ -1,58 +1,95 @@
-.novo{
-    background: #393e46; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-right: 1rem;
-      margin-top: 0.5rem;
-}
-.novo :hover{
-    background:  #393e46;
-    
-}
-.novo:focus{
-    outline: none;
-}
-.btn-success{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-top: 1rem;
-
-}
-.btn-success :hover{
-    background:  #393e46;
-    
-}
-.btn-success:focus{
-    outline: none;
-}
 .tabela{
-    border: 0.2rem solid #f96d00;
-
+    height: 250px;
+    overflow-y: auto;
+}
+.btnAdicionar{
+    padding: 5px 10px;
+    background-color: #8b4513;
+    color: #fdfffc;
+    border: 2px solid #eead2d;
+    border-radius: 8px;
+    outline: none;
+}
+.btnAdicionar:hover{
+    background-color: #eead2d;
+    color: #8b4513;
+    border: 2px solid #000;
+    transition: .5s;
+}
+.ng-invalid.ng-touched:not(form){
+    border: 1px solid red;
+    box-shadow: 0 0 5px red;
+}
+.form-control{
+    border-color: #8b4513;
+}
+.form-control:focus{
+    box-shadow: 0 0 5px #8b4513;
+}
+.fixed-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+tbody, thead{
+    border: 2px solid #eead2d;
 }
 th{
-    border: 0.1rem solid #f96d00;
-    background: #222427;
-    color: #f96d00;
+    background-color: #64310d; 
+    color: #fdfffc;
+    font-weight: 400;
+    border: 1px solid #eead2d;
 }
 td{
-    border: 0.1rem solid #f96d00;
-    background: #222427;
-    color: #f96d00;
+    background-color: #8b4513; 
+    color: #eee;
+    border: 1px solid #eead2d;
 }
-.modal-footer{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
+.salvar{
+    padding: 8px 10px;
+    background-color: #eead2d;
+    color: #8b4513;
+    border: 2px solid #000;
+    border-radius: 8px;
+    outline: none;
 }
-.modal-body{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
+.salvar:hover{
+    background-color: #8b4513;
+    color: #eead2d;
+    border: 2px solid #eead2d;
+    transition: .5s;
+}
+.cabecalhoModal{
+    background-color: #64310d;
+    border-bottom: 3px solid #eead2d;
+    color: #fdfffc;
+}
+.footerModal{
+    background-color: #64310d;
+    border-top: 3px solid #eead2d;
+    color: #fdfffc;
+}
 
+.btn-close{
+    --bs-btn-close-focus-shadow:0
 }
-.modal-header{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #555;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #000;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #64310d;
+}
+.alert{
+    padding: 0px;
+    padding: .5rem;
 }

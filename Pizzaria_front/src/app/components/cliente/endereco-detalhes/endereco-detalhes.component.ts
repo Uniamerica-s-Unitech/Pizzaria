@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { Endereco } from 'src/app/models/endereco';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-endereco-detalhes',
@@ -9,10 +10,14 @@ import { Endereco } from 'src/app/models/endereco';
 export class EnderecoDetalhesComponent {
   @Input() endereco:Endereco = new Endereco();
   @Output() retorno = new EventEmitter<Endereco>;
+  toastr = inject(ToastrService);
 
-  salvar(){
-    this.retorno.emit(this.endereco);
+  salvar(formulario1: any){
+    if (!formulario1.valid){
+      this.toastr.error('Formulário inválido. Preencha os campos corretamente');
+    }else{
+      this.toastr.success('Endereço salvo com sucesso');
+      this.retorno.emit(this.endereco);
+    }
   }
-
 }
-

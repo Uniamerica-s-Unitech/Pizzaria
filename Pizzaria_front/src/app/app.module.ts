@@ -53,7 +53,10 @@ import { httpInterceptorProviders } from './interceptors/httpinterceptor.service
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right', // ou outra posição desejada
+      preventDuplicates: true,
+    })
   ],
   providers: [
     httpInterceptorProviders

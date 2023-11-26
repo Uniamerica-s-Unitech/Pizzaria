@@ -12,10 +12,11 @@
   </div>
   <div class="mb-3">
     <label for="endereco" class="form-label">Endereço:</label>
-    <select [compareWith]="byId" class="form-select" name="endereco" [(ngModel)]="pedido.enderecoId" [disabled]="!pedido.clienteId">
+    <select #endereco="ngModel" required [compareWith]="byId" class="form-select" name="endereco" [(ngModel)]="pedido.enderecoId" [disabled]="!pedido.clienteId">
       <option [ngValue]="undefined">Selecione...</option> 
       <option *ngFor="let endereco of pedido?.clienteId?.enderecos" [ngValue]="endereco">{{ endereco.rua }}, {{ endereco.bairro }}</option>
     </select>
+    <div *ngIf="!endereco.valid && endereco.touched" class="alert alert-danger" role="alert">*Endereço é obrigatório!</div>
   </div>
   
   <div class="mb-3">
@@ -69,7 +70,7 @@
 
 <ng-template #modalListaProdutos let-modal>
   <div class="modal-header ">
-    <h4 id="h4" class="modal-title">{{tituloModal}}</h4>
+    <h4 class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body ">
