@@ -1,5 +1,6 @@
-import { Component ,inject} from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component ,EventEmitter,Input,Output,inject} from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Sabor } from 'src/app/models/sabor';
 import { SaborService } from 'src/app/services/sabor.service';
@@ -10,64 +11,96 @@ import { SaborService } from 'src/app/services/sabor.service';
   styleUrls: ['./sabores-list.component.scss']
 })
 export class SaboresListComponent {
-  lista: Sabor[] = [];
+  @Output() retorno = new EventEmitter<any>();
+  @Input() modoVincular: boolean = false;
 
-  saborParaEditar: Sabor = new Sabor();
-  indiceSelecionadoParaEdicao!: number;
-  
+  listaSaboresOrginal: Sabor[] = [];
+  listaSaboresFiltrada: Sabor[] = [];
+
   modalService = inject(NgbModal);
   saborService = inject(SaborService);
+  toastr = inject(ToastrService);
 
+  saborParaEditar: Sabor = new Sabor();
+  saborParaExcluir: Sabor = new Sabor();
+
+  indiceSelecionadoParaEdicao!: number;
+  modalRef!: NgbModalRef;
+  tituloModal!: string;
+  termoPesquisa!: "";
+  
   constructor() {
-    this.listar();
+    this.listarSabores();
   }
   
-
-  listar(){
+  listarSabores(){
     this.saborService.listar().subscribe({
       next: lista => {
-        this.lista = lista;
+        this.listaSaboresOrginal = lista;
+        this.listaSaboresFiltrada = lista;
       }
     })
   }
 
-    cadastrarSabor(modalSabor : any){
-      this.saborParaEditar = new Sabor();
-      this.modalService.open(modalSabor, { size: 'md' });
-      
-      const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-      element.innerHTML = 'Cadastrar Sabor'
-    }
+  atualizarLista(mensagem: Mensagem) {
+    this.modalService.dismissAll();
+    this.listarSabores();
+    this.retorno.emit("ok");
+  }
 
-    editarSabor(modal: any, sabor: Sabor, indice: number) {
-      this.saborParaEditar = Object.assign({}, sabor); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
-      this.indiceSelecionadoParaEdicao = indice;
-  
-      this.modalService.open(modal, { size: 'md' });
+  cadastrarSabor(modalSabor : any){
+    this.saborParaEditar = new Sabor();
+    this.modalService.open(modalSabor, { size: 'md' });
+    
+    this.tituloModal = "Cadastrar Sabor";
+  }
 
-      const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-      element.innerHTML = 'Editar Sabor'
-    }
+  editarSabor(modal: any, sabor: Sabor, indice: number) {
+    this.saborParaEditar = Object.assign({}, sabor); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+    this.indiceSelecionadoParaEdicao = indice;
 
-    atualizarLista(mensagem: Mensagem) {
-      console.log(mensagem );
-      alert(mensagem.mensagem)
-      this.modalService.dismissAll();
-      this.listar();
-      
-    }
+    this.modalService.open(modal, { size: 'md' });
 
-    excluirSabor(sabor: Sabor) {
-      if (confirm(`Tem certeza de que deseja excluir este sabor?`)) {
-        this.saborService.deletar(sabor.id).subscribe({
-          next: (mensagem:Mensagem) => {
-            this.listar(); // Atualize a lista após a exclusão
-            alert(mensagem.mensagem);
-          },
-          error: (mensagem:Mensagem) => {
-            alert(mensagem.mensagem);
-          }
-        });
+    this.tituloModal = "Editar Sabor";
+  }
+
+  excluirSabor(modal: any, sabor: Sabor, indice: number) {
+    this.saborParaExcluir = Object.assign({}, sabor);
+    this.indiceSelecionadoParaEdicao = indice;
+
+    this.modalService.open(modal, { size: 'sm' });
+    this.tituloModal = "Deleter Sabor";
+
+  }
+
+  confirmarExclusao(sabor: Sabor) {
+    this.saborService.deletar(sabor.id).subscribe({
+      next: (mensagem: Mensagem) => {
+        this.toastr.success(mensagem.mensagem);
+        this.listarSabores();
+        this.modalService.dismissAll();
+      },
+      error: erro => {
+        this.toastr.error(erro.error.mensagem);
       }
+    });
+  }
+
+  vincular(sabor: Sabor){
+    this.retorno.emit(sabor);
+  }
+
+  @Output() realizarPesquisa(termoPesquisa: string) {
+    termoPesquisa.toLowerCase();
+    if (!termoPesquisa) {
+      this.listaSaboresFiltrada = this.listaSaboresOrginal;
+    } else {
+      this.listaSaboresFiltrada = this.listaSaboresOrginal.filter((sabor: Sabor) => {
+        const nome = sabor.nome.toLowerCase();
+        return (
+          nome.includes(termoPesquisa)
+        );
+      });
     }
+  }
 }

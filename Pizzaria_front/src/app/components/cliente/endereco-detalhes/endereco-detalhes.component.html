@@ -1,4 +1,4 @@
-<form #formulario1="ngForm" (ngSubmit)="salvar(formulario1)" class="mb-3">
+<form #formulario="ngForm" (ngSubmit)="salvar(formulario)" class="mb-3">
   <div>
       <label for="exampleInputText1" class="form-label">Rua</label>
       <input #rua="ngModel" required type="text" class="form-control" name="exampleInputText1" [(ngModel)]="endereco.rua">

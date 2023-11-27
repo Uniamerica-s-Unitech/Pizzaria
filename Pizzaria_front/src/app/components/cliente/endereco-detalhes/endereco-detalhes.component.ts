@@ -12,8 +12,8 @@ export class EnderecoDetalhesComponent {
   @Output() retorno = new EventEmitter<Endereco>;
   toastr = inject(ToastrService);
 
-  salvar(formulario1: any){
-    if (!formulario1.valid){
+  salvar(formulario: any){
+    if (!formulario.valid){
       this.toastr.error('Formulário inválido. Preencha os campos corretamente');
     }else{
       this.toastr.success('Endereço salvo com sucesso');

@@ -14,7 +14,7 @@
     <label for="endereco" class="form-label">Endereço:</label>
     <select #endereco="ngModel" required [compareWith]="byId" class="form-select" name="endereco" [(ngModel)]="pedido.enderecoId" [disabled]="!pedido.clienteId">
       <option [ngValue]="undefined">Selecione...</option> 
-      <option *ngFor="let endereco of pedido?.clienteId?.enderecos" [ngValue]="endereco">{{ endereco.rua }}, {{ endereco.bairro }}</option>
+      <option *ngFor="let endereco of pedido?.clienteId?.enderecos" [ngValue]="endereco">{{endereco.rua}}, {{endereco.numero}} - {{endereco.bairro}}</option>
     </select>
     <div *ngIf="!endereco.valid && endereco.touched" class="alert alert-danger" role="alert">*Endereço é obrigatório!</div>
   </div>
@@ -23,18 +23,18 @@
     <button type="button" (click)="adicionarProduto(modalListaProdutos)" class="btnAdicionar">Adicionar produto</button>
   </div>
   <div class="produtos">
-    <div class="lista" *ngFor="let produto of pedido.produtos; let i = index">
+    <div class="lista mb-1" *ngFor="let produto of pedido.produtos; let i = index">
       <div>
         <div class="d-flex flex-column p-2 produto">
-          <div class="d-flex justify-content-between  w-100">
+          <div class="d-flex justify-content-between w-100">
             <div class="d-flex w-50 align-items-baseline justify-content-around">
               <div class="d-flex justify-content-start"><h5>{{i+1 +"."}}{{ produto.produtoId.nome }}</h5></div>
               <div><h6>R${{ produto.produtoId.valor}}</h6></div>
             </div>
             <div class="w-50 d-flex justify-content-end">
               <div class="d-flex justify-content-around gap">
-                <button type="button" (click)="editarProduto(modalListaProdutos, produto, i)" class="btn btn-success text-white">Editar</button>
-                <button type="button" (click)="excluirProduto(i)" class="btn btn-danger">Deletar</button>
+                <button type="button" (click)="editarProduto(modalListaProdutos, produto, i)" class="editar mx-2"><img class="img" src="../../../../assets/imagens/editar.svg"></button>
+                <button type="button" (click)="excluirProduto(i)" class="deletar"><img class="img" src="../../../../assets/imagens/delete.svg"></button>
               </div>
             </div>
           </div>
@@ -48,28 +48,26 @@
     </div>
   </div>
   <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-success">Salvar</button>
+      <button type="submit" class="salvar mt-2">Salvar</button>
   </div>
 </form>
 
 
 <ng-template #modalCliente let-modal>
-  <div class="modal-header modal-style ">
-    <h4 class="modal-title">Buscar modelo</h4>
+  <div class="modal-header cabecalhoModal">
+    <h4 class="modal-title">Buscar Cliente</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body modal-style">
-
+  <div class="badyModal">
     <app-cliente-lista [modoVincular]="true" (retorno)="retornoCliente($event)"></app-cliente-lista>
-
   </div>
-  <div class="modal-footer modal-style">
+  <div class="modal-footer footerModal">
     <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
   </div>
 </ng-template>
 
 <ng-template #modalListaProdutos let-modal>
-  <div class="modal-header ">
+  <div class="modal-header cabecalhoModal">
     <h4 class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
@@ -78,7 +76,7 @@
     <app-selecionar-produtos [pedidoProduto]="produtoParaEditar" (retorno)="atualizarLista($event)"></app-selecionar-produtos>
            
   </div>
-  <div class="modal-footer ">
+  <div class="modal-footer footerModal">
     <button type="button" class="btn btn-danger " (click)="modal.close('Close click')">Close</button>
   </div>
   </ng-template>

@@ -1,66 +1,54 @@
-.btn-success{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-top: 1rem;
-
+.ng-invalid.ng-touched:not(form){
+    border: 1px solid red;
+    box-shadow: 0 0 5px red;
 }
-.btn-success :hover{
-    background:  #393e46;
-    
+.form-control,.form-select{
+    border-color: #8b4513;
 }
-.btn-success:focus{
+.form-control:focus,.form-select:focus{
+    box-shadow: 0 0 5px #8b4513;
+}  
+.salvar{
+    padding: 8px 10px;
+    background-color: #eead2d;
+    color: #8b4513;
+    border: 2px solid #000;
+    border-radius: 8px;
     outline: none;
 }
-.tabela{
-    border: 0.2rem solid #f96d00;
+.salvar:hover{
+    background-color: #8b4513;
+    color: #eead2d;
+    border: 2px solid #eead2d;
+    transition: .5s;
 }
-th{
-    border: 0.1rem solid #f96d00;
-
-}
-.novo{
-    background: #393e46; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-right: 1rem;
-
-}
-.novo :hover{
-    background:  #393e46;
-    
-}
-.novo:focus{
-    outline: none;
-}
-.tabela{
-    border: 0.2rem solid #f96d00;
-
-}
-th{
-    border: 0.1rem solid #f96d00;
-
-}
-td{
-    border: 0.1rem solid #f96d00;
-
-}
-.modal-footer{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
+.alert{
+    padding: 0px;
+    padding: .5rem;
 }
 .modal-body{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
+    padding: 0px;
+    background-color: #8b4513;
 }
-
-.modal-header{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
+.cabecalhoModal{
+    background-color: #222427;
+    border-bottom: 4px solid #eead2d;
+    color: #fdfffc;
+    border-top-right-radius: 0px;
+    border-top-left-radius: 0px;
+}
+.footerModal{
+    background-color: #222427;
+    border-top: 4px solid #eead2d;
+    color: #fdfffc;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.btn-close{
+    --bs-btn-close-focus-shadow:0
+}
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

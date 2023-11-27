@@ -55,19 +55,14 @@
 ::-webkit-scrollbar {
     width: 10px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
     background: #000;
-    border-radius: 0 0.375rem 0.375rem 0;
 }
-
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #64310d;
-    border-radius: 0 0.375rem 0.375rem 0;
 }
-
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
@@ -140,14 +135,18 @@
     }
 }
 .cabecalhoModal{
-    background-color: #64310d;
-    border-bottom: 3px solid #eead2d;
+    background-color: #222427;
+    border-bottom: 4px solid #eead2d;
     color: #fdfffc;
+    border-top-right-radius: .3rem;
+    border-top-left-radius: .3rem;
 }
 .footerModal{
-    background-color: #64310d;
-    border-top: 3px solid #eead2d;
+    background-color: #222427;
+    border-top: 4px solid #eead2d;
     color: #fdfffc;
+    border-bottom-left-radius: .3rem;
+    border-bottom-right-radius: .3rem;
 }
 
 .btn-close{

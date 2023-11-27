@@ -61,7 +61,6 @@ export class ClienteListaComponent {
     this.clienteParaEditar = Object.assign({}, cliente);
     Object.assign(this.clienteParaEditar.enderecos, cliente.enderecos);
     this.indiceSelecionadoParaEdicao = indice;
-
     this.modalService.open(modal, { size: 'lg' ,scrollable: true});
 
     this.tituloModal = "Editar Cliente";
@@ -70,10 +69,9 @@ export class ClienteListaComponent {
   excluirCliente(modal: any, cliente: Cliente, indice: number) {
     this.clienteParaExcluir = Object.assign({}, cliente);
     this.indiceSelecionadoParaEdicao = indice;
-
     this.modalService.open(modal, { size: 'sm' });
-    this.tituloModal = "Deleter Cliente";
 
+    this.tituloModal = "Deleter Cliente";
   }
 
   confirmarExclusao(cliente: Cliente) {
@@ -81,11 +79,10 @@ export class ClienteListaComponent {
       next: (mensagem: Mensagem) => {
         this.toastr.success(mensagem.mensagem);
         this.listarClientes();
-        this.modalService.dismissAll(); // Atualize a lista após a exclusão
+        this.modalService.dismissAll();
       },
-      error: erro => { // QUANDO DÁ ERRO
+      error: erro => {
         this.toastr.error(erro.error.mensagem);
-        console.error(erro);
       }
     });
   }

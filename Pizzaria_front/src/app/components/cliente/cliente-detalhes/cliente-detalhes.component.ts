@@ -24,23 +24,19 @@ export class ClienteDetalhesComponent {
   indiceSelecionadoParaEdicao!: number;
   tituloModal!: string;
 
-  salvar(formulario1: any) {
-    if (!formulario1.valid){
-      this.toastr.error('Formulário inválido. Preencha os campos corretamente');
-    }else{
-      this.clienteService.save(this.cliente).subscribe({
-        next: mensagem => {
-          this.toastr.success(mensagem.mensagem);
-          this.retorno.emit(mensagem);
-        },
-        error: erro => {
-          this.toastr.error(erro.error.mensagem);
-        }
-      });
-    }
-    
-  }
+  atualizarLista(endereco: Endereco) {
+    if(this.cliente.enderecos == null)
+    this.cliente.enderecos = [];
 
+    if(endereco.id >= 0){
+      let index = this.cliente.enderecos.findIndex(item => endereco.id === item.id);
+      this.cliente.enderecos[index] = Object.assign({}, endereco);
+    }else{
+      endereco.id = 0;
+      this.cliente.enderecos.push(Object.assign({}, endereco));
+    }
+    this.modalRef.dismiss();
+  }
 
   cadastrarEndereco(modalEndereco : any){
     this.enderecoParaEditar = new Endereco();
@@ -59,24 +55,25 @@ export class ClienteDetalhesComponent {
     this.tituloModal = "Editar Cliente";
   }
 
-  atualizarLista(endereco: Endereco) {
-
-    if(this.cliente.enderecos == null)
-    this.cliente.enderecos = [];
-
-    if(endereco.id >= 0){
-      let index = this.cliente.enderecos.findIndex(item => endereco.id === item.id);
-      this.cliente.enderecos[index] = Object.assign({}, endereco);
-    }else{
-      endereco.id = 0;
-      this.cliente.enderecos.push(Object.assign({}, endereco));
-    }
-    this.modalRef.dismiss();
-  }
-
   excluirEndereco(index : number) {
     if (confirm(`Tem certeza de que deseja excluir este endereço?`)) {
         this.cliente.enderecos.splice(index , 1);
+    }
+  }
+
+  salvar(formulario: any) {
+    if (!formulario.valid){
+      this.toastr.error('Formulário inválido. Preencha os campos corretamente');
+    }else{
+      this.clienteService.save(this.cliente).subscribe({
+        next: mensagem => {
+          this.toastr.success(mensagem.mensagem);
+          this.retorno.emit(mensagem);
+        },
+        error: erro => {
+          this.toastr.error(erro.error.mensagem);
+        }
+      });
     }
   }
 }

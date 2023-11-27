@@ -1,4 +1,5 @@
 import { Component,EventEmitter,Input,Output,inject} from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Sabor } from 'src/app/models/sabor';
 import { SaborService } from 'src/app/services/sabor.service';
@@ -13,21 +14,21 @@ export class SaboresDetalhesComponent {
   @Output() retorno = new EventEmitter<Mensagem>;
 
   saborService = inject(SaborService);
+  toastr = inject(ToastrService);
 
-  constructor() {}
-
-  salvar() {
-    //ISSO AQUI SERVE PARA EDITAR OU ADICIONAR... TANTO FAZ
-
-    this.saborService.save(this.sabor).subscribe({
-      next: mensagem => { // QUANDO DÁ CERTO
-        this.retorno.emit(mensagem);
-      },
-      error: erro => { // QUANDO DÁ ERRO
-        alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
-        console.error(erro);
-      }
-    });
+  salvar(formulario: any) {
+    if (!formulario.valid){
+      this.toastr.error('Formulário inválido. Preencha os campos corretamente');
+    }else{
+      this.saborService.save(this.sabor).subscribe({
+        next: mensagem => {
+          this.toastr.success(mensagem.mensagem);
+          this.retorno.emit(mensagem);
+        },
+        error: erro => {
+          this.toastr.error(erro.error.mensagem);
+        }
+      });
+    }
   }
-
 }

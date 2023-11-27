@@ -1,42 +1,45 @@
-<div>
-    <h2>Histórico de Pedidos</h2>
-    <div class="container">
-      <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
+<div class="h-100 d-flex col-lg-12">
+  <section class="menuPedidos d-flex text-center flex-column h-100 col-lg-4">
+    <div class="menu w-100">
+      <div class="campoSerch w-100">
+          <input class="serch w-100" type="text" placeholder="Pesquisar por Id ou nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>
       </div>
-      <div class="listaPedidos">
-        <div class="col-md-3">
-          <ul class="list-group">
-            <li class="list-group-item li_lista" *ngFor="let pedido of listaPedidos">
-              <button class="btn btn-link" (click)="mostrarDetalhes(pedido.id)">{{ pedido.clienteId.nome }}</button>
-            </li>
-          </ul>
-        </div>
-        <div  *ngFor="let pedido of listaPedidos">
-          <div  class="detalhesPedido" *ngIf="pedidoSelecionado === pedido.id">
-            <h2>Detalhes do Pedido</h2>
-            <p>ID: {{ pedido.id }}</p>
-            <p>Cliente: {{ pedido.clienteId.nome}}</p>
-            <ul>
-              <li *ngFor="let cliente of pedido.clienteId.enderecos">
-                <p>Endereço: {{ cliente.rua }},{{ cliente.bairro}},{{cliente.numero}}</p>
-              </li>
-            </ul>
-            <ul>
-              <li *ngFor="let produto of pedido.produtos">
-                <p>Item: {{ produto.produtoId.nome }} R$ {{ produto.produtoId.valor}}</p>
-                <h4>Sabores</h4>
-                <ul>
-                  <li *ngFor="let sabor of produto.sabores">
-                    <p>Nome do Sabor: {{ sabor.nome }}</p>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            
-            <p>Data de Solicitação: {{ pedido.solicitacao | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
-            <p>Valor Total: R$ {{ pedido.valorTotal }}</p>
-          </div>
-       </div>
+      <div class="container h-100">
+        <ul class="list-group">
+          <button class="list-group-item" [ngClass]="{'list-group-item-active' : (active == pedido)}"  *ngFor="let pedido of listaPedidosFiltrada" (click)="[mostrarDetalhes(pedido.id) ,active = pedido]">
+            <span>#{{ pedido.id }} • {{ pedido.clienteId.nome }}</span> 
+          </button>
+        </ul>
       </div>
     </div>
-  </div>
+  </section>
+  
+  <section class="listarPedidos h-100 col-lg-8">
+    <div *ngFor="let pedido of listaPedidosOrginal">
+      <div  class="detalhesPedido" *ngIf="pedidoSelecionado === pedido.id">
+        <div class="cabecalho">
+          <h1>{{pedido.clienteId.nome}}</h1>
+          <span>Pedido #{{pedido.id}}</span>
+          <span>• Feito às {{pedido.solicitacao}}</span>
+        </div>
+        <div class="endereco">
+          <p>{{pedido.enderecoId.rua}}, {{pedido.enderecoId.numero}} - {{pedido.enderecoId.bairro}}</p>
+        </div>
+        <ul class="produto">
+          <li *ngFor="let produto of pedido.produtos">
+            <div class="produtoNome">
+              <p>{{ produto.produtoId.nome }}</p>
+              <p>R$ {{ produto.produtoId.valor}}</p>
+            </div>
+            <ul>
+              <li *ngFor="let sabor of produto.sabores">
+                <p>{{ sabor.nome }}</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!--p>Valor Total: R$ {{ pedido.valorTotal }}</p-->
+      </div>
+    </div>
+  </section>
+</div>

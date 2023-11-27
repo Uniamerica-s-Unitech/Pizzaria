@@ -13,7 +13,6 @@ import { PedidoListaComponent } from '../pedido-lista/pedido-lista.component';
 })
 export class SelecionarProdutosComponent implements OnInit{
   @Output() retorno = new EventEmitter<PedidoProduto>();
-
   @Input() pedidoProduto: PedidoProduto = new PedidoProduto(); //OBJETO
 
   listaProdutos: Produto[] = []; //Listagem geral de produtos do banco

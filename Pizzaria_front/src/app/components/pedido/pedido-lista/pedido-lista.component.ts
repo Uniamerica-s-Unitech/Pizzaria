@@ -56,13 +56,13 @@ export class PedidoListaComponent {
 
   cadastrarPedido(modalPedido : any){
     this.pedidoParaEditar = new Pedido();
-    this.modalRef = this.modalService.open(modalPedido, { size: 'md' });
+    this.modalRef = this.modalService.open(modalPedido, { size: 'md' , scrollable: true});
     
     this.tituloModal = "Cadastrar Pedido";
   }
 
   historico(modalPedidoHistorico : any){
-    this.modalRef = this.modalService.open(modalPedidoHistorico, { size: 'lg' });
+    this.modalRef = this.modalService.open(modalPedidoHistorico, { size: 'xl' });
     
     this.tituloModal = "Histórico Pedido";
   }
@@ -83,6 +83,7 @@ export class PedidoListaComponent {
         // Atualize a lista de pedidos após a finalização bem-sucedida, se necessário.
       },
       error: erro => {
+        
       }
     });
   }

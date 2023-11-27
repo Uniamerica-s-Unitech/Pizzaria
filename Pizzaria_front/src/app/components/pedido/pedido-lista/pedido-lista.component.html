@@ -1,12 +1,12 @@
 <div class="h-100 d-flex col-lg-12">
   <section class="menuPedidos d-flex text-center flex-column h-100 col-lg-3">
-    <div class="menu">
-      <div class="campoSerch">
-          <input class="serch" type="text" placeholder="Pesquisar por Id ou nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>
+    <div class="menu w-100">
+      <div class="campoSerch w-100">
+          <input class="serch w-100" type="text" placeholder="Pesquisar por Id ou nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>
       </div>
-      <div class="container h-100">
-        <ul class="list-group">
-          <button class="list-group-item" [ngClass]="{'list-group-item-active' : (active == pedido)}"  *ngFor="let pedido of listaPedidosFiltrada" (click)="[mostrarDetalhes(pedido.id) ,active = pedido]">
+      <div class="container h-100 w-100">
+        <ul class="list-group w-100">
+          <button class="list-group-item w-100" [ngClass]="{'list-group-item-active' : (active == pedido)}"  *ngFor="let pedido of listaPedidosFiltrada" (click)="[mostrarDetalhes(pedido.id) ,active = pedido]">
             <span>#{{ pedido.id }} • {{ pedido.clienteId.nome }}</span> 
           </button>
         </ul>
@@ -35,7 +35,6 @@
               <p>{{ produto.produtoId.nome }}</p>
               <p>R$ {{ produto.produtoId.valor}}</p>
             </div>
-
             <ul>
               <li *ngFor="let sabor of produto.sabores">
                 <p>{{ sabor.nome }}</p>
@@ -43,28 +42,7 @@
             </ul>
           </li>
         </ul>
-       
-        <!--p>ID: {{ pedido.id }}</p>
-        <p>Cliente: {{ pedido.clienteId.nome}}</p>
-        <ul>
-          <li *ngFor="let cliente of pedido.clienteId.enderecos">
-            <p>Endereço: {{ cliente.rua }},{{ cliente.bairro}},{{cliente.numero}}</p>
-          </li>
-        </ul>
-        <ul>
-          <li *ngFor="let produto of pedido.produtos">
-            <p>Item: {{ produto.produtoId.nome }} R$ {{ produto.produtoId.valor}}</p>
-            <h4>Sabores</h4>
-            <ul>
-              <li *ngFor="let sabor of produto.sabores">
-                <p>Nome do Sabor: {{ sabor.nome }}</p>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        
-        <p>Data de Solicitação: {{ pedido.solicitacao | date: 'dd/MM/yyyy HH:mm:ss' }}</p>
-        <p>Valor Total: R$ {{ pedido.valorTotal }}</p>
+        <!--p>Valor Total: R$ {{ pedido.valorTotal }}</p>
         <button class="btn btn-primary" (click)="finalizarPedido(pedido)">Finalizar</button-->
       </div>
     </div>
@@ -77,9 +55,7 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    
     <app-pedido-detalhes [pedido]="pedidoParaEditar" (retorno)="atualizarLista($event)" ></app-pedido-detalhes>
-            
   </div>
   <div class="modal-footer footerModal">
     <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Fechar</button>
@@ -87,16 +63,14 @@
 </ng-template>
 
 <ng-template #modalPedidoHistorico let-modal>
-  <div class="modal-header">
+  <div class="modal-header cabecalhoModal">
     <h4 class="modal-title">{{tituloModal}}</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <div class="modal-body">
-    
+  <div style="height: 500px;">
     <app-historico-pedidos></app-historico-pedidos>
-            
   </div>
-  <div class="modal-footer">
+  <div class="modal-footer footerModal">
     <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Fechar</button>
   </div>
 </ng-template>

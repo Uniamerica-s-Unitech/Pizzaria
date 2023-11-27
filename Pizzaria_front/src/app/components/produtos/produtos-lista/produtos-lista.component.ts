@@ -1,5 +1,6 @@
-import { Component, Input, inject } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Categoria } from 'src/app/models/categoria';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Produto } from 'src/app/models/produto';
@@ -12,19 +13,29 @@ import { ProdutoService } from 'src/app/services/produto.service';
   styleUrls: ['./produtos-lista.component.scss']
 })
 export class ProdutosListaComponent {
-  listaCategoria: Categoria[] = [];
-  categoriaParaEditar: Categoria = new Categoria();
-  produtoParaEditar: Produto = new Produto();
-  modalService = inject(NgbModal);
+  @Output() retorno = new EventEmitter<any>();
+  @Input() modoVincular: boolean = false;
+  listaCategoriasOrginal: Categoria[] = [];
+  listaCategoriasFiltrada: Categoria[] = [];
+
   categoriaService = inject(CategoriaService);
   produtoService = inject(ProdutoService);
-  @Input() categoria:Categoria = new Categoria();
+  modalService = inject(NgbModal);
+  toastr = inject(ToastrService);
 
+  categoriaParaEditar: Categoria = new Categoria();
+  categoriaParaExcluir: Categoria = new Categoria();
+  produtoParaEditar: Produto = new Produto();
+  produtoParaExcluir: Produto = new Produto();
+  
   indiceSelecionadoParaEdicao!: number;
   categoriaAberta: number | null = null;
+  modalRef!: NgbModalRef;
+  tituloModal!: string;
+  termoPesquisa!: "";
 
   constructor() {
-    this.listar();
+    this.listarCategorias();
   }
 
   toggleCategoria(categoriaId: number) {
@@ -35,106 +46,106 @@ export class ProdutosListaComponent {
     }
   }
 
-
-  listar(){
+  listarCategorias(){
     this.categoriaService.listar().subscribe({
-      next: listaCategoria => {
-        this.listaCategoria = listaCategoria;
+      next: lista => {
+        this.listaCategoriasOrginal = lista;
+        this.listaCategoriasFiltrada = lista;
       }
     })
+  }
+
+  atualizarLista(mensagem: Mensagem) {
+    this.modalService.dismissAll();
+    this.listarCategorias();
+    this.retorno.emit("ok");
   }
 
   cadastrarCategoria(modalCategoria : any){
     this.categoriaParaEditar = new Categoria();
     this.modalService.open(modalCategoria, { size: 'md' });
 
-    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-    element.innerHTML = 'Cadastrar Categoria'
+    this.tituloModal = "Cadastrar Categoria";
   }
 
   editarCategoria(modal: any, categoria: Categoria, indice: number) {
-    this.categoriaParaEditar = Object.assign({}, categoria); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+    this.categoriaParaEditar = Object.assign({}, categoria); 
     this.indiceSelecionadoParaEdicao = indice;
-
     this.modalService.open(modal, { size: 'md' });
 
-    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-    element.innerHTML = 'Editar Categoria'
+    this.tituloModal = "Editar Categoria";
   }
 
-  atualizarLista(mensagem: Mensagem) {
-    console.log(mensagem );
-    alert(mensagem.mensagem)
-    this.modalService.dismissAll();
-    this.listar();
+  excluirCategoria(modal: any, categoria: Categoria, indice: number) {
+    this.categoriaParaExcluir = Object.assign({}, categoria);
+    this.indiceSelecionadoParaEdicao = indice;
+    this.modalService.open(modal, { size: 'sm' });
 
+    this.tituloModal = "Deleter Categoria";
   }
 
-  excluirCategoria(categoria: Categoria) {
-    if (confirm(`Tem certeza de que deseja excluir esta categoria?`)) {
-      this.categoriaService.deletar(categoria.id).subscribe({
-        next: (mensagem:Mensagem) => {
-          this.listar(); // Atualize a lista após a exclusão
-          alert(mensagem.mensagem);
-        },
-        error: (mensagem:Mensagem) => {
-          alert(mensagem.mensagem);
-        }
-      });
-    }
+  confirmarExclusaoCategoria(categoria: Categoria) {
+    this.categoriaService.deletar(categoria.id).subscribe({
+      next: (mensagem: Mensagem) => {
+        this.toastr.success(mensagem.mensagem);
+        this.listarCategorias();
+        this.modalService.dismissAll();
+      },
+      error: erro => {
+        this.toastr.error(erro.error.mensagem);
+      }
+    });
   }
 
   cadastrarProduto(modalProduto : any){
     this.produtoParaEditar = new Produto();
-    this.modalService.open(modalProduto, { size: 'md' });
+    this.modalService.open(modalProduto, { size: 'md' ,scrollable: true});
 
-    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-    element.innerHTML = 'Cadastrar Produto'
+    this.tituloModal = "Cadastrar Produto";
   }
 
   editarProduto(modal: any, produto: Produto, indice: number) {
-    this.produtoParaEditar = Object.assign({}, produto); //clonando o objeto se for edição... pra não mexer diretamente na referência da lista
+    this.produtoParaEditar = Object.assign({}, produto); 
     this.indiceSelecionadoParaEdicao = indice;
-
     this.modalService.open(modal, { size: 'md' });
 
-    const element: HTMLElement = document.getElementById('h4') as HTMLElement 
-    element.innerHTML = 'Editar Produto'
+    this.tituloModal = "Editar Produto";
   }
 
-  excluirProduto(produto: Produto,index:number) {
-    if (confirm(`Tem certeza de que deseja excluir esta produto?`)) {
-      this.produtoService.deletar(produto.id).subscribe({
-        next: (mensagem:Mensagem) => {
-          alert(mensagem.mensagem);
-          this.editarCategoriaExcluirProduto(produto);
-          this.listar(); // Atualize a lista após a exclusão
+  excluirProduto(modal: any, produto: Produto, indice: number) {
+    this.produtoParaExcluir = Object.assign({}, produto);
+    this.indiceSelecionadoParaEdicao = indice;
+    this.modalService.open(modal, { size: 'sm' });
 
-        },
-        error: (mensagem:Mensagem) => {
-          alert(mensagem.mensagem);
-        }
-      });
-    }
+    this.tituloModal = "Deleter Produto";
   }
 
-  editarCategoriaExcluirProduto(produto: Produto) {
-    // Encontre a categoria relacionada ao produto que você está excluindo
-    const categoria = this.listaCategoria.find(item => item.produtos.some(produtoId => produtoId.id === produto.id));
-
-    if (categoria) {
-      // Edite a categoria para remover o produto da lista de produtos
-      const produtoIndex = categoria.produtos.findIndex(produtoId => produtoId.id === produto.id);
-      if (produtoIndex !== -1) {
-        categoria.produtos.splice(produtoIndex, 1);
+  confirmarExclusaoProduto(produto: Produto) {
+    this.produtoService.deletar(produto.id).subscribe({
+      next: (mensagem: Mensagem) => {
+        this.toastr.success(mensagem.mensagem);
+        this.modalService.dismissAll();
+      },
+      error: erro => {
+        this.toastr.error(erro.error.mensagem);
       }
+    });
+  }
 
-      // Agora, você pode chamar o serviço para editar a categoria no backend
-      this.categoriaService.save(categoria).subscribe({
-        next: () => {
-          // Atualize a lista após a edição da categoria
-          this.listar();
-        }
+  vincular(categoria: Categoria){
+    this.retorno.emit(categoria);
+  }
+
+  @Output() realizarPesquisa(termoPesquisa: string) {
+    termoPesquisa.toLowerCase();
+    if (!termoPesquisa) {
+      this.listaCategoriasFiltrada = this.listaCategoriasOrginal;
+    } else {
+      this.listaCategoriasFiltrada = this.listaCategoriasOrginal.filter((categoria: Categoria) => {
+        const nome = categoria.nome.toLowerCase();
+        return (
+          nome.includes(termoPesquisa)
+        );
       });
     }
   }

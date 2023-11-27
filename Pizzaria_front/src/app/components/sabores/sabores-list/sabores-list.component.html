@@ -1,45 +1,62 @@
-<div class="h-100">
-    <div class="d-flex justify-content-start ">
-        <h2>Lista de Sabores</h2>
-      </div>
-    
-
-    <div class="container">
-      <div class="d-flex justify-content-between" style="margin-bottom: 1rem;">
-          <button (click)="cadastrarSabor(modalSabor)" class="btn btn-success text-white">Novo Sabor</button>
-      </div>
-      <table class="table  tabela  table-hover">
-          <thead>
-              <tr >
-                  <th>Nome</th>
-                  <th class="d-flex justify-content-center" >Ações</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let sabor of lista; let i = index">
-                  <td>{{ sabor.nome }}</td>
-                  <td class="d-flex justify-content-center">
-                      <button (click)="editarSabor(modalSabor, sabor, i)" class="btn btn-success btn-sm">Editar</button>
-                      <button (click)="excluirSabor(sabor)" class="btn btn-danger btn-sm">Deletar</button>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+<div class="h-100 d-flex col-lg-12 flex-column" style="gap: 20px;">
+    <div class="serch col-lg-12 w-100">
+        <div style="width: 12% !important;" *ngIf="!modoVincular">
+            <button (click)="cadastrarSabor(modalSabor)" class="novoSabor">Novo Sabor</button>
+        </div>
+        <div class="w-100">
+            <input class="w-100" type="text" placeholder="Pesquisar por nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>  
+        </div>
     </div>
+    
+    <section class="quadroTabela container">
+        <div class="tabela">
+            <table class="table table-striped">
+                <thead class="fixed-header">
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sabor of listaSaboresFiltrada; let i = index">
+                        <td class="text-break text-wrap">{{ sabor.nome }}</td>
+                        <td class="text-center text-break text-wrap" *ngIf="!modoVincular">
+                            <button (click)="editarSabor(modalSabor, sabor, i)" class="editar mx-2"><img class="img" src="../../../../assets/imagens/editar.svg"></button>
+                            <button (click)="excluirSabor(modalExcluir, sabor, i)" class="deletar"><img class="img" src="../../../../assets/imagens/delete.svg"></button>
+                        </td>
+                        <td class="text-center" *ngIf="modoVincular">
+                            <button (click)="vincular(sabor)" class="btn btn-danger">Vincular</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
       
-      
 <ng-template #modalSabor let-modal>
-    <div class="modal-header">
-        <h4 id="h4" class="modal-title"></h4>
+    <div class="modal-header cabecalhoModal">
+        <h4 class="modal-title">{{tituloModal}}</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
-        
-            <app-sabores-detalhes [sabor]="saborParaEditar" (retorno)="atualizarLista($event)" ></app-sabores-detalhes>
-                
+        <app-sabores-detalhes [sabor]="saborParaEditar" (retorno)="atualizarLista($event)"></app-sabores-detalhes>      
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer footerModal">
         <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #modalExcluir let-modal>
+    <div class="modal-header modal-style">
+        <h4 class="modal-title">{{tituloModal}}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body modal-style">
+        <h5>Vc tem certeza que quer deletar esse Sabor?</h5>   
+    </div>
+    <div class="modal-footer modal-style">
+        <button type="button" class="btn btn-outline-danger" (click)="confirmarExclusao(saborParaExcluir)">Deletar</button>
+        <button type="button" class="btn btn-secondary" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template>

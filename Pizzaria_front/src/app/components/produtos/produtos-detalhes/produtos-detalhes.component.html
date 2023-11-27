@@ -1,35 +1,56 @@
-<form (ngSubmit)="salvar()" class="mb-3">
-    <div class="mb-3">
-      <label for="exampleInputText1" class="form-label">Nome:</label>
-      <input type="text" class="form-control" name="exampleInputText1" [(ngModel)]="produto.nome">
+<form #formulario="ngForm" (ngSubmit)="salvar(formulario)" class="mb-3">
+  <div class="mb-3">
+    <label for="exampleInputText1" class="form-label">Nome:</label>
+    <input #nome="ngModel" required type="text" class="form-control" name="exampleInputText1" [(ngModel)]="produto.nome">
+    <div *ngIf="!nome.valid && nome.touched" class="alert alert-danger" role="alert">*Nome é obrigatório!</div>
+  </div>
+  <div class="mb-3" *ngIf="modo == 1">
+    <label for="client" class="form-label">Categoria:</label>
+    <p class="alert alert-danger d-flex justify-content-between align-items-center" *ngIf="produto.categoriaId == null">
+      Categoria não vinculada, é obrigatório!
+      <button type="button" (click)="buscar(modalCategoria)" class="btn btn-danger">Buscar</button>
+    </p>
+    <div class="alert alert-success d-flex justify-content-between align-items-center" *ngIf="produto.categoriaId != null">
+      <p>{{produto.categoriaId}}</p>
+      <button type="button" (click)="buscar(modalCategoria)" class="btn btn-secondary">Trocar</button>
     </div>
-    <div class="mb-3">
-      <label for="categoria" class="form-label">Categoria:</label>
-      <select class="form-select" name="categoria" [(ngModel)]="produto.categoriaId">
-        <option [ngValue]="undefined">Selecione o categoria</option>
-        <option *ngFor="let categoria of listaCategorias" [ngValue]="categoria">{{ categoria.nome }}</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="tamanho" class="form-label">O produto pode ter tamanhos?</label>
-      <input name="dlkfsad" type="checkbox" [(ngModel)]="produto.temSabores">
-    </div>
-    <div class="mb-3" *ngIf="produto.temSabores">
-      <label for="tamanho" class="form-label">Tamanho:</label>
-      <select class="form-select" name="tamanho" [(ngModel)]="produto.tamanho">
-        <option [ngValue]="undefined">Selecione o tamanho</option>
-        <option [ngValue]="'GG'">GG</option>
-        <option [ngValue]="'G'">G</option>
-        <option [ngValue]="'M'">M</option>
-        <option [ngValue]="'P'">P</option>
-      </select>
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputNumber1" class="form-label">Valor:</label>
-      <input type="number" class="form-control" name="exampleInputNumber1" [(ngModel)]="produto.valor">
-    </div>
-    <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-success">Salvar</button>
-    </div>
-    
+  </div>
+  <div class="mb-3 d-flex justify-content-between tamanho">
+    <label for="tamanho" class="form-label fs-5 text">O produto pode ter tamanhos?</label>
+    <input name="dlkfsad" type="checkbox" [(ngModel)]="produto.temSabores">
+  </div>
+  <div class="mb-3" *ngIf="produto.temSabores">
+    <label for="tamanho" class="form-label">Tamanho:</label>
+    <select #tamanho="ngModel" required [compareWith]="byId" class="form-select" name="tamanho" [(ngModel)]="produto.tamanho">
+      <option [ngValue]="undefined">Selecione o tamanho</option>
+      <option [ngValue]="'GG'">GG</option>
+      <option [ngValue]="'G'">G</option>
+      <option [ngValue]="'M'">M</option>
+      <option [ngValue]="'P'">P</option>
+    </select>
+    <div *ngIf="!tamanho.valid && tamanho.touched" class="alert alert-danger" role="alert">*Tamnho é obrigatório!</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputNumber1" class="form-label">Valor:</label>
+    <input #valor="ngModel" required type="number" class="form-control" name="exampleInputNumber1" [(ngModel)]="produto.valor">
+    <div *ngIf="!valor.valid && valor.touched" class="alert alert-danger" role="alert">*Valor é obrigatório!</div>
+  </div>
+  <div class="d-flex justify-content-center">
+      <button type="submit" class="salvar">Salvar</button>
+  </div>  
 </form>
+
+<ng-template #modalCategoria let-modal>
+  <div class="modal-header cabecalhoModal">
+    <h4 class="modal-title">Buscar categoria</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body modal-style">
+
+    <app-produtos-lista [modoVincular]="true" (retorno)="retornoCategoria($event)"></app-produtos-lista>
+
+  </div>
+  <div class="modal-footer footerModal">
+    <button type="button" class="btn btn-danger" (click)="modal.close('Close click')">Close</button>
+  </div>
+</ng-template>

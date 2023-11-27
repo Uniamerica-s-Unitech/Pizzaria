@@ -1,33 +1,43 @@
-.modal-footer{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
+.ng-invalid.ng-touched:not(form){
+    border: 1px solid red;
+    box-shadow: 0 0 5px red;
 }
-.modal-body{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
+.form-control{
+    border-color: #8b4513;
 }
-
-.modal-header{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-    color: #f96d00;
-
-}   
-.btn-success{
-    background: #222427; 
-    border: 0.1rem solid #f96d00;
-      transition-duration: 0.4s;
-      margin-top: 1rem;
-
+.form-control:focus{
+    box-shadow: 0 0 5px #8b4513;
 }
-.btn-success :hover{
-    background:  #393e46;
-    
+.alert{
+    padding: 0px;
+    padding: .5rem;
 }
-.btn-success:focus{
+.salvar{
+    padding: 8px 10px;
+    background-color: #eead2d;
+    color: #8b4513;
+    border: 2px solid #000;
+    border-radius: 8px;
     outline: none;
+}
+.salvar:hover{
+    background-color: #8b4513;
+    color: #eead2d;
+    border: 2px solid #eead2d;
+    transition: .5s;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #000;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #64310d;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

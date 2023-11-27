@@ -20,60 +20,44 @@ export class PedidoDetalhesComponent {
   @Output() retorno = new EventEmitter<Mensagem>();
 
   pedidoService = inject(PedidoService);
-  saborService = inject(SaborService);
-  clienteService = inject(ClienteService);
   modalService = inject(NgbModal);
   toastr = inject(ToastrService);
   modalRef!: NgbModalRef;
-
-  listaClientes: Cliente[] = [];
 
 
   produtoParaEditar: PedidoProduto = new PedidoProduto();
 
   indiceSelecionadoParaEdicao!: number;
   tituloModal!: string;
-
-  constructor() {
-    this.carregarClientes();
-  }
-
-  carregarClientes() {
-    this.clienteService.listar().subscribe({
-      next: lista => {
-        this.listaClientes = lista;
-      }
-    });
-  }
-
-  carregarEnderecos() {
-    if (this.pedido.clienteId && this.pedido.clienteId.enderecos) {
-      this.pedido.clienteId.enderecos = this.pedido.clienteId.enderecos;
-    } else {
-      this.pedido.clienteId.enderecos = [];
-    }
-  }
-
-  adicionarProduto(modalListaProdutos: any) {
-    this.indiceSelecionadoParaEdicao = -1;
-    this.produtoParaEditar = new PedidoProduto();
-    this.modalRef = this.modalService.open(modalListaProdutos, { size: 'sm' });
-
-    this.tituloModal = "Adicionar Produto";
-  }
-
   atualizarLista(produto: PedidoProduto) {
-
     if (this.pedido.produtos == null)
       this.pedido.produtos = [];
-
     if (this.indiceSelecionadoParaEdicao == -1)
       this.pedido.produtos.push(Object.assign({}, produto));
     else {
       this.pedido.produtos[this.indiceSelecionadoParaEdicao] = Object.assign({}, produto);
     }
-
     this.modalRef.dismiss();
+  }
+
+  adicionarProduto(modalListaProdutos: any) {
+    this.indiceSelecionadoParaEdicao = -1;
+    this.produtoParaEditar = new PedidoProduto();
+    this.modalRef = this.modalService.open(modalListaProdutos, { size: 'lg' });
+
+    this.tituloModal = "Adicionar Produto";
+  }
+
+  editarProduto(modal: any, produto: PedidoProduto, indice: number) {
+    this.produtoParaEditar = Object.assign({}, produto);
+    this.indiceSelecionadoParaEdicao = indice;
+    this.modalRef = this.modalService.open(modal, { size: 'lg' });
+
+    this.tituloModal = "Editar Produto";
+  }
+
+  excluirProduto(index: number) {
+    this.pedido.produtos.splice(index, 1);
   }
 
   salvar() {
@@ -92,23 +76,9 @@ export class PedidoDetalhesComponent {
         this.retorno.emit(mensagem);
       },
       error: erro => {
-        alert('Exemplo de tratamento de erro/exception! Observe o erro no console!');
-        console.error(erro);
+        this.toastr.error(erro.error.mensagem);
       }
     });
-  }
-
-  editarProduto(modal: any, produto: PedidoProduto, indice: number) {
-    this.produtoParaEditar = Object.assign({}, produto);
-    this.indiceSelecionadoParaEdicao = indice;
-
-    this.modalRef = this.modalService.open(modal, { size: 'sm' });
-
-    this.tituloModal = "Editar Produto";
-  }
-
-  excluirProduto(index: number) {
-    this.pedido.produtos.splice(index, 1);
   }
 
   retornoCliente(cliente: any) {

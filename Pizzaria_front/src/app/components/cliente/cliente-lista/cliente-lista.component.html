@@ -1,18 +1,14 @@
 <div class="h-100 d-flex col-lg-12 flex-column" style="gap: 20px;">
-    <div class="serch">
-        <div *ngIf="!modoVincular">
+    <div class="serch col-lg-12 w-100">
+        <div style="width: 13% !important;" *ngIf="!modoVincular">
             <button (click)="cadastrarCliente(modalCliente)" class="novoCliente">Novo Cliente</button>
         </div>
-        <div>
+        <div class="w-100">
             <input class="w-100" type="text" placeholder="Pesquisar por nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>  
         </div>
     </div>
     
     <section class="quadroTabela container">
-        <table class="table">
-            
-        </table>
-        
         <div class="tabela">
             <table class="table table-striped">
                 <thead class="fixed-header">
@@ -28,13 +24,13 @@
                         <td class="text-break text-wrap">
                             <ng-container *ngFor="let endereco of cliente.enderecos">
                                 <div class="address-details">
-                                    <p>{{ endereco.rua }}, {{ endereco.numero }}, {{ endereco.bairro }}</p>
+                                    <p>{{endereco.rua}}, {{endereco.numero}} - {{endereco.bairro}}</p>
                                 </div>
                             </ng-container>
                         </td>
                         <td class="text-center text-break text-wrap" *ngIf="!modoVincular">
-                            <button (click)="editarCliente(modalCliente, cliente, i)" class="btn btn-outline-warning mx-2">Editar</button>
-                            <button (click)="excluirCliente(modalExcluir, cliente, i)" class="btn btn-danger">Deletar</button>
+                            <button (click)="editarCliente(modalCliente, cliente, i)" class="editar mx-2"><img class="img" src="../../../../assets/imagens/editar.svg"></button>
+                            <button (click)="excluirCliente(modalExcluir, cliente, i)" class="deletar"><img class="img" src="../../../../assets/imagens/delete.svg"></button>
                         </td>
                         <td class="text-center" *ngIf="modoVincular">
                             <button (click)="vincular(cliente)" class="btn btn-danger">Vincular</button>
