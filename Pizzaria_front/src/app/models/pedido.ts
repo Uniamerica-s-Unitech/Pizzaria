@@ -6,7 +6,7 @@ export class Pedido {
   id!: number;
   clienteId!: Cliente;
   enderecoId!: Endereco;
-  produtos!: PedidoProduto[];
+  pedidoProdutoList!: PedidoProduto[];
   solicitacao!: Date;
   finalizacao!: Date;
   valorTotal!:number;

@@ -1,11 +1,12 @@
 <nav class="d-flex justify-content-center pt-3 h-100">
     <div>
         <img class="imagem" src="../../../../favicon.ico" alt="Minha Imagem">
-        <section class="nav flex-column mt-5">
+        <section class="nav flex-column mt-3">
             <button [ngClass]="{ 'active': (active == 1) }" (click)="active = 1" class="mb-5" routerLink="pedidos">Pedidos</button>
             <button [ngClass]="{ 'active': (active == 2) }" (click)="active = 2" class="mb-5" routerLink="cliente">Cliente</button>
             <button [ngClass]="{ 'active': (active == 3) }" (click)="active = 3" class="mb-5" routerLink="produtos">Produtos</button>
-            <button [ngClass]="{ 'active': (active == 4) }" (click)="active = 4" routerLink="sabores">Sabores</button>
+            <button [ngClass]="{ 'active': (active == 4) }" (click)="active = 4" class="mb-5" routerLink="sabores">Sabores</button>
+            <a href="/#/login">Sair</a>
         </section>
     </div>
 </nav>

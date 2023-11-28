@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Categoria } from 'src/app/models/categoria';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Produto } from 'src/app/models/produto';
-import { CategoriaService } from 'src/app/services/categoria.service';
 import { ProdutoService } from 'src/app/services/produto.service';
 
 @Component({
@@ -40,6 +38,7 @@ export class ProdutosDetalhesComponent {
         }
       });
     }
+    console.log(this.produto);
   }
   retornoCategoria(categoria: any) {
     this.toastr.success('Categoria vinculada com sucesso');

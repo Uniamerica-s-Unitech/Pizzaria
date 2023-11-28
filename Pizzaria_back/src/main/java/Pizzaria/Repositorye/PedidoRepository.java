@@ -17,14 +17,6 @@ public interface PedidoRepository extends JpaRepository<Pedido,Long> {
     @Query("FROM Pedido WHERE finalizacao IS NULL AND clienteId = :cliente")
     List<Pedido> findPedidoAbertosPorCliente(Cliente cliente);
 
-    /*@Query("FROM Pedido WHERE finalizacao IS NULL AND produtos = :produto")
-    List<Pedido> findPedidoAbertosPorProduto(Produto produto);*/
-
-    @Query("FROM Pedido WHERE finalizacao IS NULL AND :produto MEMBER OF produtos")
+    @Query("FROM Pedido WHERE finalizacao IS NULL AND :produto MEMBER OF pedidoProdutoList")
     List<Pedido> findPedidoAbertosPorProduto(Produto produto);
-
-
-
-
-
 }

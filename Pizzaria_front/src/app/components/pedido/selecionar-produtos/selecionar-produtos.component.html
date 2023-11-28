@@ -1,34 +1,30 @@
 <form (ngSubmit)="salvar()">
-  <div class="mb-3">
-    <label for="produto" class="form-label">Selecione um Produto:</label>
-    <select [compareWith]="byId" class="form-select" name="produto" [(ngModel)]="pedidoProduto.produtoId" (change)="zerarSabores()">
-      <option [ngValue]="undefined">Selecione...</option>
-      <option *ngFor="let produto of listaProdutos" [ngValue]="produto">{{ produto.nome + " ("+produto.tamanho+")" }}</option>
-    </select>
-  </div>
-
-  <div *ngIf="pedidoProduto?.produtoId?.temSabores">
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'GG'" for="sabor" class="form-label">Selecione 4 sabores:</label>
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'G'" for="sabor" class="form-label">Selecione 3 sabores:</label>
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'M'" for="sabor" class="form-label">Selecione 2 sabores:</label>
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'P'" for="sabor" class="form-label">Selecione 1 sabores:</label>
-    <ul *ngFor="let sabor of listaSabores; let index = index"  name="dfsabor">
-      <li >
-        {{sabor.nome}} {{sabor.bloqueado}}
-        <input name="sabor{{index}}" [(ngModel)]="sabor.selecionado" (change)="verificarSabores()" type="checkbox" [disabled]="sabor.bloqueado">
-      </li>
-    </ul>
-  </div>
-
-  <!--div class="mb-3" *ngIf="pedidoProduto?.produtoId?.temSabores">(click)="sabor.selecionado = !sabor.selecionado"
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'GG'" for="sabor" class="form-label">Selecione 4 sabores:</label>
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'G'" for="sabor" class="form-label">Selecione 3 sabores:</label>
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'M'" for="sabor" class="form-label">Selecione 2 sabores:</label>
-    <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'P'" for="sabor" class="form-label">Selecione 1 sabores:</label>
-    <select [(ngModel)]="pedidoProduto.sabores" (change)="verificarSabores()" multiple size="9" class="form-select" name="sabor" >
-      <option *ngFor="let sabor of listaSabores" [ngValue]="sabor">{{ sabor.nome }}</option>
-    </select>
-  </div-->
+  <section>
+    <div class="mb-3">
+      <label for="produto" class="form-label">Selecione um Produto:</label>
+      <!--div *ngFor="let produto of listaProdutos" >
+        <button type="button" [(ngModel)]="pedidoProduto.produtoId" (change)="zerarSabores()" ngValue="produto">{{ produto.nome}}</button>
+      </div-->
+      <select [compareWith]="byId" class="form-select" name="produto" [(ngModel)]="pedidoProduto.produtoId" (change)="zerarSabores()">
+        <option [ngValue]="undefined">Selecione...</option>
+        <option *ngFor="let produto of listaProdutos" [ngValue]="produto">{{ produto.nome}}</option>
+      </select>
+    </div>
+    <div *ngIf="pedidoProduto?.produtoId?.temSabores">
+      <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'GG'" for="sabor" class="form-label">Selecione até 4 sabores:</label>
+      <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'G'" for="sabor" class="form-label">Selecione até 3 sabores:</label>
+      <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'M'" for="sabor" class="form-label">Selecione até 2 sabores:</label>
+      <label *ngIf="pedidoProduto?.produtoId?.tamanho == 'P'" for="sabor" class="form-label">Selecione até 1 sabores:</label>
+      <ul *ngFor="let sabor of listaSabores; let index = index"  name="dfsabor">
+        <li >
+          {{sabor.nome}} {{sabor.bloqueado}}
+          <input name="sabor{{index}}" [(ngModel)]="sabor.selecionado" (change)="verificarSabores()" type="checkbox" [disabled]="sabor.bloqueado">
+        </li>
+      </ul>
+    </div>
+  </section>
+  
+  
   <div class="d-flex justify-content-center">
     <button type="submit" class="salvar">Adicionar</button>
   </div>
