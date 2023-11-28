@@ -2,8 +2,12 @@
     background-color: #64310d;
     border-right: 3px solid #eead2d;
 }
+.campoSerch{
+    padding: 1vh;
+}
 .serch{
-    border: none;
+    border-radius: 10px;
+    border: 3px solid #eead2d;
     outline: none;
     font-size: 18px;
     background-color: #8b4513;
@@ -12,7 +16,7 @@
     background-repeat: no-repeat;
     background-position: left;
     background-size: 20px;
-    padding: 1rem;
+    padding: 1vh 5vh;
     padding-left: 3.5vh;
 }
 .serch::placeholder{
@@ -22,16 +26,15 @@
     height: 88% !important;
 }
 .list-group{
-    max-height: 100%;
+    max-height: 88%;
     overflow-y: auto;
-    border-top:  3px solid #eead2d;
-    border-bottom:  3px solid #eead2d;
-    border-radius: 0px;
-    background-color: #222427;
+    border:  3px solid #eead2d;;
+    
     .list-group-item{
         background-color: #8b4513;
         border: none;
         border-bottom: 3px solid #eead2d;
+        border-radius: 0;
         color: #fdfffc;
         text-align: left; 
         outline: none;
@@ -55,23 +58,19 @@
 /* Track */
 ::-webkit-scrollbar-track {
     background: #000;
+    border-radius: 0 0.375rem 0.375rem 0;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #64310d;
+    border-radius: 0 0.375rem 0.375rem 0;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
-
 .listarPedidos {
-    background-color: #222427;
-    
-}
-.listaDetalhesPedido{
-    max-height: 100%;
-    overflow-y: auto;
+    background-color: #8b4513;
     padding: 20px;
 }
 .cabecalho{
@@ -85,7 +84,7 @@
     
     span{
         font-size: 18px;
-        color: #e0e0e0;
+        color: #ccc;
     }
 }
 .endereco{
@@ -94,7 +93,7 @@
     background-color: #64310d;
     padding: 10px;
     border-radius: 5px;
-    border: 2px solid #eead2d;
+    border: 1px solid #eead2d;
     
     p{
         font-size: 20px;
@@ -103,42 +102,9 @@
     }
 }
 .produto{
-    background-color: #64310d;
-    border-radius: 5px;
-    border: 2px solid #eead2d;
-    list-style: none;
     .produtoNome{
-        font-size: 18px;
-        color: #eee;
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        border-bottom: 2px solid #eead2d;
-
-        p{
-            margin: 0px;
-        }
+        justify-content: space-around;
     }
-}
-.sabores{
-    padding: .2rem 0 .2rem 1.5rem;
-    background-color: #555;
-    list-style: none;
-    border-bottom-left-radius: 6px;
-    border-bottom-right-radius: 6px;
-    font-size: 16px;
-    color: #d4d4d4;
-    p{
-        margin: 0px;
-    }
-}
-.valorTotal{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #d4d4d4;
-    border-radius: 5px;
-    border: 3px solid #ecaa27;
-    color: #222427;
-    font-size: 20px;
 }

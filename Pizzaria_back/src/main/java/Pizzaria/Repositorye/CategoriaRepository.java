@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CategoriaRepository  extends JpaRepository<Categoria, Long> {
-   @Query("SELECT c FROM Categoria c LEFT JOIN FETCH c.produtos p WHERE c.ativo = true AND (p.ativo = true or p = null)")
+    @Query("FROM Categoria WHERE ativo = true")
     List<Categoria> findCategoriaByAtivo();
 }

@@ -50,7 +50,7 @@ public class CategoriaServices {
         List<Produto> categoriaProdutoAtivos = produtoRepository.findProdutoExisteCategoria(categoriaBanco);
 
         if (!categoriaProdutoAtivos.isEmpty()){
-            return new MensagemDTO("Não é possível excluir esse categoria tem produto ativo.", HttpStatus.NOT_FOUND);
+            return new MensagemDTO("Não é possível excluir esse categoria tem produto ativo.", HttpStatus.CREATED);
         } else {
             desativarCategoria(categoriaBanco);
             return new MensagemDTO("Categoria deletada com sucesso!", HttpStatus.CREATED);
@@ -69,14 +69,54 @@ public class CategoriaServices {
         categoriaDTO.setAtivo(categoria.getAtivo());
         categoriaDTO.setNome(categoria.getNome());
 
-        List<ProdutoDTO> listaPrd = new ArrayList<>();
+        List<ProdutoDTO> listaEnd = new ArrayList<>();
+
         if(categoria.getProdutos() != null)
             for(int i=0; i<categoria.getProdutos().size(); i++){
-                listaPrd.add(produtoToDTO(categoria.getProdutos().get(i)));
+                listaEnd.add(produtoToDTO(categoria.getProdutos().get(i)));
             }
-        categoriaDTO.setProdutos(listaPrd);
+        categoriaDTO.setProdutos(listaEnd);
 
         return categoriaDTO;
+    }
+    public Categoria toCategoria(CategoriaDTO categoriaDTO){
+        Categoria novoCategoria = new Categoria();
+
+        novoCategoria.setId(categoriaDTO.getId());
+        novoCategoria.setAtivo(categoriaDTO.getAtivo());
+        novoCategoria.setNome(categoriaDTO.getNome());
+
+        List<Produto> listaEnd = new ArrayList<>();
+        if(categoriaDTO.getProdutos() != null)
+            for(int i=0; i<categoriaDTO.getProdutos().size(); i++){
+                listaEnd.add(toProduto(novoCategoria,categoriaDTO.getProdutos().get(i)));
+
+            }
+
+        novoCategoria.setProdutos(listaEnd);
+
+        return novoCategoria;
+    }
+    public Produto toProduto(Categoria novoCategoria, ProdutoDTO produtoDTO){
+        Produto novoProduto = new Produto();
+
+        novoProduto.setId(produtoDTO.getId());
+        novoProduto.setAtivo(produtoDTO.getAtivo());
+        novoProduto.setNome(produtoDTO.getNome());
+        novoProduto.setValor(produtoDTO.getValor());
+        List<Sabor>  listaSabor = new ArrayList<>();
+        if(produtoDTO.getSabores() != null)
+            for(int i=0; i<produtoDTO.getSabores().size(); i++) {
+                listaSabor.add(toSabor(novoProduto, produtoDTO.getSabores().get(i)));
+            }
+        novoProduto.setSabores(listaSabor);
+
+        Categoria categoria = new Categoria();
+        categoria.setId(produtoDTO.getCategoriaId().getId());
+
+        novoProduto.setCategoriaId(categoria);
+
+        return novoProduto;
     }
     public ProdutoDTO produtoToDTO(Produto produto){
         ProdutoDTO novoProduto = new ProdutoDTO();
@@ -92,40 +132,31 @@ public class CategoriaServices {
         categoriaDTO.setNome(produto.getCategoriaId().getNome());
 
         novoProduto.setCategoriaId(categoriaDTO);
-        return novoProduto;
-    }
-    public Categoria toCategoria(CategoriaDTO categoriaDTO){
-        Categoria novoCategoria = new Categoria();
 
-        novoCategoria.setId(categoriaDTO.getId());
-        novoCategoria.setAtivo(categoriaDTO.getAtivo());
-        novoCategoria.setNome(categoriaDTO.getNome());
-
-        List<Produto> listaPrd = new ArrayList<>();
-        if(categoriaDTO.getProdutos() != null)
-            for(int i=0; i<categoriaDTO.getProdutos().size(); i++){
-                listaPrd.add(toProduto(novoCategoria,categoriaDTO.getProdutos().get(i)));
-
+        List<SaborDTO> listaSabor = new ArrayList<>();
+        if(produto.getSabores()!= null)
+            for(int i=0; i<produto.getSabores().size(); i++){
+                listaSabor.add(saborToDTO(novoProduto,produto.getSabores().get(i)));
             }
-
-        novoCategoria.setProdutos(listaPrd);
-
-        return novoCategoria;
-    }
-    public Produto toProduto(Categoria novoCategoria, ProdutoDTO produtoDTO){
-        Produto novoProduto = new Produto();
-
-        novoProduto.setId(produtoDTO.getId());
-        novoProduto.setAtivo(produtoDTO.getAtivo());
-        novoProduto.setNome(produtoDTO.getNome());
-        novoProduto.setValor(produtoDTO.getValor());
-
-        Categoria categoria = new Categoria();
-        categoria.setId(produtoDTO.getCategoriaId().getId());
-
-        novoProduto.setCategoriaId(categoria);
-
+        novoProduto.setSabores(listaSabor);
         return novoProduto;
     }
+    public SaborDTO saborToDTO(ProdutoDTO novoProduto, Sabor sabor){
+        SaborDTO saborDTO = new SaborDTO();
 
+        saborDTO.setId(sabor.getId());
+        saborDTO.setAtivo(sabor.getAtivo());
+        saborDTO.setNome(sabor.getNome());
+
+        return saborDTO;
+    }
+    public Sabor toSabor(Produto novoProduto, SaborDTO saborDTO){
+        Sabor novoSabor = new Sabor();
+
+        novoSabor.setId(saborDTO.getId());
+        novoSabor.setAtivo(saborDTO.getAtivo());
+        novoSabor.setNome(saborDTO.getNome());
+
+        return novoSabor;
+    }
 }

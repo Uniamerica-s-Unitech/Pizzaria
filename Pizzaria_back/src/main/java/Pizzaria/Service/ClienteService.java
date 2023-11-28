@@ -11,9 +11,12 @@ import Pizzaria.Repositorye.PedidoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -25,7 +28,7 @@ public class ClienteService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
-    public ClienteDTO findCleinteById(Long id) {
+    public ClienteDTO findCleinteById(Long id) {/**/
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("cliente  não encontrado!"));
         return clienteToDTO(cliente);
@@ -38,9 +41,9 @@ public class ClienteService {
     public MensagemDTO cadastrarCliente(ClienteDTO clienteDTO) {
         Cliente cliente = toCliente(clienteDTO);
         if(cliente.getEnderecos() != null)
-            for(int i=0; i<cliente.getEnderecos().size(); i++){
-                cliente.getEnderecos().get(i).setClienteId(cliente);
-            }
+        for(int i=0; i<cliente.getEnderecos().size(); i++){
+            cliente.getEnderecos().get(i).setClienteId(cliente);
+        }
         clienteRepository.save(cliente);
         return new MensagemDTO("Cliente cadastrado com sucesso!", HttpStatus.CREATED);
     }
@@ -62,7 +65,7 @@ public class ClienteService {
         List<Pedido> clientePedidoAtivos = pedidoRepository.findPedidoAbertosPorCliente(clienteBanco);
 
         if (!clientePedidoAtivos.isEmpty()){
-            return new MensagemDTO("Não é possível excluir esse cliente, pois existem pedidos ativos associados a ele.", HttpStatus.NOT_FOUND);
+            return new MensagemDTO("Não é possível excluir esse cliente, pois existem pedidos ativos associados a ele.", HttpStatus.CREATED);
         } else {
             desativarCliente(clienteBanco);
         }
@@ -109,7 +112,7 @@ public class ClienteService {
     }
     public Endereco toEndereco(Cliente novoCliente, EnderecoDTO enderecoDTO){
         Endereco novoEndereco = new Endereco();
-        if(enderecoDTO.getId() > 0)
+        if(enderecoDTO.getId() != 0)
             novoEndereco.setId(enderecoDTO.getId());
         novoEndereco.setAtivo(enderecoDTO.getAtivo());
         novoEndereco.setNumero(enderecoDTO.getNumero());
@@ -119,13 +122,13 @@ public class ClienteService {
         return novoEndereco;
     }
     public EnderecoDTO enderecoToDTO(Endereco endereco){
-        EnderecoDTO enderecoDTO = new EnderecoDTO();
+        EnderecoDTO novoEndereco = new EnderecoDTO();
 
-        enderecoDTO.setId(endereco.getId());
-        enderecoDTO.setAtivo(endereco.getAtivo());
-        enderecoDTO.setNumero(endereco.getNumero());
-        enderecoDTO.setRua(endereco.getRua());
-        enderecoDTO.setBairro(endereco.getBairro());
-        return enderecoDTO;
+        novoEndereco.setId(endereco.getId());
+        novoEndereco.setAtivo(endereco.getAtivo());
+        novoEndereco.setNumero(endereco.getNumero());
+        novoEndereco.setRua(endereco.getRua());
+        novoEndereco.setBairro(endereco.getBairro());
+        return novoEndereco;
     }
 }

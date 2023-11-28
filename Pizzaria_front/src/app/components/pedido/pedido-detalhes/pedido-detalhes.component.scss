@@ -10,9 +10,6 @@ p{
     outline: none;
     box-shadow: none;
 }
-.form-select::before{
-    padding: 1rem;
-}
 .form-select:disabled{
     background-color: #c2c2c2;
     color: #555;
@@ -33,7 +30,7 @@ p{
 }
 .produtos{
     color: #eee;
-    height: 180px;
+    height: 220px;
     overflow-y: auto;
 }
 .lista{

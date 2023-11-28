@@ -11,7 +11,7 @@
       <button type="button" (click)="buscar(modalCategoria)" class="btn btn-danger">Buscar</button>
     </p>
     <div class="alert alert-success d-flex justify-content-between align-items-center" *ngIf="produto.categoriaId != null">
-      <p>{{produto.categoriaId.nome}}</p>
+      <p>{{produto.categoriaId}}</p>
       <button type="button" (click)="buscar(modalCategoria)" class="btn btn-secondary">Trocar</button>
     </div>
   </div>

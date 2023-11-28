@@ -3,7 +3,6 @@ package Pizzaria.Service;
 import Pizzaria.DTO.MensagemDTO;
 import Pizzaria.DTO.SaborDTO;
 import Pizzaria.Entiny.Pedido;
-import Pizzaria.Entiny.PedidoProduto;
 import Pizzaria.Entiny.Produto;
 import Pizzaria.Entiny.Sabor;
 import Pizzaria.Repositorye.PedidoRepository;
@@ -50,10 +49,10 @@ public class SaborService {
         Sabor saborBanco = saborRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Sabor com ID " + id + " não existe!"));
 
-        List<PedidoProduto> saborProdutoAtivos = produtoRepository.findProdutoExisteSabores(saborBanco);
+        List<Produto> saborProdutoAtivos = produtoRepository.findProdutoExisteSabores(saborBanco);
 
         if (!saborProdutoAtivos.isEmpty()) {
-            return new MensagemDTO("Não é possível excluir esse Sabor, pois existem produtos ativos associados a ele.", HttpStatus.NOT_FOUND);
+            return new MensagemDTO("Não é possível excluir esse Sabor, pois existem produtos ativos associados a ele.", HttpStatus.CREATED);
         } else {
             desativarSabor(saborBanco);
         }

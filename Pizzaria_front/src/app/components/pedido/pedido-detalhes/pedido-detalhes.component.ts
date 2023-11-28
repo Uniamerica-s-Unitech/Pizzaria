@@ -1,9 +1,12 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Cliente } from 'src/app/models/cliente';
 import { Mensagem } from 'src/app/models/mensagem';
 import { Pedido } from 'src/app/models/pedido';
 import { PedidoProduto } from 'src/app/models/pedido-produto';
+import { ClienteService } from 'src/app/services/cliente.service';
 import { PedidoService } from 'src/app/services/pedido.service';
+import { SaborService } from 'src/app/services/sabor.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -21,17 +24,18 @@ export class PedidoDetalhesComponent {
   toastr = inject(ToastrService);
   modalRef!: NgbModalRef;
 
+
   produtoParaEditar: PedidoProduto = new PedidoProduto();
+
   indiceSelecionadoParaEdicao!: number;
   tituloModal!: string;
-
   atualizarLista(produto: PedidoProduto) {
-    if (this.pedido.pedidoProdutoList == null)
-      this.pedido.pedidoProdutoList = [];
+    if (this.pedido.produtos == null)
+      this.pedido.produtos = [];
     if (this.indiceSelecionadoParaEdicao == -1)
-      this.pedido.pedidoProdutoList.push(Object.assign({}, produto));
+      this.pedido.produtos.push(Object.assign({}, produto));
     else {
-      this.pedido.pedidoProdutoList[this.indiceSelecionadoParaEdicao] = Object.assign({}, produto);
+      this.pedido.produtos[this.indiceSelecionadoParaEdicao] = Object.assign({}, produto);
     }
     this.modalRef.dismiss();
   }
@@ -53,30 +57,28 @@ export class PedidoDetalhesComponent {
   }
 
   excluirProduto(index: number) {
-    this.pedido.pedidoProdutoList.splice(index, 1);
+    this.pedido.produtos.splice(index, 1);
   }
 
-  salvar(formulario: any) {
+  salvar() {
     this.pedido.valorTotal = 0;
 
     // Use um loop para somar os valores dos produtos
-    if (this.pedido.pedidoProdutoList != null)
-      for (const produto of this.pedido.pedidoProdutoList) {
+    if (this.pedido.produtos != null)
+      for (const produto of this.pedido.produtos) {
         this.pedido.valorTotal += produto.produtoId.valor;
       }
 
-    if (!formulario.valid){
-      this.toastr.error('Formulário inválido. Preencha os campos corretamente');
-    }else{
-      this.pedidoService.save(this.pedido).subscribe({
-        next: mensagem => {
-          this.retorno.emit(mensagem);
-        },
-        error: erro => {
-          this.toastr.error(erro.error.mensagem);
-        }
-      });
-    }
+    console.log(this.pedido);
+
+    this.pedidoService.save(this.pedido).subscribe({
+      next: mensagem => {
+        this.retorno.emit(mensagem);
+      },
+      error: erro => {
+        this.toastr.error(erro.error.mensagem);
+      }
+    });
   }
 
   retornoCliente(cliente: any) {

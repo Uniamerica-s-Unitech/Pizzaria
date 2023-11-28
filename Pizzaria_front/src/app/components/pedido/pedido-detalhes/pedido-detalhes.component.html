@@ -1,4 +1,4 @@
-<form #formulario="ngForm" (ngSubmit)="salvar(formulario)" class="mb-3 h-100">
+<form (ngSubmit)="salvar()" class="mb-3 h-100">
   <div class="mb-3" *ngIf="modo == 1">
     <label for="client" class="form-label">Cliente:</label>
     <p class="alert alert-danger d-flex justify-content-between align-items-center" *ngIf="pedido.clienteId == null">
@@ -23,7 +23,7 @@
     <button type="button" (click)="adicionarProduto(modalListaProdutos)" class="btnAdicionar">Adicionar produto</button>
   </div>
   <div class="produtos">
-    <div class="lista mb-1" *ngFor="let produto of pedido.pedidoProdutoList; let i = index">
+    <div class="lista mb-1" *ngFor="let produto of pedido.produtos; let i = index">
       <div>
         <div class="d-flex flex-column p-2 produto">
           <div class="d-flex justify-content-between w-100">

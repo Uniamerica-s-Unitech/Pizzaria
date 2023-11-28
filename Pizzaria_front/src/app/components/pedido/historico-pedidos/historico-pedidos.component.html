@@ -1,12 +1,12 @@
 <div class="h-100 d-flex col-lg-12">
-  <section class="menuPedidos d-flex text-center flex-column h-100 col-lg-3">
+  <section class="menuPedidos d-flex text-center flex-column h-100 col-lg-4">
     <div class="menu w-100">
-      <div class="w-100">
+      <div class="campoSerch w-100">
           <input class="serch w-100" type="text" placeholder="Pesquisar por Id ou nome" [(ngModel)]="termoPesquisa" (keyup)="realizarPesquisa(termoPesquisa)"/>
       </div>
-      <div class=" h-100 w-100">
-        <ul class="list-group w-100">
-          <button class="list-group-item w-100 mt-2 p-3" [ngClass]="{'list-group-item-active' : (active == pedido)}"  *ngFor="let pedido of listaPedidosFiltrada" (click)="[mostrarDetalhes(pedido.id) ,active = pedido]">
+      <div class="container h-100">
+        <ul class="list-group">
+          <button class="list-group-item" [ngClass]="{'list-group-item-active' : (active == pedido)}"  *ngFor="let pedido of listaPedidosFiltrada" (click)="[mostrarDetalhes(pedido.id) ,active = pedido]">
             <span>#{{ pedido.id }} • {{ pedido.clienteId.nome }}</span> 
           </button>
         </ul>
@@ -14,37 +14,31 @@
     </div>
   </section>
   
-  <section class="listarPedidos h-100 col-lg-9">
-    <div class="listaDetalhesPedido h-100">
-      <div *ngFor="let pedido of listaPedidosOrginal">
-        <div *ngIf="pedidoSelecionado === pedido.id">
-          <div class="cabecalho">
-            <h1>{{pedido.clienteId.nome}}</h1>
-            <span>Pedido #{{pedido.id}}</span>
-            <span>• Feito às {{pedido.solicitacao}}</span>
-            <span>• Saiu às {{pedido.finalizacao}}</span>
-          </div>
-          <div class="endereco mt-2">
-            <p>{{pedido.enderecoId.rua}}, {{pedido.enderecoId.numero}} - {{pedido.enderecoId.bairro}}</p>
-          </div>
-          <ul class="p-0 p-1 mt-3 w-100">
-            <li class="produto mb-2 w-100" *ngFor="let produto of pedido.pedidoProdutoList">
-              <div class="produtoNome p-3 w-100">
-                <p>{{ produto.produtoId.nome }}</p>
-                <p>R$ {{ produto.produtoId.valor}}</p>
-              </div>
-              <ul class="sabores w-100" *ngIf="produto.produtoId.temSabores">
-                <li class="p-2" *ngFor="let sabor of produto.sabores">
-                  <p>• {{ sabor.nome }}</p>
-                </li>
-              </ul>
-            </li>
-            <div class="valorTotal p-3">
-              <p class="m-0">Valor Total: R$</p>
-              <p class="m-0">{{ pedido.valorTotal }}</p>
-            </div>
-          </ul>
+  <section class="listarPedidos h-100 col-lg-8">
+    <div *ngFor="let pedido of listaPedidosOrginal">
+      <div  class="detalhesPedido" *ngIf="pedidoSelecionado === pedido.id">
+        <div class="cabecalho">
+          <h1>{{pedido.clienteId.nome}}</h1>
+          <span>Pedido #{{pedido.id}}</span>
+          <span>• Feito às {{pedido.solicitacao}}</span>
         </div>
+        <div class="endereco">
+          <p>{{pedido.enderecoId.rua}}, {{pedido.enderecoId.numero}} - {{pedido.enderecoId.bairro}}</p>
+        </div>
+        <ul class="produto">
+          <li *ngFor="let produto of pedido.produtos">
+            <div class="produtoNome">
+              <p>{{ produto.produtoId.nome }}</p>
+              <p>R$ {{ produto.produtoId.valor}}</p>
+            </div>
+            <ul>
+              <li *ngFor="let sabor of produto.sabores">
+                <p>{{ sabor.nome }}</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!--p>Valor Total: R$ {{ pedido.valorTotal }}</p-->
       </div>
     </div>
   </section>

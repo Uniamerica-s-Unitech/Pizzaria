@@ -25,8 +25,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/sistema/login/login.component';
 import { httpInterceptorProviders } from './interceptors/httpinterceptor.service';
-import { Router, RouterModule } from '@angular/router';
-import { CadastrarComponent } from './components/sistema/cadastrar/cadastrar.component';
 
 @NgModule({
   declarations: [
@@ -46,8 +44,7 @@ import { CadastrarComponent } from './components/sistema/cadastrar/cadastrar.com
     CategoriaDetalhesComponent,
     SelecionarProdutosComponent,
     HistoricoPedidosComponent,
-    LoginComponent,
-    CadastrarComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -59,8 +56,7 @@ import { CadastrarComponent } from './components/sistema/cadastrar/cadastrar.com
     ToastrModule.forRoot({
       positionClass: 'toast-top-right', // ou outra posição desejada
       preventDuplicates: true,
-    }),
-    RouterModule
+    })
   ],
   providers: [
     httpInterceptorProviders

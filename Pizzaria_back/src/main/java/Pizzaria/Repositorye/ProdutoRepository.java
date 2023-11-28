@@ -1,7 +1,6 @@
 package Pizzaria.Repositorye;
 
 import Pizzaria.Entiny.Categoria;
-import Pizzaria.Entiny.PedidoProduto;
 import Pizzaria.Entiny.Produto;
 import Pizzaria.Entiny.Sabor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +17,6 @@ public interface ProdutoRepository extends JpaRepository<Produto,Long> {
     @Query("FROM Produto WHERE ativo = true AND categoriaId = :categoria")
     List<Produto> findProdutoExisteCategoria(Categoria categoria);
 
-    @Query("FROM PedidoProduto WHERE ativo = true AND :sabor MEMBER OF sabores")
-    List<PedidoProduto> findProdutoExisteSabores(Sabor sabor);
+    @Query("FROM Produto WHERE ativo = true AND :sabor MEMBER OF sabores")
+    List<Produto> findProdutoExisteSabores(Sabor sabor);
 }
