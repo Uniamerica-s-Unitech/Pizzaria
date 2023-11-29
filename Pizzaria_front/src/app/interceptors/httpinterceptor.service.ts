@@ -21,9 +21,6 @@ export class HttpinterceptorService implements HttpInterceptor {
     return next.handle(request).pipe(catchError(x => this.errorHandler(x)));
   }
 
-
-  
-
   private errorHandler(err: HttpErrorResponse): Observable<any> {
     if (err.status === 401) {
       alert('401 - tratar');
@@ -32,7 +29,10 @@ export class HttpinterceptorService implements HttpInterceptor {
     } else if (err.status === 403) {
       alert('403 - tratar');
       return of(err.message);
-    }
+    }else  if (err.status === 500) {
+      this.router.navigateByUrl(`/login`);
+      return of(err.message);
+    } 
     return throwError(() => err);
   }
 

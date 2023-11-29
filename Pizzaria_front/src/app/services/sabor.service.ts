@@ -20,10 +20,8 @@ export class SaborService {
 
   save(sabor: Sabor): Observable<Mensagem> {
     if (sabor.id) {
-      // Se a pessoa já tem um ID, atualize-a
       return this.http.put<Mensagem>(this.API+"/"+`${sabor.id}`, sabor);
     } else {
-      // Caso contrário, crie uma nova pessoa
       return this.http.post<Mensagem>(this.API, sabor);
     }
   }

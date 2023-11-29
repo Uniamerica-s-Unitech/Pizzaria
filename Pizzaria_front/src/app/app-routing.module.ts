@@ -7,6 +7,7 @@ import { ProdutosListaComponent } from './components/produtos/produtos-lista/pro
 import { SaboresListComponent } from './components/sabores/sabores-list/sabores-list.component';
 import { LoginComponent } from './components/sistema/login/login.component';
 import { rotaguardGuard } from './guards/rotaguard.guard';
+import { CadastrarListComponent } from './components/sistema/cadastrar/cadastrar-list/cadastrar-list.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: 'full'},
@@ -15,12 +16,13 @@ const routes: Routes = [
     path: "admin", 
     component:IndexComponent,
     canActivate: [rotaguardGuard], 
-    data: { roles: ['ADMIN'] }
-  , children:[
+    data: { roles: ['ADMIN'] }, 
+    children:[
     { path: "cliente", component:ClienteListaComponent },
     { path: "pedidos", component:PedidoListaComponent },
     { path: "produtos", component:ProdutosListaComponent },
-    { path: "sabores", component:SaboresListComponent }
+    { path: "sabores", component:SaboresListComponent },
+    {  path: "cadastrar", component:CadastrarListComponent}
   ]}
 ];
 

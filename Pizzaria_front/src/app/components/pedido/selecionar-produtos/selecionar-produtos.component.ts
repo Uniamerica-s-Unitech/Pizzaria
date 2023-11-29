@@ -36,6 +36,7 @@ export class SelecionarProdutosComponent implements OnInit{
   carregarProdutos() {
     this.produtoService.listar().subscribe({
       next: lista => {
+        console.log(lista);
         this.listaProdutos = lista;
       }
     });
@@ -45,6 +46,7 @@ export class SelecionarProdutosComponent implements OnInit{
     this.saborService.listar().subscribe({
       next: lista => {
         this.listaSabores = lista;
+        
         if (this.listaSabores != null)
           for (let i = 0; i < this.listaSabores.length; i++) {
             this.listaSabores[i].selecionado = false;

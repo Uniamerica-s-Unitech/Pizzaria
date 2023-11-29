@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Login } from '../models/login';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { Mensagem } from '../models/mensagem';
 
 @Injectable({
   providedIn: 'root'
@@ -22,8 +23,6 @@ export class LoginService {
     return this.http.get<any>(this.API+'/deslogar');
   }
 
-
-
   addToken(token: string){
     localStorage.setItem('token', token);
   }
@@ -34,5 +33,21 @@ export class LoginService {
 
   getToken(){
     return localStorage.getItem('token');
+  }
+
+  listarUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.API}`+'/lista');
+  }
+
+  saveUser(user: User): Observable<Mensagem> {
+    if (user.id) {
+      return this.http.put<Mensagem>(this.API+"/"+`${user.id}`, user);
+    } else {
+      return this.http.post<Mensagem>(this.API+"/user", user);
+    }
+  }
+
+  deletarUser(id: number): Observable<Mensagem> {
+    return this.http.delete<Mensagem>(this.API + "/" + `${id}`);
   }
 }

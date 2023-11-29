@@ -28,8 +28,4 @@ export class PedidoService {
       return this.http.post<Mensagem>(this.API, pedido);
     }
   }
-
-  deletar(id: number): Observable<any> {
-    return this.http.delete(this.API + "/" + `${id}`);
-  }
 }

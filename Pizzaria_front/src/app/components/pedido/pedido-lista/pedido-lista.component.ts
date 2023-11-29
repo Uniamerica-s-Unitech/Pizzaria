@@ -2,10 +2,10 @@ import { Component ,EventEmitter,Input,Output,inject} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Pedido } from 'src/app/models/pedido';
 import { Cliente } from 'src/app/models/cliente';
-import { Produto } from 'src/app/models/produto';
 import { Mensagem } from 'src/app/models/mensagem';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { PedidoProduto } from 'src/app/models/pedido-produto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-pedido-lista',
@@ -21,6 +21,7 @@ export class PedidoListaComponent {
 
   modalService = inject(NgbModal);
   pedidoService = inject(PedidoService);
+  toastr = inject(ToastrService);
 
   pedidoParaEditar: Pedido = new Pedido();
   produtoParaEditar: PedidoProduto = new PedidoProduto();
@@ -31,18 +32,15 @@ export class PedidoListaComponent {
   termoPesquisa!: "";
   active!: any;
   indiceSelecionadoParaEdicao!: number;
-  pedidoSelecionado: number | null = null;
+  pedidoSelecionado: Pedido = new Pedido();
 
   constructor() {
     this.listarPedidos();
   }
 
-  mostrarDetalhes(pedido: number) {
-    if (this.pedidoSelecionado === pedido) {
-      this.pedidoSelecionado = null;
-    } else {
-      this.pedidoSelecionado = pedido;
-    }
+  mostrarDetalhes(pedido: Pedido) {
+    this.pedidoSelecionado = pedido;
+
   }
 
   listarPedidos(){
@@ -78,11 +76,10 @@ export class PedidoListaComponent {
   
     this.pedidoService.save(pedido).subscribe({
       next: mensagem => {
+        this.toastr.success('Pedido finalizado com sucesso');
         this.listarPedidos();
         this.retorno.emit(mensagem);
-        // Atualize a lista de pedidos após a finalização bem-sucedida, se necessário.
-      },
-      error: erro => {
+        this.pedidoSelecionado.id = 0;
         
       }
     });
