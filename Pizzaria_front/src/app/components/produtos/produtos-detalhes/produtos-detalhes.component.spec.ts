@@ -1,10 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { ProdutosDetalhesComponent } from './produtos-detalhes.component';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Produto } from 'src/app/models/produto';
-import { By } from '@angular/platform-browser';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
+
+class ToastrServiceMock {
+  success(message?: string, title?: string): void {}
+  error(message?: string, title?: string): void {}
+}
 
 describe('ProdutosDetalhesComponent', () => {
   let component: ProdutosDetalhesComponent;
@@ -12,8 +17,9 @@ describe('ProdutosDetalhesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       declarations: [ProdutosDetalhesComponent],
+      imports: [HttpClientTestingModule, ToastrModule, FormsModule],
+      providers: [{ provide: ToastrService, useClass: ToastrServiceMock }],
       schemas:[
         CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA
       ]
@@ -23,29 +29,13 @@ describe('ProdutosDetalhesComponent', () => {
     fixture.detectChanges();
   });
 
-  beforeEach(() => {
-    let produto = new Produto();
-    produto.id = 1;
-    produto.nome = 'Pizza';
-    produto.tamanho = 'GG';
-    produto.temSabores = true;
-    produto.valor = 80;
+  it('should display an error message if the form is invalid', fakeAsync(() => {
+    spyOn(component.toastr, 'error');
+    
+    component.salvar({ valid: false });
 
-    component.produto = produto;
-    fixture.detectChanges();
-  });
+    tick();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('Teste de 1@Input', () => {
-    let elemento = fixture.debugElement.query(By.css('input[name="exampleInputText1"]'));
-    expect(elemento.nativeElement.ngModel).toEqual('Pizza');
-  })
-
-  it('Teste de 1@Input', () => {
-    let elemento = fixture.debugElement.query(By.css('input[name="exampleInputText1"]'));
-    expect(elemento.nativeElement.ngModel).toEqual(null);
-  })
+    expect(component.toastr.error).toHaveBeenCalledWith('Formulário inválido. Preencha os campos corretamente');
+  }));
 });

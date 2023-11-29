@@ -5,6 +5,7 @@ import { Sabor } from 'src/app/models/sabor';
 import { ProdutoService } from 'src/app/services/produto.service';
 import { SaborService } from 'src/app/services/sabor.service';
 import { PedidoListaComponent } from '../pedido-lista/pedido-lista.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-selecionar-produtos',
@@ -20,13 +21,9 @@ export class SelecionarProdutosComponent implements OnInit{
 
   produtoService = inject(ProdutoService);
   saborService = inject(SaborService);
+  toastr = inject(ToastrService);
 
   numSaboresSelecionados: number = 0;
-
-
-  constructor() {
-    
-  }
 
   ngOnInit(){
     this.carregarProdutos();
@@ -72,7 +69,6 @@ export class SelecionarProdutosComponent implements OnInit{
   }
 
   salvar() {
-
     let lista: Sabor[] = [];
 
     if (this.listaSabores != null) {
@@ -85,8 +81,7 @@ export class SelecionarProdutosComponent implements OnInit{
     this.pedidoProduto.sabores = lista;
     this.retorno.emit(this.pedidoProduto);
 
-
-    // Não emita o produto diretamente, apenas mantenha-o no componente pai
+    this.toastr.success('Produto adicionado com sucesso');
   }
 
 

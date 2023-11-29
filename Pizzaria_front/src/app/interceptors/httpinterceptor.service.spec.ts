@@ -8,7 +8,7 @@ describe('HttpinterceptorService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [HttpinterceptorService],
+      providers: [HttpinterceptorService],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA
       ]

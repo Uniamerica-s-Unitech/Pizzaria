@@ -1,6 +1,4 @@
-import { Component ,Input,Output,inject} from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Mensagem } from 'src/app/models/mensagem';
+import { Component ,Output ,inject } from '@angular/core';
 import { Pedido } from 'src/app/models/pedido';
 import { PedidoService } from 'src/app/services/pedido.service';
 
