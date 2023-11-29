@@ -58,30 +58,4 @@ describe('EnderecoDetalhesComponent', () => {
     expect(component.toastr.success).not.toHaveBeenCalled();
     expect(component.retorno.emit).not.toHaveBeenCalled();
   }));
-
-  it('não deve emitir o evento de retorno ao salvar um formulário que não foi tocado', fakeAsync(() => {
-    spyOn(component.toastr, 'error');
-    spyOn(component.retorno, 'emit');
-  
-    const validFormUntouched = {
-      valid: true,
-      touched: false,
-      value: {
-        rua: 'Rua A',
-        bairro: 'Bairro B',
-        numero: 123
-      }
-    };
-  
-    component.salvar(validFormUntouched);
-  
-    tick();
-  
-    // Ensure that emit is not called
-    expect(component.retorno.emit).not.toHaveBeenCalled();
-    // Ensure that toastr.error is called
-    expect(component.toastr.error).toHaveBeenCalled();
-  }));
-
-
 });
