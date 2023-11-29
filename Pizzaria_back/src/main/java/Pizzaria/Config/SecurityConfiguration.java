@@ -36,7 +36,8 @@ public class SecurityConfiguration  {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("api/login").permitAll()
+                        .requestMatchers("/*").permitAll() //permitir o primeiro nível pra rodar o Angular
+                        .requestMatchers("/api/login").permitAll()
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

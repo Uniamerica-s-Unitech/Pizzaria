@@ -49,7 +49,7 @@ public class ProdutoService {
         List<Pedido> produtoPedidoAtivos = pedidoRepository.findPedidoAbertosPorProduto(produtoBanco);
 
         if (!produtoPedidoAtivos.isEmpty()){
-            return new MensagemDTO("Não é possível excluir esse produto, pois existem pedidos ativos associados a ele.", HttpStatus.CREATED);
+            return new MensagemDTO("Não é possível excluir esse produto, pois existem pedidos ativos associados a ele.", HttpStatus.NOT_FOUND);
         } else {
             desativarProduto(produtoBanco);
         }
@@ -67,14 +67,8 @@ public class ProdutoService {
         produtoDTO.setAtivo(produto.getAtivo());
         produtoDTO.setNome(produto.getNome());
         produtoDTO.setValor(produto.getValor());
-
-        List<SaborDTO> listaEnd = new ArrayList<>();
-
-        if(produto.getSabores() != null)
-            for(int i=0; i<produto.getSabores().size(); i++){
-                listaEnd.add(toSaborDTO(produto.getSabores().get(i)));
-            }
-        produtoDTO.setSabores(listaEnd);
+        produtoDTO.setTemSabores(produto.getTemSabores());
+        produtoDTO.setTamanho(produto.getTamanho());
 
         CategoriaDTO categoriaDTO = new CategoriaDTO();
         categoriaDTO.setId(produto.getCategoriaId().getId());
@@ -92,14 +86,8 @@ public class ProdutoService {
         novoProduto.setAtivo(produtoDTO.getAtivo());
         novoProduto.setNome(produtoDTO.getNome());
         novoProduto.setValor(produtoDTO.getValor());
-
-        List<Sabor> listaEnd = new ArrayList<>();
-        if(produtoDTO.getSabores() != null)
-            for(int i=0; i<produtoDTO.getSabores().size(); i++){
-                listaEnd.add(toSabor(novoProduto,produtoDTO.getSabores().get(i)));
-            }
-
-        novoProduto.setSabores(listaEnd);
+        novoProduto.setTemSabores(produtoDTO.getTemSabores());
+        novoProduto.setTamanho(produtoDTO.getTamanho());
 
         Categoria categoria = new Categoria();
         categoria.setId(produtoDTO.getCategoriaId().getId());
@@ -125,9 +113,4 @@ public class ProdutoService {
         novoSabor.setNome(sabor.getNome());
         return novoSabor;
     }
-
-
-
-
-
 }
