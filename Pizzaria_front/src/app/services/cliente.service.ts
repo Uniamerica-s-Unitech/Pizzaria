@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ClienteService {
-  API: string = 'http://localhost:8080/cliente';
+  API: string = 'http://3.22.97.175:8080/cliente';
   http = inject(HttpClient);
 
   constructor() { }
