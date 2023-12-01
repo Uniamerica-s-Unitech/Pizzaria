@@ -7,7 +7,7 @@ import { PedidoService } from 'src/app/services/pedido.service';
   templateUrl: './historico-pedidos.component.html',
   styleUrls: ['./historico-pedidos.component.scss']
 })
-export class HistoricoPedidosComponent {
+export class HistoricoPedidosComponent{
   listaPedidosOrginal: Pedido[] = [];
   listaPedidosFiltrada: Pedido[] = [];
 
@@ -17,6 +17,9 @@ export class HistoricoPedidosComponent {
   termoPesquisa!: "";
   active!: any;
   pedidoSelecionado: number | null = null;
+
+  ngOnInit() {
+  }
 
   constructor() {
     this.listarPedidos();
@@ -35,12 +38,14 @@ export class HistoricoPedidosComponent {
       next: listaPedidos => {
         this.listaPedidosOrginal = listaPedidos;
         this.listaPedidosFiltrada = listaPedidos;
-      }
+      },error(err) {
+          
+      },
     })
   }
 
   @Output() realizarPesquisa(termoPesquisa: string) {
-    termoPesquisa.toLowerCase();
+    termoPesquisa = termoPesquisa ? termoPesquisa.toLowerCase() : '';
     if (!termoPesquisa) {
       this.listaPedidosFiltrada = this.listaPedidosOrginal;
     } else {

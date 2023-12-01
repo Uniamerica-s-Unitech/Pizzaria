@@ -6,6 +6,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { Endereco } from 'src/app/models/endereco';
+import { ClienteService } from 'src/app/services/cliente.service';
+import { Cliente } from 'src/app/models/cliente';
 
 class ToastrServiceMock {
   success(message?: string, title?: string): void {}
@@ -15,6 +17,7 @@ class ToastrServiceMock {
 describe('ClienteDetalhesComponent', () => {
   let component: ClienteDetalhesComponent;
   let fixture: ComponentFixture<ClienteDetalhesComponent>;
+  let clienteService: ClienteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,6 +36,43 @@ describe('ClienteDetalhesComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  beforeEach(() => {
+    clienteService = TestBed.inject(ClienteService);
+
+    let cliente = new Cliente();
+    cliente.nome = "homam";
+    component.cliente = cliente;
+    fixture.detectChanges();
+  });
+
+  it('deve chamar o método save ao enviar o formulário', fakeAsync(() => { //colocar o fakeAsync toda vez que rolar coisa assíncrona
+    let spy = spyOn(clienteService, 'save').and.callThrough();
+
+    let form = fixture.debugElement.nativeElement.querySelector('form');
+    form.dispatchEvent(new Event('ngSubmit')); //disparar o mesmo evento que tá configurado na tag
+
+    tick(); //simular uma demora assíncrona
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalled();
+  }));
+
+  it('deve chamar o método save ao enviar o formulário passando objeto', fakeAsync(() => {
+    let spy = spyOn(clienteService, 'save').and.callThrough();
+
+    let cliente = new Cliente();
+    cliente.nome = "homam";
+    component.cliente = cliente;
+    fixture.detectChanges();
+
+    let form = fixture.debugElement.nativeElement.querySelector('form');
+    console.log(form);
+    form.dispatchEvent(new Event('ngSubmit'));
+
+    tick();
+    fixture.detectChanges();
+    expect(spy).toHaveBeenCalledWith(cliente);
+  }));
 
   it('should display an error message if the form is invalid', fakeAsync(() => {
     spyOn(component.toastr, 'error');

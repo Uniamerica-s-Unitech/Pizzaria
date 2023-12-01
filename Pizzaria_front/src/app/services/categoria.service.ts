@@ -8,7 +8,7 @@ import { Categoria } from '../models/categoria';
   providedIn: 'root'
 })
 export class CategoriaService {
-  API: string = 'http://localhost:8080/categoria';
+  API: string = 'http://3.22.97.175:8080/categoria';
   http = inject(HttpClient);
 
   constructor() { }
